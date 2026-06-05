@@ -1,0 +1,14 @@
+# Credenciales — NUNCA subir
+private/sumba-config.php
+
+# Backups locales
+Backups/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node / entornos
+node_modules/
+.env

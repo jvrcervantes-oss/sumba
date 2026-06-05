@@ -1,0 +1,1991 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18215532149"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18215532149');
+</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sumba Rental Motorbike</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="src/data.js"></script>
+
+<!-- ── tweaks-panel ───────────────────────────────────────────────── -->
+<script type="text/babel">
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+  .twk-field{appearance:none;box-sizing:border-box;width:100%;min-width:0;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+  .twk-num{display:flex;align-items:center;box-sizing:border-box;min-width:0;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+  .twk-chips{display:flex;gap:6px}
+  .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;
+    padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;
+    box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);
+    transition:transform .12s cubic-bezier(.3,.7,.4,1),box-shadow .12s}
+  .twk-chip:hover{transform:translateY(-1px);
+    box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.12)}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),
+    0 2px 6px rgba(0,0,0,.15)}
+  .twk-chip>span{position:absolute;top:0;bottom:0;right:0;width:34%;
+    display:flex;flex-direction:column;box-shadow:-1px 0 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i{flex:1;box-shadow:0 -1px 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i:first-child{box-shadow:none}
+  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+`;
+
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-omelette-chrome=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+function TweakSection({ label, children }) {
+  return (<><div className="twk-sect">{label}</div>{children}</>);
+}
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+  const labelLen = (o) => String(typeof o === 'object' ? o.label : o).length;
+  const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
+  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
+  if (!fitsAsSegments) {
+    const resolve = (s) => {
+      const m = options.find((o) => String(typeof o === 'object' ? o.value : o) === s);
+      return m === undefined ? s : typeof m === 'object' ? m.value : m;
+    };
+    return <TweakSelect label={label} value={value} options={options}
+                        onChange={(s) => onChange(resolve(s))} />;
+  }
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+function __twkIsLight(hex) {
+  const h = String(hex).replace('#', '');
+  const x = h.length === 3 ? h.replace(/./g, (c) => c + c) : h.padEnd(6, '0');
+  const n = parseInt(x.slice(0, 6), 16);
+  if (Number.isNaN(n)) return true;
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  return r * 299 + g * 587 + b * 114 > 148000;
+}
+const __TwkCheck = ({ light }) => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2"
+          strokeLinecap="round" strokeLinejoin="round"
+          stroke={light ? 'rgba(0,0,0,.78)' : '#fff'} />
+  </svg>
+);
+function TweakColor({ label, value, options, onChange }) {
+  if (!options || !options.length) {
+    return (
+      <div className="twk-row twk-row-h">
+        <div className="twk-lbl"><span>{label}</span></div>
+        <input type="color" className="twk-swatch" value={value}
+               onChange={(e) => onChange(e.target.value)} />
+      </div>
+    );
+  }
+  const key = (o) => String(JSON.stringify(o)).toLowerCase();
+  const cur = key(value);
+  return (
+    <TweakRow label={label}>
+      <div className="twk-chips" role="radiogroup">
+        {options.map((o, i) => {
+          const colors = Array.isArray(o) ? o : [o];
+          const [hero, ...rest] = colors;
+          const sup = rest.slice(0, 4);
+          const on = key(o) === cur;
+          return (
+            <button key={i} type="button" className="twk-chip" role="radio"
+                    aria-checked={on} data-on={on ? '1' : '0'}
+                    aria-label={colors.join(', ')} title={colors.join(' · ')}
+                    style={{ background: hero }}
+                    onClick={() => onChange(o)}>
+              {sup.length > 0 && (
+                <span>{sup.map((c, j) => <i key={j} style={{ background: c }} />)}</span>
+              )}
+              {on && <__TwkCheck light={__twkIsLight(hero)} />}
+            </button>
+          );
+        })}
+      </div>
+    </TweakRow>
+  );
+}
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+</script>
+
+<!-- ── components ────────────────────────────────────────────────── -->
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+function idrK(n) { return "Rp " + n + "k"; }
+function usdApprox(kIDR) { return "$" + Math.round((kIDR * 1000) / 16000); }
+function daysBetween(a, b) {
+  if (!a || !b) return 0;
+  const d = (new Date(b) - new Date(a)) / 86400000;
+  return d > 0 ? Math.round(d) : 0;
+}
+function fmtDate(s, lang) {
+  if (!s) return "—";
+  const d = new Date(s + "T00:00:00");
+  return d.toLocaleDateString(lang === "es" ? "es-ES" : "en-GB", { day: "numeric", month: "short" });
+}
+function todayISO(offset = 0) {
+  const d = new Date(); d.setDate(d.getDate() + offset);
+  return d.toISOString().slice(0, 10);
+}
+
+const Ic = {
+  base: (p, path) => (
+    <svg width={p.s || 22} height={p.s || 22} viewBox="0 0 24 24" fill="none"
+      stroke={p.c || "currentColor"} strokeWidth={p.w || 1.9} strokeLinecap="round" strokeLinejoin="round"
+      style={p.style}>{path}</svg>
+  ),
+  arrow:  (p={}) => Ic.base(p, <><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></>),
+  arrowL: (p={}) => Ic.base(p, <><path d="M19 12H5"/><path d="M11 18l-6-6 6-6"/></>),
+  cal:    (p={}) => Ic.base(p, <><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></>),
+  pin:    (p={}) => Ic.base(p, <><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></>),
+  check:  (p={}) => Ic.base(p, <path d="M4 12.5l5 5 11-11"/>),
+  star:   (p={}) => (
+    <svg width={p.s || 18} height={p.s || 18} viewBox="0 0 24 24" fill={p.c || "currentColor"} style={p.style}>
+      <path d="M12 2.5l2.9 6 6.6.7-4.9 4.5 1.4 6.5L12 17.8 6 20.2l1.4-6.5L2.5 9.2l6.6-.7z"/></svg>
+  ),
+  shield: (p={}) => Ic.base(p, <><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></>),
+  helmet: (p={}) => Ic.base(p, <><path d="M3.5 13a8.5 8.5 0 0 1 17 0v1.5a2 2 0 0 1-2 2H10l-4.5 2 .8-3.2A8.4 8.4 0 0 1 3.5 13z"/><path d="M9.5 13.5h11"/></>),
+  box:    (p={}) => Ic.base(p, <><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></>),
+  phone:  (p={}) => Ic.base(p, <><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.5h2"/></>),
+  user:   (p={}) => Ic.base(p, <><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></>),
+  bolt:   (p={}) => Ic.base(p, <path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z"/>),
+  road:   (p={}) => Ic.base(p, <><path d="M5 21L8 3M19 21L16 3M12 5v2M12 11v2M12 17v2"/></>),
+  globe:  (p={}) => Ic.base(p, <><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></>),
+  speedo: (p={}) => Ic.base(p, <><path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-4.5"/><circle cx="12" cy="16" r="1.3" fill="currentColor"/></>),
+  gear:   (p={}) => Ic.base(p, <><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></>),
+  weight: (p={}) => Ic.base(p, <><path d="M7 8h10l2 12H5z"/><circle cx="12" cy="5" r="2.5"/></>),
+  lock:   (p={}) => Ic.base(p, <><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></>),
+  drop:   (p={}) => Ic.base(p, <path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>),
+  sun:    (p={}) => Ic.base(p, <><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.5 4.5l2 2M17.5 17.5l2 2M19.5 4.5l-2 2M6.5 17.5l-2 2"/></>),
+  wheel:  (p={}) => Ic.base(p, <><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.2"/><path d="M12 3v6.8M12 15.2V21M3 12h6.8M15.2 12H21M5.6 5.6l4.8 4.8M13.6 13.6l4.8 4.8M18.4 5.6l-4.8 4.8M10.4 13.6l-4.8 4.8"/></>),
+  surf:   (p={}) => Ic.base(p, <><path d="M12 2c3.8 2.2 6.5 7 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 9 8.2 4.2 12 2z"/><line x1="12" y1="7" x2="12" y2="18"/><path d="M9.8 17.5 L14.2 7"/></>),
+  shop:   (p={}) => Ic.base(p, <><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></>),
+  plane:  (p={}) => Ic.base(p, <><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></>),
+};
+
+function Logo({ dark, s = 1 }) {
+  const col = dark ? "var(--sand)" : "var(--ink)";
+  return (
+    <a href="#top" style={{ display: "flex", alignItems: "center", gap: 11 * s, lineHeight: 1 }}>
+      <img src="assets/images/logo.png" alt="Bali Best Motorcycle"
+        style={{ width: 40 * s, height: 40 * s, borderRadius: "50%", objectFit: "cover", objectPosition: "center 22%", flexShrink: 0, boxShadow: "0 4px 14px oklch(0.62 0.16 33 / 0.35)" }} />
+      <span style={{ display: "flex", flexDirection: "column", color: col }}>
+        <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 17 * s, letterSpacing: "-0.02em", lineHeight: 0.95 }}>
+          Sumba&nbsp;Rental
+        </span>
+        <span className="logo-sub" style={{ fontFamily: "var(--font-mono)", fontSize: 8.5 * s, letterSpacing: "0.18em", opacity: 0.6, textTransform: "uppercase", marginTop: 2 }}>
+          by Bali Best Motorcycle
+        </span>
+      </span>
+    </a>
+  );
+}
+
+function SunBurst({ size = 360, style }) {
+  const rays = Array.from({ length: 40 });
+  return (
+    <svg width={size} height={size} viewBox="0 0 200 200" style={style} aria-hidden="true">
+      <g style={{ transformOrigin: "100px 100px", animation: "spin-slow 90s linear infinite" }}>
+        {rays.map((_, i) => (
+          <rect key={i} x="99.2" y="2" width="1.6" height="42"
+            fill="var(--sun)" opacity={i % 2 ? 0.35 : 0.6}
+            transform={`rotate(${i * 9} 100 100)`} />
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+function Waves({ flip, color = "var(--sand)", style }) {
+  return (
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none"
+      style={{ display: "block", width: "100%", height: 70, transform: flip ? "scaleY(-1)" : "none", ...style }}>
+      <path d="M0 50 C 180 90 360 10 540 40 C 720 70 900 20 1080 45 C 1260 70 1380 35 1440 45 L1440 90 L0 90 Z" fill={color}/>
+    </svg>
+  );
+}
+
+const CAT_GRAD = {
+  scooter:   ["var(--ocean-bright)", "var(--ocean)"],
+  trail:     ["var(--sun)", "var(--sunset)"],
+  adventure: ["var(--sunset)", "var(--coral)"],
+  sport:     ["var(--ocean)", "var(--ocean-deep)"],
+  buggy:     ["var(--coral)", "var(--sunset)"],
+};
+function BikeArt({ bike, h = 200, showLabel = true, src }) {
+  const photoSrc = src || bike.photo;
+  if (photoSrc) {
+    return (
+      <div style={{
+        position: "relative", height: h, width: "100%", overflow: "hidden",
+        background: "var(--shell)", display: "flex", alignItems: "center", justifyContent: "center",
+      }}>
+        <img src={photoSrc} alt={bike.model}
+          style={{ width: "100%", height: "100%", objectFit: "contain", padding: "8px" }} />
+      </div>
+    );
+  }
+  const [c1, c2] = CAT_GRAD[bike.cat] || CAT_GRAD.adventure;
+  return (
+    <div style={{
+      position: "relative", height: h, width: "100%", overflow: "hidden",
+      background: `linear-gradient(150deg, color-mix(in oklch, ${c1} 60%, var(--sand)), color-mix(in oklch, ${c2} 55%, var(--sand)))`,
+      display: "flex", alignItems: "center", justifyContent: "center",
+    }}>
+      <div style={{ position: "absolute", inset: 0, opacity: 0.18,
+        backgroundImage: "repeating-linear-gradient(125deg, var(--ink) 0 1.5px, transparent 1.5px 14px)" }} />
+      <span style={{ position: "absolute", fontFamily: "var(--font-display)", fontWeight: 800,
+        fontSize: h * 0.62, color: "var(--shell)", opacity: 0.32, lineHeight: 0.8,
+        letterSpacing: "-0.04em", whiteSpace: "nowrap" }}>{bike.cc || "—"}</span>
+      {bike.cat === "buggy" ? (
+        <svg width={h * 1.1} height={h * 0.42} viewBox="0 0 140 56" style={{ position: "relative", opacity: 0.92 }}>
+          <circle cx="28" cy="44" r="11" fill="none" stroke="var(--shell)" strokeWidth="3.2"/>
+          <circle cx="112" cy="44" r="11" fill="none" stroke="var(--shell)" strokeWidth="3.2"/>
+          <rect x="20" y="18" width="100" height="26" rx="8" fill="none" stroke="var(--shell)" strokeWidth="3.2"/>
+          <path d="M40 18 L50 6 H90 L100 18" fill="none" stroke="var(--shell)" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"/>
+          <line x1="50" y1="6" x2="50" y2="18" stroke="var(--shell)" strokeWidth="2" strokeDasharray="3 3"/>
+          <line x1="90" y1="6" x2="90" y2="18" stroke="var(--shell)" strokeWidth="2" strokeDasharray="3 3"/>
+        </svg>
+      ) : (
+        <svg width={h * 0.9} height={h * 0.42} viewBox="0 0 120 56" style={{ position: "relative", opacity: 0.92 }}>
+          <circle cx="24" cy="40" r="13" fill="none" stroke="var(--shell)" strokeWidth="3.2"/>
+          <circle cx="96" cy="40" r="13" fill="none" stroke="var(--shell)" strokeWidth="3.2"/>
+          <path d="M24 40 L46 22 L78 22 M55 22 L70 40 H96 M46 22 L40 40" fill="none" stroke="var(--shell)" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M78 22 q8 -4 13 2" fill="none" stroke="var(--shell)" strokeWidth="3.2" strokeLinecap="round"/>
+        </svg>
+      )}
+      {showLabel && (
+        <span style={{ position: "absolute", bottom: 10, left: 10,
+          fontFamily: "var(--font-mono)", fontSize: 9.5, letterSpacing: "0.1em",
+          textTransform: "uppercase", color: "var(--ink)",
+          background: "color-mix(in oklch, var(--sand) 78%, transparent)",
+          padding: "4px 8px", borderRadius: 6, backdropFilter: "blur(3px)" }}>
+          photo · {bike.model}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function Stars({ n = 5, s = 14 }) {
+  return <span style={{ display: "inline-flex", gap: 1.5, color: "var(--sunset)" }}>
+    {Array.from({ length: n }).map((_, i) => <Ic.star key={i} s={s} />)}
+  </span>;
+}
+
+Object.assign(window, { idrK, usdApprox, daysBetween, fmtDate, todayISO, Ic, Logo, SunBurst, Waves, BikeArt, Stars });
+</script>
+
+<!-- ── Chrome (NavBar, Footer) ───────────────────────────────────── -->
+<script type="text/babel">
+function LangSwitch({ lang, setLang, dark }) {
+  return (
+    <div style={{
+      display: "inline-flex", padding: 3, borderRadius: 999,
+      background: dark ? "color-mix(in oklch, white 12%, transparent)" : "color-mix(in oklch, var(--ink) 8%, transparent)",
+      fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 700, letterSpacing: "0.04em",
+    }}>
+      {["en", "es"].map((l) => (
+        <button key={l} onClick={() => setLang(l)}
+          style={{
+            padding: "5px 11px", borderRadius: 999, textTransform: "uppercase",
+            color: lang === l ? (dark ? "var(--ink)" : "var(--sand)") : (dark ? "var(--sand)" : "var(--ink-soft)"),
+            background: lang === l ? (dark ? "var(--sand)" : "var(--ink)") : "transparent",
+            transition: "all .2s",
+          }}>{l}</button>
+      ))}
+    </div>
+  );
+}
+
+function NavBar({ t, lang, setLang, onBook, dark, onHome }) {
+  const [scrolled, setScrolled]     = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  useEffect(() => {
+    const f = () => setScrolled(window.scrollY > 30);
+    window.addEventListener("scroll", f); return () => window.removeEventListener("scroll", f);
+  }, []);
+  useEffect(() => {
+    document.body.classList.toggle("no-scroll", mobileOpen);
+    return () => document.body.classList.remove("no-scroll");
+  }, [mobileOpen]);
+  const links = [
+    { k: "navFleet", href: "#fleet" }, { k: "navHow", href: "#how" },
+    { k: "navRoutes", href: "#routes" }, { k: "navHelp", href: "https://wa.me/62881037978255", target: "_blank", rel: "noopener" },
+  ];
+  const onDarkHero = dark && !scrolled && !mobileOpen;
+  const close = () => setMobileOpen(false);
+  return (
+    <>
+      <header style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+        transition: "background .35s cubic-bezier(.2,.7,.3,1), box-shadow .35s",
+        background: scrolled || mobileOpen ? "color-mix(in oklch, var(--sand) 92%, transparent)" : "transparent",
+        backdropFilter: scrolled || mobileOpen ? "blur(14px) saturate(1.3)" : "none",
+        boxShadow: scrolled ? "0 1px 0 var(--sand-3), 0 6px 24px oklch(0.4 0.04 210 / 0.06)" : "none",
+      }}>
+        <div className="wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 76 }}>
+          <div onClick={() => { close(); onHome(); }} style={{ cursor: "pointer" }}><Logo dark={onDarkHero} /></div>
+          <nav style={{ display: "flex", alignItems: "center", gap: 30 }} className="nav-links">
+            {links.map((l) => (
+              <a key={l.k} href={l.href} target={l.target} rel={l.rel} style={{
+                fontWeight: 600, fontSize: 15, color: onDarkHero ? "var(--sand)" : "var(--ink-soft)",
+                transition: "color .2s", position: "relative",
+              }} className="nav-link">{t[l.k]}</a>
+            ))}
+          </nav>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span className="nav-lang"><LangSwitch lang={lang} setLang={setLang} dark={onDarkHero} /></span>
+            <button className="btn btn-primary" style={{ padding: "11px 20px", fontSize: 15 }} onClick={onBook}>
+              {t.book} <Ic.arrow s={17} c="white" />
+            </button>
+            <button className="mob-menu-btn" onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu" aria-expanded={String(mobileOpen)}
+              style={{ width: 40, height: 40, borderRadius: 10, cursor: "pointer",
+                background: mobileOpen ? "var(--sand-2)" : "transparent",
+                border: "1.5px solid color-mix(in oklch, var(--ink) 22%, transparent)",
+                color: onDarkHero ? "white" : "var(--ink)",
+                transition: "background .2s, border-color .2s", placeItems: "center" }}>
+              {mobileOpen
+                ? <svg width="15" height="15" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+                : <svg width="16" height="14" viewBox="0 0 24 20" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><path d="M0 2h24M0 10h18M0 18h24"/></svg>
+              }
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Overlay */}
+      <div onClick={close} style={{
+        position: "fixed", inset: 0, zIndex: 48,
+        background: "oklch(0.22 0.045 202 / 0.52)",
+        backdropFilter: "blur(3px)",
+        opacity: mobileOpen ? 1 : 0,
+        pointerEvents: mobileOpen ? "all" : "none",
+        transition: "opacity .3s",
+      }} />
+
+      {/* Drawer */}
+      <div style={{
+        position: "fixed", top: 76, right: 0, bottom: 0, zIndex: 49,
+        width: "min(300px, 100vw)",
+        background: "var(--sand)",
+        boxShadow: "-4px 0 32px oklch(0.4 0.04 210 / 0.14)",
+        display: "flex", flexDirection: "column",
+        padding: "24px 24px 36px",
+        transform: mobileOpen ? "translateX(0)" : "translateX(105%)",
+        transition: "transform .32s cubic-bezier(.2,.8,.3,1)",
+        overflowY: "auto",
+      }}>
+        <nav style={{ display: "flex", flexDirection: "column" }}>
+          {links.map((l, i) => (
+            <a key={l.k} href={l.href} target={l.target} rel={l.rel} onClick={close}
+              style={{
+                fontFamily: "var(--font-display)", fontWeight: 700,
+                fontSize: 24, color: "var(--ink)", letterSpacing: "-0.02em",
+                padding: "15px 0",
+                borderBottom: i < links.length - 1 ? "1px solid var(--sand-3)" : "none",
+                display: "block",
+              }}>
+              {t[l.k]}
+            </a>
+          ))}
+        </nav>
+        <a href="https://wa.me/62881037978255" target="_blank" rel="noopener"
+          className="btn btn-ghost btn-block"
+          style={{ fontSize: 15, textDecoration: "none", display: "flex", marginTop: 28 }}>
+          <Ic.phone s={16} /> WhatsApp
+        </a>
+        <div style={{ marginTop: 28, paddingTop: 24, borderTop: "1px solid var(--sand-3)", display: "flex", justifyContent: "center" }}>
+          <div style={{ display: "inline-flex", padding: 3, borderRadius: 999, background: "color-mix(in oklch, var(--ink) 8%, transparent)", fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 700, letterSpacing: "0.04em" }}>
+            {["en", "es"].map((l) => (
+              <button key={l}
+                onClick={() => { setLang(l); }}
+                style={{
+                  padding: "5px 14px", borderRadius: 999, textTransform: "uppercase", border: "none", cursor: "pointer",
+                  color: lang === l ? "var(--sand)" : "var(--ink-soft)",
+                  background: lang === l ? "var(--ink)" : "transparent",
+                  fontFamily: "inherit", fontSize: "inherit", fontWeight: "inherit", letterSpacing: "inherit",
+                  transition: "all .2s",
+                }}>{l}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function Footer({ t, lang }) {
+  return (
+    <footer style={{ background: "var(--night-2)", color: "var(--sand)", position: "relative", overflow: "hidden" }} className="grain">
+      <Waves color="var(--night-2)" style={{ height: 60, marginTop: -1 }} />
+      <div className="wrap" style={{ padding: "30px 28px 50px", position: "relative", zIndex: 1 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 40, justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={{ maxWidth: 320 }}>
+            <Logo dark s={1.1} />
+            <p style={{ marginTop: 16, color: "color-mix(in oklch, var(--sand) 72%, transparent)", fontSize: 14.5, lineHeight: 1.6 }}>
+              Bali Best Motorcycle<br />
+              Jl Gn T Perahu 145, 80117<br />
+              Denpasar, Bali, Indonesia
+            </p>
+            <a href="https://wa.me/62881037978255" target="_blank" rel="noopener"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 14, fontSize: 14.5, fontWeight: 700, color: "var(--ocean-bright)", textDecoration: "none" }}>
+              <Ic.phone s={15} c="var(--ocean-bright)" /> +62 881-0379-78255
+            </a>
+            <a href="https://maps.app.goo.gl/jJ4zp7gURsQtTnFB9?g_st=aw" target="_blank" rel="noopener"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 10, fontSize: 13.5, color: "color-mix(in oklch, var(--sand) 65%, transparent)", textDecoration: "none" }}>
+              <Ic.pin s={14} c="color-mix(in oklch, var(--sand) 65%, transparent)" />
+              {lang === "es" ? "Ver en Google Maps" : "View on Google Maps"}
+            </a>
+            <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
+              <Stars n={5} s={15} />
+              <span style={{ fontSize: 13, color: "color-mix(in oklch, var(--sand) 65%, transparent)" }}>{t.rating}</span>
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: 56, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
+              <span className="mono" style={{ color: "var(--ocean-bright)", fontSize: 11 }}>{lang === "es" ? "Explorar" : "Explore"}</span>
+              <a href="#fleet" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>{t.navFleet}</a>
+              <a href="#how"   style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>{t.navHow}</a>
+              <a href="#reviews" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>{lang === "es" ? "Reseñas" : "Reviews"}</a>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
+              <span className="mono" style={{ color: "var(--ocean-bright)", fontSize: 11 }}>{lang === "es" ? "Guías" : "Guides"}</span>
+              <a href="bike-rental-sumba-airport-delivery.html" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>{lang === "es" ? "Entrega aeropuerto" : "Airport delivery"}</a>
+              <a href="sumba-motorbike-rental-guide.html"       style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>{lang === "es" ? "Guía de alquiler" : "Rental guide"}</a>
+              <a href="best-routes-sumba-motorcycle.html"       style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>{lang === "es" ? "Mejores rutas" : "Best routes"}</a>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
+              <span className="mono" style={{ color: "var(--ocean-bright)", fontSize: 11 }}>{lang === "es" ? "Contacto" : "Contact"}</span>
+              <a href="https://wa.me/62881037978255" target="_blank" rel="noopener" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>{t.navHelp}</a>
+              <a href="https://wa.me/62881037978255" target="_blank" rel="noopener" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>WhatsApp</a>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
+              <span className="mono" style={{ color: "var(--ocean-bright)", fontSize: 11 }}>Legal</span>
+              <a href="terms.html"     style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>Terms</a>
+              <a href="privacy.html"   style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>Privacy</a>
+              <a href="insurance.html" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>Insurance</a>
+            </div>
+          </div>
+        </div>
+        <div style={{
+          marginTop: 40, paddingTop: 22, borderTop: "1px solid color-mix(in oklch, var(--sand) 16%, transparent)",
+          display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12,
+          fontSize: 12.5, color: "color-mix(in oklch, var(--sand) 55%, transparent)",
+        }}>
+          <span className="mono">© 2026 Bali Best Motorcycle · Sumba Rental</span>
+          <span className="mono" style={{ display: "flex", gap: 16 }}>
+            <a href="terms.html"     style={{ color: "inherit" }}>Terms</a>
+            <a href="privacy.html"   style={{ color: "inherit" }}>Privacy</a>
+            <a href="insurance.html" style={{ color: "inherit" }}>Insurance</a>
+          </span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+Object.assign(window, { LangSwitch, NavBar, Footer });
+</script>
+
+<!-- ── Home ──────────────────────────────────────────────────────── -->
+<script type="text/babel">
+function QuickSearch({ t, lang, locations, onSearch, floating }) {
+  const [from, setFrom] = useState(todayISO(1));
+  const [to, setTo] = useState(todayISO(5));
+  const [loc, setLoc] = useState(locations[0]?.id || "canggu");
+  const d = daysBetween(from, to);
+  const field = { display: "flex", flexDirection: "column", gap: 5, padding: "12px 16px", flex: 1, minWidth: 140, position: "relative" };
+  const labelS = { fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ink-faint)", display: "flex", alignItems: "center", gap: 6 };
+  const inputS = { border: "none", background: "transparent", fontFamily: "var(--font-body)", fontWeight: 700, fontSize: 16, color: "var(--ink)", padding: 0, width: "100%", cursor: "pointer" };
+  return (
+    <div className="card" style={{
+      display: "flex", flexWrap: "wrap", alignItems: "stretch", gap: 0,
+      padding: 8, background: "var(--shell)",
+      boxShadow: floating ? "var(--sh-lg)" : "var(--sh)",
+    }}>
+      <div style={field}>
+        <span style={labelS}><Ic.cal s={13} c="var(--ocean)" />{t.searchFrom}</span>
+        <input type="date" value={from} min={todayISO(0)} onChange={(e) => {
+          const nf = e.target.value;
+          setFrom(nf);
+          if (nf >= to) {
+            const d = new Date(nf + "T00:00:00");
+            d.setDate(d.getDate() + 4);
+            setTo(d.toISOString().slice(0, 10));
+          }
+        }} style={inputS} />
+      </div>
+      <div className="qs-div" style={{ width: 1, background: "var(--sand-3)", margin: "10px 0" }} />
+      <div style={field}>
+        <span style={labelS}><Ic.cal s={13} c="var(--ocean)" />{t.searchTo}</span>
+        <input type="date" value={to} min={from} onChange={(e) => setTo(e.target.value)} style={inputS} />
+      </div>
+      <div className="qs-div" style={{ width: 1, background: "var(--sand-3)", margin: "10px 0" }} />
+      <div style={{ ...field, flex: 1.4 }}>
+        <span style={labelS}><Ic.pin s={13} c="var(--ocean)" />{t.searchWhere}</span>
+        <select value={loc} onChange={(e) => setLoc(e.target.value)} style={{ ...inputS, appearance: "none" }}>
+          {locations.map((l) => <option key={l.id} value={l.id}>{l[lang]}</option>)}
+        </select>
+      </div>
+      <button className="btn btn-primary qs-btn" style={{ margin: 4, flexShrink: 0 }}
+        onClick={() => onSearch({ from, to, loc })}>
+        <Ic.speedo s={20} c="white" /> {t.searchGo}
+        {d > 0 && <span style={{ opacity: 0.8, fontWeight: 600 }}>· {d} {d === 1 ? t.day : t.days}</span>}
+      </button>
+    </div>
+  );
+}
+
+function Hero({ t, lang, locations, onSearch, layout, onBook }) {
+  const center = layout === "center";
+  const bike = BBM.FLEET[0];
+  return (
+    <section id="top" style={{ position: "relative", overflow: "hidden", background: "var(--night)" }} className="grain">
+      <div style={{ position: "absolute", inset: 0, background:
+        "radial-gradient(120% 90% at 78% 8%, color-mix(in oklch, var(--sunset) 70%, transparent), transparent 55%)," +
+        "radial-gradient(100% 80% at 12% 0%, color-mix(in oklch, var(--coral) 45%, transparent), transparent 50%)," +
+        "linear-gradient(180deg, var(--night) 0%, var(--night-2) 55%, color-mix(in oklch, var(--ocean-deep) 55%, var(--night-2)) 100%)" }} />
+      <SunBurst size={620} style={{ position: "absolute", top: -180, right: center ? "50%" : -120, transform: center ? "translateX(50%)" : "none", opacity: 0.5 }} />
+      <div className="wrap" style={{ position: "relative", zIndex: 2, paddingTop: 132, paddingBottom: 150 }}>
+        <div style={{
+          display: "grid", gap: 48, alignItems: "center",
+          gridTemplateColumns: center ? "1fr" : "1.05fr 0.95fr",
+          textAlign: center ? "center" : "left",
+          justifyItems: center ? "center" : "stretch",
+        }} className="hero-grid">
+          <div style={{ maxWidth: center ? 760 : "none" }}>
+            <span className="pill rise" style={{ background: "color-mix(in oklch, var(--sand) 14%, transparent)", color: "var(--sun)", animationDelay: ".05s", border: "1px solid color-mix(in oklch, var(--sun) 40%, transparent)", whiteSpace: "nowrap" }}>
+              <Ic.sun s={14} c="var(--sun)" /> {t.heroKicker}
+            </span>
+            <h1 className="rise" style={{ fontSize: "clamp(46px, 6.6vw, 88px)", lineHeight: 1.02, color: "var(--sand)", marginTop: 22, animationDelay: ".12s" }}>
+              {t.heroTitle1}<br />
+              <span style={{ background: "linear-gradient(100deg, var(--sun), var(--coral))", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>{t.heroTitle2}</span>
+            </h1>
+            <p className="rise" style={{ marginTop: 28, fontSize: "clamp(16px, 1.6vw, 20px)", color: "color-mix(in oklch, var(--sand) 80%, transparent)", maxWidth: 520, marginLeft: center ? "auto" : 0, marginRight: center ? "auto" : 0, animationDelay: ".2s" }}>
+              {t.heroSub}
+            </p>
+            <div className="rise" style={{
+              display: "flex", alignItems: "center", gap: 16,
+              marginTop: 28,
+              padding: "18px 22px",
+              borderRadius: "var(--r-lg)",
+              background: "var(--ocean)",
+              boxShadow: "0 10px 36px oklch(0.66 0.118 205 / 0.50), 0 2px 0 rgba(255,255,255,0.14) inset",
+              maxWidth: center ? 560 : 500,
+              marginLeft: center ? "auto" : 0,
+              marginRight: center ? "auto" : 0,
+              animationDelay: ".24s",
+            }}>
+              <div style={{ width: 52, height: 52, borderRadius: 14, background: "rgba(255,255,255,0.18)", display: "grid", placeItems: "center", flexShrink: 0 }}>
+                <Ic.plane s={26} c="white" />
+              </div>
+              <div>
+                <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(18px, 2.2vw, 24px)", color: "white", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
+                  {lang === "es" ? "Tu moto te espera en el aeropuerto" : "Bike delivered to the airport"}
+                </div>
+                <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", marginTop: 6 }}>
+                  {lang === "es" ? "El único servicio en Sumba que lo hace" : "The only rental in Sumba that does this"}
+                </div>
+              </div>
+            </div>
+            <div className="rise hero-pills" style={{ display: "flex", gap: 10, marginTop: 20, flexWrap: "wrap", justifyContent: center ? "center" : "flex-start", alignItems: "center", animationDelay: ".32s" }}>
+              <a href="https://www.google.com/search?sa=X&sca_esv=001908dfaac62674&sxsrf=ANbL-n5nmBUS5AyxRSsROg1-Bs_mtlY7Cw:1780467015473&q=Bali+Best+Motorcycle+-+Best+Bali+Bike+Rental+Reviews&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIyNjaysLAwMTM0MTUwszA1tjTbwMj4itHEKTEnU8EptbhEwTe_JL8ouTI5J1VBFyICkcvMTlUISs0rScwBUmWZqeXFi1jJ0gYASEMYlIcAAAA&rldimm=332888461450685396&tbm=lcl&hl=en-ES&ved=2ahUKEwjFhfe_tOqUAxXRgf0HHfRYAEoQ9fQKegQIUxAG&biw=1406&bih=1027&dpr=1.24#lkt=LocalPoiReviews" target="_blank" rel="noopener"
+                className="pill" style={{ background: "color-mix(in oklch, var(--sand) 14%, transparent)", color: "var(--sand)", border: "1px solid color-mix(in oklch, var(--sand) 28%, transparent)", fontSize: 13, textDecoration: "none" }}>
+                <Stars n={5} s={12} /> 4.9 Google · 600+
+              </a>
+              <a href="https://www.tripadvisor.com/Attraction_Review-g311298-d25217602-Reviews-Bali_Best_Motorcycle-Canggu_North_Kuta_Bali.html" target="_blank" rel="noopener"
+                className="pill" style={{ background: "color-mix(in oklch, var(--sand) 14%, transparent)", color: "var(--sand)", border: "1px solid color-mix(in oklch, var(--sand) 28%, transparent)", fontSize: 13, textDecoration: "none" }}>
+                <Stars n={5} s={12} /> 5.0 TripAdvisor · 51
+              </a>
+            </div>
+          </div>
+          {!center && (
+            <div style={{ position: "relative", animation: "floaty 6s ease-in-out infinite", cursor: "pointer" }} onClick={onBook}>
+              <div className="card" style={{ overflow: "hidden", padding: 0, transform: "rotate(-2deg)", boxShadow: "var(--sh-lg)" }}>
+                <BikeArt bike={bike} h={300} showLabel src={bike.photo2} />
+                <div style={{ padding: "16px 20px", background: "var(--shell)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div>
+                    <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 19 }}>{bike.brand} {bike.model}</div>
+                    <div style={{ fontSize: 13, color: "var(--ink-faint)" }} className="mono">{lang === "es" ? bike.tagEs : bike.tagEn}</div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 22, color: "var(--coral)" }}>{idrK(bike.price)}</div>
+                    <div style={{ fontSize: 11, color: "var(--ink-faint)" }} className="mono">{t.perDay}</div>
+                  </div>
+                </div>
+              </div>
+              <div className="pill" style={{ position: "absolute", top: -16, left: -16, background: "var(--ocean)", color: "white", boxShadow: "var(--sh)", animation: "pop .5s .6s both" }}>
+                <Ic.bolt s={14} c="white" /> {lang === "es" ? "Reserva en 60 seg." : "Book in 60 seconds"}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="rise" style={{ marginTop: 56, maxWidth: 900, marginLeft: center ? "auto" : 0, marginRight: center ? "auto" : 0, animationDelay: ".4s" }}>
+          <QuickSearch t={t} lang={lang} locations={locations} onSearch={onSearch} floating />
+        </div>
+      </div>
+      <Waves color="var(--sand-2)" style={{ height: 96, position: "relative", zIndex: 2, marginBottom: -2 }} />
+    </section>
+  );
+}
+
+function FleetCard({ bike, t, lang, onReserve, i }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div className="card rise" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      style={{ overflow: "hidden", display: "flex", flexDirection: "column", animationDelay: `${0.05 * i}s`,
+        transform: hover ? "translateY(-6px)" : "none", transition: "transform .3s cubic-bezier(.2,.8,.3,1.1), box-shadow .3s",
+        boxShadow: hover ? "var(--sh-lg)" : "var(--sh)" }}>
+      <div style={{ position: "relative", opacity: bike.comingSoon ? 0.82 : 1 }}>
+        <BikeArt bike={bike} h={242} />
+        {bike.comingSoon && (
+          <span className="pill" style={{ position: "absolute", top: 12, left: 12, background: "var(--ink)", color: "var(--sand)" }}>
+            {lang === "es" ? "Próximamente" : "Coming Soon"}
+          </span>
+        )}
+        <span className="pill" style={{ position: "absolute", top: 12, right: 12, background: "color-mix(in oklch, var(--night) 70%, transparent)", color: "var(--sand)", backdropFilter: "blur(4px)", textTransform: "capitalize" }}>
+          {BBM.CATS.find((c) => c.id === bike.cat)?.[lang] || bike.cat}
+        </span>
+      </div>
+      <div style={{ padding: "18px 20px 20px", display: "flex", flexDirection: "column", flex: 1 }}>
+        <div>
+          <div className="mono" style={{ color: "var(--ink-faint)", fontSize: 11 }}>{bike.brand}</div>
+          <h3 style={{ fontSize: 22, marginTop: 2 }}>{bike.model}</h3>
+        </div>
+        <p style={{ marginTop: 9, fontSize: 13.5, color: "var(--ink-soft)", flex: 1 }}>{lang === "es" ? bike.blurbEs : bike.blurbEn}</p>
+        <div style={{ display: "flex", gap: 14, marginTop: 14, color: "var(--ink-soft)", fontSize: 12.5, fontWeight: 600 }}>
+          <span style={{ display: "flex", alignItems: "center", gap: 5 }}><Ic.speedo s={15} c="var(--ocean)" />{bike.cc > 0 ? bike.cc + "cc" : "—"}</span>
+          <span style={{ display: "flex", alignItems: "center", gap: 5 }}><Ic.gear s={15} c="var(--ocean)" />{bike.trans === "Automatic" ? "Auto" : bike.trans}</span>
+          <span style={{ display: "flex", alignItems: "center", gap: 5 }}><Ic.user s={15} c="var(--ocean)" />{bike.seats}</span>
+        </div>
+        {bike.comingSoon ? (
+          <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--sand-3)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 12 }}>
+              <Ic.pin s={13} c="var(--ocean)" />
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--ink-faint)" }}>
+                {bike.locationOnly} · {lang === "es" ? "actividad exclusiva" : "exclusive activity"}
+              </span>
+            </div>
+            <button className="btn" disabled style={{ width: "100%", background: "var(--sand-2)", color: "var(--ink-faint)", cursor: "not-allowed", fontSize: 14.5, padding: "11px 18px" }}>
+              {lang === "es" ? "Disponible en 2026" : "Coming 2026"}
+            </button>
+          </div>
+        ) : (
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--sand-3)" }}>
+            <div>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 10.5, color: "var(--ink-faint)", textTransform: "uppercase" }}>{t.from}</span>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 7 }}>
+                <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 26, color: "var(--ink)" }}>{idrK(bike.price)}</span>
+                <span style={{ fontSize: 12, color: "var(--ink-faint)" }}>{t.perDay}</span>
+              </div>
+            </div>
+            <button className="btn btn-primary" style={{ padding: "11px 18px", fontSize: 14.5 }} onClick={() => onReserve(bike)}>
+              {t.reserve}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function FleetSection({ t, lang, onReserve }) {
+  return (
+    <section id="fleet" className="wrap" style={{ padding: "76px 28px 30px" }}>
+      <div>
+        <span className="mono" style={{ color: "var(--coral)", fontWeight: 700 }}>◇ {lang === "es" ? "La moto" : "The bike"}</span>
+        <h2 style={{ fontSize: "clamp(34px, 4.5vw, 52px)", marginTop: 10 }}>{t.fleetTitle}</h2>
+        <p style={{ marginTop: 12, color: "var(--ink-soft)", maxWidth: 460, fontSize: 16 }}>{t.fleetSub}</p>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px, 420px))", gap: 24, marginTop: 38, justifyContent: "center" }}>
+        {BBM.FLEET.map((b, i) => <FleetCard key={b.id} bike={b} t={t} lang={lang} onReserve={onReserve} i={i} />)}
+      </div>
+    </section>
+  );
+}
+
+function HowItWorks({ t, lang }) {
+  const steps = [
+    { ic: Ic.cal,    t: t.step1t, d: t.step1d },
+    { ic: Ic.speedo, t: t.step2t, d: t.step2d },
+    { ic: Ic.pin,    t: t.step3t, d: t.step3d },
+    { ic: Ic.road,   t: t.step4t, d: t.step4d },
+  ];
+  return (
+    <section id="how" style={{ background: "var(--night-2)", color: "var(--sand)", position: "relative", overflow: "hidden", marginTop: 50 }} className="grain">
+      <Waves flip color="var(--night-2)" style={{ height: 70, marginTop: -1 }} />
+      <div className="wrap" style={{ padding: "30px 28px 80px", position: "relative", zIndex: 1 }}>
+        <div style={{ textAlign: "center", maxWidth: 640, margin: "0 auto 50px" }}>
+          <span className="mono" style={{ color: "var(--sun)", fontWeight: 700 }}>◇ {lang === "es" ? "Sencillo" : "Simple"}</span>
+          <h2 style={{ fontSize: "clamp(32px, 4.5vw, 50px)", color: "var(--sand)", marginTop: 10 }}>
+            {lang === "es" ? "De la idea a la carretera en minutos" : "From idea to open road in minutes"}
+          </h2>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 22 }}>
+          {steps.map((s, i) => (
+            <div key={i} style={{ position: "relative", padding: "26px 22px", borderRadius: "var(--r-lg)", background: "var(--night-3)", border: "1px solid color-mix(in oklch, var(--sand) 10%, transparent)" }}>
+              <div style={{ width: 50, height: 50, borderRadius: 14, display: "grid", placeItems: "center", background: "color-mix(in oklch, var(--ocean) 26%, transparent)", color: "var(--ocean-bright)" }}>
+                <s.ic s={24} c="var(--ocean-bright)" />
+              </div>
+              <span style={{ position: "absolute", top: 22, right: 22, fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 38, color: "color-mix(in oklch, var(--sand) 14%, transparent)" }}>0{i + 1}</span>
+              <h3 style={{ color: "var(--sand)", fontSize: 20, marginTop: 18 }}>{s.t}</h3>
+              <p style={{ marginTop: 8, color: "color-mix(in oklch, var(--sand) 70%, transparent)", fontSize: 14.5 }}>{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CtaBand({ t, lang, onBook }) {
+  return (
+    <section id="routes" className="wrap" style={{ padding: "84px 28px" }}>
+      <div style={{ position: "relative", overflow: "hidden", borderRadius: "var(--r-xl)", padding: "clamp(36px, 6vw, 72px)",
+        background: "linear-gradient(120deg, var(--ocean-deep), var(--ocean))", color: "white" }} className="grain">
+        <SunBurst size={420} style={{ position: "absolute", bottom: -200, right: -100, opacity: 0.4 }} />
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 620 }}>
+          <h2 style={{ fontSize: "clamp(32px, 4.6vw, 56px)", color: "white" }}>
+            {lang === "es" ? "Tu aventura en Sumba empieza con dos ruedas." : "Your Sumba adventure starts with two wheels."}
+          </h2>
+          <p style={{ marginTop: 18, fontSize: 18, color: "color-mix(in oklch, white 86%, transparent)", maxWidth: 480 }}>
+            {lang === "es" ? "Reserva en 60 segundos. Cancela gratis hasta 24h antes." : "Book in 60 seconds. Free cancellation up to 24h before."}
+          </p>
+          <button className="btn btn-lg" style={{ marginTop: 28, background: "white", color: "var(--ocean-deep)" }} onClick={onBook}>
+            {t.bookYours} <Ic.arrow s={20} c="var(--ocean-deep)" />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeaturesSection({ t, lang }) {
+  const features = BBM.FEATURES;
+  const total = features.length;
+  const [current, setCurrent] = useState(0);
+  const [dir, setDir]         = useState(1);
+  const [phase, setPhase]     = useState('idle');
+  const timer  = useRef(null);
+  const touchX = useRef(0);
+
+  const go = (idx) => {
+    if (phase !== 'idle' || idx === current) return;
+    if (timer.current) clearTimeout(timer.current);
+    setDir(idx > current ? 1 : -1);
+    setPhase('out');
+    timer.current = setTimeout(() => {
+      setCurrent(idx);
+      setPhase('in');
+      timer.current = setTimeout(() => setPhase('idle'), 380);
+    }, 255);
+  };
+
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+
+  useEffect(() => {
+    const h = (e) => {
+      if (phase !== 'idle') return;
+      if (e.key === 'ArrowRight') go(current < total - 1 ? current + 1 : 0);
+      if (e.key === 'ArrowLeft')  go(current > 0 ? current - 1 : total - 1);
+    };
+    window.addEventListener('keydown', h);
+    return () => window.removeEventListener('keydown', h);
+  }, [current, phase]);
+
+  const f    = features[current];
+  const Icon = Ic[f.icon] || Ic.bolt;
+  const D    = (phase === 'out' ? (dir > 0 ? 1 : -1) : (dir > 0 ? 1 : -1)) * 38;
+  const cls  = phase === 'out' ? 'feat-out' : phase === 'in' ? 'feat-in' : '';
+
+  return (
+    <section
+      style={{ background:"var(--night)", minHeight:"100dvh", display:"flex", flexDirection:"column", position:"relative", overflow:"hidden" }}
+      onTouchStart={(e) => { touchX.current = e.touches[0].clientX; }}
+      onTouchEnd={(e) => {
+        const dx = e.changedTouches[0].clientX - touchX.current;
+        if (dx < -50) go(current < total-1 ? current+1 : 0);
+        else if (dx > 50) go(current > 0 ? current-1 : total-1);
+      }}
+    >
+      <style>{`
+        @keyframes featOut { to   { opacity:0; transform:translateX(var(--fd-o)); } }
+        @keyframes featIn  { from { opacity:0; transform:translateX(var(--fd-i)); } }
+        .feat-out { animation: featOut 240ms cubic-bezier(0.55,0,1,0.45) forwards; }
+        .feat-in  { animation: featIn  370ms cubic-bezier(0.23,1,0.32,1)  forwards; }
+        @media (prefers-reduced-motion:reduce) { .feat-out,.feat-in { animation:none; opacity:1; transform:none; } }
+        @media (max-width:860px) { .feat-split { grid-template-columns:1fr !important; } .feat-vis { display:none !important; } }
+        .feat-dot { border:none;padding:0;cursor:pointer;border-radius:99px; transition: width 300ms cubic-bezier(0.23,1,0.32,1), background 300ms; }
+        .feat-btn { transition: transform 150ms cubic-bezier(0.23,1,0.32,1); }
+        .feat-btn:active { transform:scale(0.91) !important; }
+      `}</style>
+
+      <div style={{ position:"absolute",top:0,left:0,right:0,height:2,background:"color-mix(in oklch, var(--sand) 8%, transparent)",zIndex:2 }}>
+        <div style={{ height:"100%",background:"var(--coral)",transition:"width 380ms cubic-bezier(0.23,1,0.32,1)",width:`${((current+1)/total)*100}%` }} />
+      </div>
+
+      <div className="wrap" style={{ padding:"68px 28px 0" }}>
+        <span className="mono" style={{ color:"var(--coral)",fontWeight:700,fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase" }}>
+          {lang==="es" ? "La moto" : "Built different"}
+        </span>
+      </div>
+
+      <div className="wrap feat-split" style={{ flex:1, padding:"28px 28px 52px", display:"grid", gridTemplateColumns:"1fr 0.76fr", gap:"clamp(24px,7vw,84px)", alignItems:"center" }}>
+
+        <div className={cls} style={{ '--fd-o':`${-dir*38}px`, '--fd-i':`${dir*38}px`, display:"flex",flexDirection:"column" }}>
+          <div style={{ fontFamily:"var(--font-display)",fontWeight:800,fontSize:"clamp(64px,11vw,126px)",color:"color-mix(in oklch, var(--sand) 5%, transparent)",lineHeight:.85,letterSpacing:"-0.04em",marginBottom:"clamp(6px,1.5vw,16px)",userSelect:"none" }}>
+            {String(current+1).padStart(2,"0")}
+          </div>
+          <div style={{ width:50,height:50,borderRadius:14,marginBottom:20,flexShrink:0,background:"color-mix(in oklch, var(--coral) 14%, transparent)",border:"1px solid color-mix(in oklch, var(--coral) 24%, transparent)",display:"grid",placeItems:"center" }}>
+            <Icon s={24} c="var(--sunset)" />
+          </div>
+          <h2 style={{ fontFamily:"var(--font-display)",fontWeight:800,fontSize:"clamp(26px,3.8vw,46px)",color:"var(--sand)",lineHeight:1.05,letterSpacing:"-0.025em",margin:"0 0 18px" }}>
+            {lang==="es" ? f.titleEs : f.titleEn}
+          </h2>
+          <p style={{ fontSize:"clamp(15px,1.5vw,17px)",color:"color-mix(in oklch, var(--sand) 60%, transparent)",lineHeight:1.72,maxWidth:460,margin:"0 0 42px" }}>
+            {lang==="es" ? f.descEs : f.descEn}
+          </p>
+          <div style={{ display:"flex",alignItems:"center",gap:14 }}>
+            <button className="feat-btn" onClick={() => go(current>0?current-1:total-1)} aria-label="Previous"
+              style={{ width:44,height:44,borderRadius:"50%",background:"color-mix(in oklch, var(--sand) 8%, transparent)",border:"1px solid color-mix(in oklch, var(--sand) 14%, transparent)",display:"grid",placeItems:"center",cursor:"pointer" }}>
+              <Ic.arrowL s={17} c="var(--sand)" />
+            </button>
+            <div style={{ display:"flex",gap:5,alignItems:"center" }}>
+              {features.map((_,i) => (
+                <button key={i} className="feat-dot" onClick={() => go(i)} aria-label={`Feature ${i+1}`}
+                  style={{ height:6,width:i===current?22:6,background:i===current?"var(--coral)":"color-mix(in oklch, var(--sand) 20%, transparent)" }} />
+              ))}
+            </div>
+            <button className="feat-btn" onClick={() => go(current<total-1?current+1:0)} aria-label="Next"
+              style={{ width:44,height:44,borderRadius:"50%",background:"var(--coral)",border:"none",display:"grid",placeItems:"center",cursor:"pointer",boxShadow:"var(--sh-coral)" }}>
+              <Ic.arrow s={17} c="white" />
+            </button>
+            <span style={{ marginLeft:"auto",fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:"0.07em",color:"color-mix(in oklch, var(--sand) 28%, transparent)" }}>
+              {String(current+1).padStart(2,"0")} / {String(total).padStart(2,"0")}
+            </span>
+          </div>
+        </div>
+
+        <div className={`feat-vis ${cls}`} style={{ '--fd-o':`${-dir*38}px`,'--fd-i':`${dir*38}px`,aspectRatio:"1/1",borderRadius:"var(--r-xl)",overflow:"hidden",position:"relative" }}>
+          {f.media ? (
+            /\.(mp4|webm|ogg)$/i.test(f.media) ? (
+              <video key={f.media} src={f.media} autoPlay loop muted playsInline style={{ width:"100%",height:"100%",objectFit:"cover" }} />
+            ) : (
+              <img key={f.media} src={f.media} alt={lang==="es" ? f.titleEs : f.titleEn} style={{ width:"100%",height:"100%",objectFit:"cover" }} />
+            )
+          ) : (
+            <div style={{ width:"100%",height:"100%",background:"linear-gradient(145deg, color-mix(in oklch, var(--coral) 14%, var(--night-2)), color-mix(in oklch, var(--ocean) 10%, var(--night-3)))",display:"flex",alignItems:"center",justifyContent:"center",position:"relative",overflow:"hidden" }}>
+              <span style={{ position:"absolute",fontFamily:"var(--font-display)",fontWeight:800,fontSize:"clamp(88px,20vw,200px)",color:"color-mix(in oklch, var(--sand) 4%, transparent)",lineHeight:1,letterSpacing:"-0.04em",userSelect:"none" }}>
+                {String(current+1).padStart(2,"0")}
+              </span>
+              <div style={{ position:"relative",width:74,height:74,borderRadius:20,background:"color-mix(in oklch, var(--coral) 16%, transparent)",border:"1px solid color-mix(in oklch, var(--coral) 26%, transparent)",display:"grid",placeItems:"center",boxShadow:"0 0 68px color-mix(in oklch, var(--coral) 14%, transparent)" }}>
+                <Icon s={34} c="var(--sunset)" />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ReviewsSection({ t, lang }) {
+  const reviews = BBM.REVIEWS.slice(0, 3);
+  const GOOGLE_URL = "https://www.google.com/search?sa=X&sca_esv=001908dfaac62674&sxsrf=ANbL-n5nmBUS5AyxRSsROg1-Bs_mtlY7Cw:1780467015473&q=Bali+Best+Motorcycle+-+Best+Bali+Bike+Rental+Reviews&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIyNjaysLAwMTM0MTUwszA1tjTbwMj4itHEKTEnU8EptbhEwTe_JL8ouTI5J1VBFyICkcvMTlUISs0rScwBUmWZqeXFi1jJ0gYASEMYlIcAAAA&rldimm=332888461450685396&tbm=lcl&hl=en-ES&ved=2ahUKEwjFhfe_tOqUAxXRgf0HHfRYAEoQ9fQKegQIUxAG&biw=1406&bih=1027&dpr=1.24#lkt=LocalPoiReviews";
+  const TA_URL = "https://www.tripadvisor.com/Attraction_Review-g311298-d25217602-Reviews-Bali_Best_Motorcycle-Canggu_North_Kuta_Bali.html";
+  return (
+    <section id="reviews" style={{ background: "var(--sand-2)", padding: "76px 0 80px" }}>
+      <div className="wrap" style={{ padding: "0 28px" }}>
+        <div style={{ textAlign: "center", maxWidth: 640, margin: "0 auto 48px" }}>
+          <span className="mono" style={{ color: "var(--coral)", fontWeight: 700 }}>◇ {lang === "es" ? "Reseñas reales" : "Real reviews"}</span>
+          <h2 style={{ fontSize: "clamp(32px, 4.5vw, 50px)", marginTop: 10 }}>{t.reviewsTitle}</h2>
+          <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 22, flexWrap: "wrap" }}>
+            <a href={GOOGLE_URL} target="_blank" rel="noopener" className="pill"
+              style={{ background: "var(--shell)", boxShadow: "var(--sh-sm)", color: "var(--ink)", fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
+              <Stars n={5} s={13} /> 4.9 Google · 600+
+            </a>
+            <a href={TA_URL} target="_blank" rel="noopener" className="pill"
+              style={{ background: "var(--shell)", boxShadow: "var(--sh-sm)", color: "var(--ink)", fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
+              <Stars n={5} s={13} /> 5.0 TripAdvisor · 51
+            </a>
+          </div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+          {reviews.map((r, i) => (
+            <div key={i} className="card" style={{ padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
+              <Stars n={r.rating} s={16} />
+              <p style={{ fontSize: 14.5, color: "var(--ink-soft)", lineHeight: 1.65, flex: 1, margin: 0 }}>
+                "{lang === "es" ? r.textEs : r.textEn}"
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 14, borderTop: "1px solid var(--sand-3)" }}>
+                <span style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--ocean)", display: "grid", placeItems: "center", color: "white", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 15, flexShrink: 0 }}>
+                  {r.name[0]}
+                </span>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 14 }}>{r.flag} {r.name}</div>
+                  <div style={{ fontSize: 12, color: "var(--ink-faint)" }}>{[r.country, r.date].filter(Boolean).join(" · ")}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: 36, display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+          <a href={GOOGLE_URL} target="_blank" rel="noopener" className="btn btn-ghost">
+            {t.reviewsAll} <Ic.arrow s={16} />
+          </a>
+          <p style={{ fontSize: 12, color: "var(--ink-faint)", margin: 0 }}>{t.reviewsSource}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AirportSection({ lang, onBook }) {
+  return (
+    <section style={{ background: "var(--night)", position: "relative", overflow: "hidden" }} className="grain">
+      <style>{`
+        @media (max-width: 680px) { .airport-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
+      <div style={{ position: "absolute", inset: 0, background:
+        "radial-gradient(ellipse 100% 70% at 50% 110%, color-mix(in oklch, var(--ocean) 35%, transparent), transparent 60%)," +
+        "radial-gradient(ellipse 50% 50% at 90% 10%, color-mix(in oklch, var(--sunset) 20%, transparent), transparent 50%)" }} />
+      <div className="wrap" style={{ position: "relative", zIndex: 1, padding: "88px 28px 92px", textAlign: "center" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 16px", borderRadius: "var(--r-pill)", background: "color-mix(in oklch, var(--ocean) 18%, transparent)", border: "1px solid color-mix(in oklch, var(--ocean-bright) 35%, transparent)", marginBottom: 24 }}>
+          <Ic.plane s={14} c="var(--ocean-bright)" />
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 10.5, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ocean-bright)", fontWeight: 700 }}>
+            {lang === "es" ? "Solo nosotros lo hacemos en Sumba" : "Only we do this in Sumba"}
+          </span>
+        </div>
+        <h2 style={{ fontSize: "clamp(36px, 5.5vw, 68px)", color: "var(--sand)", lineHeight: 1.04, maxWidth: 820, margin: "0 auto" }}>
+          {lang === "es"
+            ? <><span style={{ background: "linear-gradient(95deg, var(--ocean-bright), var(--sun))", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>Tu moto te espera</span><br />en la puerta del aeropuerto</>
+            : <><span style={{ background: "linear-gradient(95deg, var(--ocean-bright), var(--sun))", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>Your bike is waiting</span><br />at the airport door</>}
+        </h2>
+        <p style={{ marginTop: 22, fontSize: "clamp(16px, 1.6vw, 19px)", color: "color-mix(in oklch, var(--sand) 68%, transparent)", maxWidth: 560, margin: "22px auto 0", lineHeight: 1.72 }}>
+          {lang === "es"
+            ? "Aterrizas. Sales de llegadas. Tu BH-G3 está ahí. Sin taxis, sin apps, sin esperas. La aventura empieza en el segundo en que pisas Sumba."
+            : "You land. You walk out of arrivals. Your BH-G3 is right there. No taxis, no apps, no waiting. The adventure starts the second you step off the plane."}
+        </p>
+        <div className="airport-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginTop: 52, maxWidth: 860, marginLeft: "auto", marginRight: "auto", textAlign: "left" }}>
+          {[
+            { n: "01", ic: Ic.cal,   t: lang === "es" ? "Reserva online"      : "Book online",       d: lang === "es" ? "Elige fechas y confirma. Te pedimos tu número de vuelo." : "Pick your dates and confirm. We ask for your flight number." },
+            { n: "02", ic: Ic.plane, t: lang === "es" ? "Llegamos primero"     : "We arrive first",   d: lang === "es" ? "Llevamos la moto a la terminal 30 min antes de tu llegada." : "We bring the bike to the terminal 30 min before you land." },
+            { n: "03", ic: Ic.road,  t: lang === "es" ? "Aterrizas y arrancas" : "Land and ride",     d: lang === "es" ? "Sales de llegadas, ves tu BH-G3. Casco puesto. A rodar." : "Walk out of arrivals, spot your BH-G3. Helmet on. Let's go." },
+          ].map((s) => (
+            <div key={s.n} style={{ padding: "24px 20px 26px", borderRadius: "var(--r-lg)", background: "color-mix(in oklch, var(--sand) 5%, transparent)", border: "1px solid color-mix(in oklch, var(--sand) 10%, transparent)" }}>
+              <div style={{ width: 42, height: 42, borderRadius: 12, background: "color-mix(in oklch, var(--ocean) 20%, transparent)", border: "1px solid color-mix(in oklch, var(--ocean-bright) 25%, transparent)", display: "grid", placeItems: "center", marginBottom: 16 }}>
+                <s.ic s={20} c="var(--ocean-bright)" />
+              </div>
+              <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 30, color: "color-mix(in oklch, var(--ocean-bright) 22%, transparent)", lineHeight: 1, display: "block", marginBottom: 10 }}>{s.n}</span>
+              <h3 style={{ color: "var(--sand)", fontSize: 18, marginBottom: 8, fontWeight: 700 }}>{s.t}</h3>
+              <p style={{ fontSize: 13.5, color: "color-mix(in oklch, var(--sand) 55%, transparent)", lineHeight: 1.65, margin: 0 }}>{s.d}</p>
+            </div>
+          ))}
+        </div>
+        <button className="btn btn-lg airport-cta" style={{ marginTop: 44, background: "var(--ocean)", color: "white", boxShadow: "0 12px 32px oklch(0.66 0.118 205 / 0.40)" }} onClick={onBook}>
+          {lang === "es" ? "Reserva con entrega en aeropuerto" : "Book with airport delivery"}&nbsp;→
+        </button>
+        <p style={{ marginTop: 16, fontSize: 12.5, color: "color-mix(in oklch, var(--sand) 42%, transparent)" }}>
+          {lang === "es" ? "Aeropuerto Lede Kalumbang (TMC) · Sumbawa Barat" : "Lede Kalumbang Airport (TMC) · West Sumba"}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function GuidesSection({ lang }) {
+  const guides = [
+    {
+      icon: "✈",
+      title: lang === "es" ? "Entrega en el aeropuerto" : "Airport Delivery Explained",
+      desc: lang === "es"
+        ? "La única empresa en Sumba que lleva la moto hasta la terminal. Sales del avión y arrancas. Ningún otro lo hace."
+        : "The only rental in Sumba that delivers to the terminal. Step off the plane and ride. Nobody else does this.",
+      href: "bike-rental-sumba-airport-delivery.html",
+      label: lang === "es" ? "Cómo funciona →" : "How it works →",
+      accent: "var(--ocean)",
+    },
+    {
+      icon: "🏍",
+      title: lang === "es" ? "Guía completa de alquiler" : "Complete Rental Guide",
+      desc: lang === "es"
+        ? "Qué moto, qué incluye, cómo son las carreteras y todo lo que necesitas saber antes de llegar a Sumba."
+        : "Which bike, what's included, road conditions — everything you need to know before you arrive.",
+      href: "sumba-motorbike-rental-guide.html",
+      label: lang === "es" ? "Leer la guía →" : "Read the guide →",
+      accent: "var(--coral)",
+    },
+    {
+      icon: "🗺",
+      title: lang === "es" ? "Las mejores rutas" : "Best Routes in Sumba",
+      desc: lang === "es"
+        ? "6 rutas en moto: Weekuri Lake, Nihiwatu Beach, la cascada Lapopu y los pueblos tradicionales de Anakalang."
+        : "6 motorcycle routes: Weekuri Lake, Nihiwatu Beach, Lapopu waterfall and the traditional villages.",
+      href: "best-routes-sumba-motorcycle.html",
+      label: lang === "es" ? "Ver rutas →" : "See routes →",
+      accent: "var(--sunset)",
+    },
+  ];
+  return (
+    <section className="wrap" style={{ padding: "80px 28px 40px" }}>
+      <div style={{ marginBottom: 40 }}>
+        <span className="mono" style={{ color: "var(--coral)", fontWeight: 700 }}>◇ {lang === "es" ? "Antes de rodar" : "Before you ride"}</span>
+        <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", marginTop: 10 }}>
+          {lang === "es" ? "Guías de Sumba" : "Sumba riding guides"}
+        </h2>
+        <p style={{ marginTop: 12, color: "var(--ink-soft)", maxWidth: 460, fontSize: 16 }}>
+          {lang === "es" ? "Todo lo que necesitas saber para aprovechar al máximo tu tiempo en la isla." : "Everything you need to make the most of your time on the island."}
+        </p>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+        {guides.map((g) => (
+          <a key={g.href} href={g.href} style={{ textDecoration: "none" }}>
+            <div className="card rise" style={{ padding: "26px 24px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14, transition: "transform .25s cubic-bezier(.2,.8,.3,1.1), box-shadow .25s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-5px)"; e.currentTarget.style.boxShadow = "var(--sh-lg)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = ""; }}>
+              <div style={{ width: 48, height: 48, borderRadius: 14, background: `color-mix(in oklch, ${g.accent} 12%, transparent)`, border: `1px solid color-mix(in oklch, ${g.accent} 26%, transparent)`, display: "grid", placeItems: "center", fontSize: 22, flexShrink: 0 }}>
+                {g.icon}
+              </div>
+              <div style={{ flex: 1 }}>
+                <h3 style={{ fontSize: 19, marginBottom: 8, color: "var(--ink)" }}>{g.title}</h3>
+                <p style={{ fontSize: 14, color: "var(--ink-soft)", lineHeight: 1.65, margin: 0 }}>{g.desc}</p>
+              </div>
+              <span style={{ fontWeight: 700, fontSize: 14, color: g.accent }}>{g.label}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FeatureChecks({ lang }) {
+  const scrollRef = useRef(null);
+  const [atStart,  setAtStart]  = useState(true);
+  const [atEnd,    setAtEnd]    = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const checkEdges = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setAtStart(el.scrollLeft < 8);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 8);
+    setProgress(max > 0 ? el.scrollLeft / max : 0);
+  };
+
+  useEffect(() => {
+    checkEdges();
+    const el = scrollRef.current;
+    if (el) el.addEventListener("scroll", checkEdges, { passive: true });
+    return () => { if (el) el.removeEventListener("scroll", checkEdges); };
+  }, []);
+
+  const slide = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector("[data-feat-card]");
+    const step = card ? card.offsetWidth + 14 : 266;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+
+  return (
+    <section style={{ background: "var(--sand-2)", padding: "52px 0 92px", position: "relative", overflow: "hidden" }}>
+      <div style={{ position: "absolute", top: -120, right: -80, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle, color-mix(in oklch, var(--coral) 7%, transparent), transparent 70%)", pointerEvents: "none" }} />
+      <div className="wrap" style={{ padding: "0 28px", position: "relative", zIndex: 1 }}>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px, 6vw, 80px)", alignItems: "start", marginBottom: 44 }} className="hero-grid">
+          <div>
+            <span className="mono" style={{ color: "var(--coral)", fontWeight: 700 }}>◇ {lang === "es" ? "Hecha para esta isla" : "Built for this island"}</span>
+            <h2 style={{ fontSize: "clamp(34px, 5vw, 58px)", marginTop: 14, lineHeight: 1.04 }}>
+              {lang === "es"
+                ? <>{`Hecha a mano.`}<br /><span style={{ color: "var(--coral)" }}>{`Diseñada para Sumba.`}</span></>
+                : <>{`Hand-built.`}<br /><span style={{ color: "var(--coral)" }}>{`Designed around this island.`}</span></>}
+            </h2>
+          </div>
+          <div style={{ paddingTop: 8 }}>
+            <p style={{ fontSize: "clamp(15px, 1.4vw, 17px)", color: "var(--ink-soft)", lineHeight: 1.78, margin: 0 }}>
+              {lang === "es"
+                ? "Después de años recorriendo Sumba conocemos cada carretera, cada playa y cada pista de tierra. La BH-G3 se construyó con eso en mente: cada pieza existe por un motivo concreto. No hay nada decorativo."
+                : "After years riding every road, beach and dirt track on Sumba, we built the bike the island actually needed. Every feature of the BH-G3 exists for a specific reason. Nothing is decorative."}
+            </p>
+          </div>
+        </div>
+
+        {/* Carousel */}
+        <div style={{ position: "relative" }}>
+          <style>{`
+            .feat-scroll { scrollbar-width: none; }
+            .feat-scroll::-webkit-scrollbar { display: none; }
+            .feat-card { transition: box-shadow .25s cubic-bezier(.2,.8,.3,1), transform .25s cubic-bezier(.2,.8,.3,1); }
+            .feat-card:hover { transform: translateY(-4px); box-shadow: var(--sh) !important; }
+          `}</style>
+
+          <div ref={scrollRef} className="feat-scroll" style={{
+            display: "flex", gap: 14,
+            overflowX: "auto", scrollSnapType: "x mandatory",
+            WebkitOverflowScrolling: "touch",
+            paddingBottom: 4, paddingTop: 4,
+          }}>
+            {BBM.FEATURES.map((f, i) => {
+              const Icon = Ic[f.icon] || Ic.bolt;
+              return (
+                <div key={f.id} data-feat-card="1" className="feat-card" style={{
+                  flexShrink: 0,
+                  width: "min(240px, calc(72vw - 14px))",
+                  scrollSnapAlign: "start",
+                  position: "relative", overflow: "hidden",
+                  display: "flex", flexDirection: "column",
+                  padding: "24px 22px 26px",
+                  borderRadius: "var(--r-lg)",
+                  background: "var(--shell)",
+                  border: "1px solid var(--sand-3)",
+                  boxShadow: "var(--sh-sm)",
+                }}>
+                  {/* Ghost number */}
+                  <span aria-hidden="true" style={{
+                    position: "absolute", bottom: -8, right: 10,
+                    fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 88,
+                    lineHeight: 1, letterSpacing: "-0.04em", userSelect: "none",
+                    color: "color-mix(in oklch, var(--coral) 7%, transparent)",
+                  }}>{String(i + 1).padStart(2, "0")}</span>
+
+                  {/* Icon */}
+                  <div style={{
+                    width: 48, height: 48, borderRadius: 14, marginBottom: 18, flexShrink: 0,
+                    background: "linear-gradient(135deg, color-mix(in oklch, var(--coral) 16%, transparent), color-mix(in oklch, var(--sunset) 10%, transparent))",
+                    border: "1px solid color-mix(in oklch, var(--coral) 22%, transparent)",
+                    display: "grid", placeItems: "center",
+                  }}>
+                    <Icon s={22} c="var(--coral)" />
+                  </div>
+
+                  {/* Text */}
+                  <div style={{ fontWeight: 700, fontSize: 15.5, color: "var(--ink)", lineHeight: 1.2, marginBottom: 8, position: "relative" }}>
+                    {lang === "es" ? f.titleEs : f.titleEn}
+                  </div>
+                  <div style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.65, flex: 1, position: "relative" }}>
+                    {lang === "es" ? f.descEs : f.descEn}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Right-edge fade */}
+          {!atEnd && (
+            <div aria-hidden="true" style={{
+              position: "absolute", top: 0, right: 0, bottom: 4, width: 72,
+              background: "linear-gradient(to left, var(--sand-2) 20%, transparent)",
+              pointerEvents: "none", zIndex: 1,
+            }} />
+          )}
+
+          {/* Progress bar + nav */}
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 24 }}>
+            <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+              <button onClick={() => slide(-1)} disabled={atStart}
+                style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--ink)", border: "none", display: "grid", placeItems: "center", cursor: atStart ? "default" : "pointer", transition: "opacity .2s", opacity: atStart ? 0.25 : 1 }}>
+                <Ic.arrowL s={15} c="var(--sand)" />
+              </button>
+              <button onClick={() => slide(1)} disabled={atEnd}
+                style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--ink)", border: "none", display: "grid", placeItems: "center", cursor: atEnd ? "default" : "pointer", transition: "opacity .2s", opacity: atEnd ? 0.25 : 1 }}>
+                <Ic.arrow s={15} c="var(--sand)" />
+              </button>
+            </div>
+            <div style={{ flex: 1, height: 3, borderRadius: 999, background: "var(--sand-3)", overflow: "hidden" }}>
+              <div style={{ height: "100%", borderRadius: 999, background: "var(--coral)", width: `${progress * 100}%`, transition: "width .2s cubic-bezier(.2,.8,.3,1)" }} />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+function Home({ t, lang, onSearch, onReserve, onBook, layout }) {
+  return (
+    <main>
+      <Hero t={t} lang={lang} locations={BBM.LOCATIONS} onSearch={onSearch} layout={layout} onBook={onBook} />
+      <FeatureChecks lang={lang} />
+      <FleetSection t={t} lang={lang} onReserve={onReserve} />
+      <ReviewsSection t={t} lang={lang} />
+      <HowItWorks t={t} lang={lang} />
+      <GuidesSection lang={lang} />
+      <CtaBand t={t} lang={lang} onBook={onBook} />
+    </main>
+  );
+}
+
+Object.assign(window, { QuickSearch, Hero, FleetCard, FleetSection, GuidesSection, HowItWorks, CtaBand, Home });
+</script>
+
+<!-- ── Booking steps ─────────────────────────────────────────────── -->
+<script type="text/babel">
+function calc(booking) {
+  const bike = BBM.FLEET.find((b) => b.id === booking.bikeId);
+  const days = daysBetween(booking.from, booking.to) || 1;
+  const qty = booking.qty || 1;
+  const rental = bike ? bike.price * days * qty : 0;
+  const extras = BBM.EXTRAS.filter((e) => booking.extras[e.id]).reduce((s, e) => s + e.price, 0);
+  const total = rental + extras;
+  return { bike, days, qty, rental, extras, total, deposit: Math.round(total * 0.2), rest: total - Math.round(total * 0.2) };
+}
+
+function Stepper({ step, t, onJump }) {
+  const labels = [t.stepDates, t.stepReview];
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 0, flexWrap: "wrap" }}>
+      {labels.map((l, i) => {
+        const done = i < step, active = i === step;
+        return (
+          <React.Fragment key={i}>
+            <button onClick={() => i < step && onJump(i)} style={{ display: "flex", alignItems: "center", gap: 9, cursor: i < step ? "pointer" : "default" }}>
+              <span style={{
+                width: 28, height: 28, borderRadius: "50%", display: "grid", placeItems: "center",
+                fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 13,
+                background: done ? "var(--ocean)" : active ? "var(--coral)" : "var(--sand-3)",
+                color: done || active ? "white" : "var(--ink-faint)", transition: "all .3s",
+              }}>{done ? <Ic.check s={15} c="white" /> : i + 1}</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: active ? "var(--ink)" : done ? "var(--ink-soft)" : "var(--ink-faint)", whiteSpace: "nowrap" }} className="step-label">{l}</span>
+            </button>
+            {i < labels.length - 1 && <span style={{ flex: 1, minWidth: 16, height: 2, margin: "0 12px", background: i < step ? "var(--ocean)" : "var(--sand-3)", transition: "background .3s" }} />}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+function StepDates({ booking, set, t, lang }) {
+  const days = daysBetween(booking.from, booking.to);
+  const fld = { display: "flex", flexDirection: "column", gap: 8 };
+  const lab = { fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--ink-faint)", display: "flex", alignItems: "center", gap: 7 };
+  const inp = { padding: "14px 16px", borderRadius: "var(--r)", border: "1.5px solid var(--sand-3)", background: "var(--shell)", fontSize: 16, fontWeight: 700, color: "var(--ink)", fontFamily: "var(--font-body)", width: "100%" };
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="two-col">
+        <label style={fld}><span style={lab}><Ic.cal s={14} c="var(--ocean)" />{t.bkPickup}</span>
+          <input type="date" style={inp} value={booking.from} min={todayISO(0)} onChange={(e) => set({ from: e.target.value, to: e.target.value >= booking.to ? "" : booking.to })} /></label>
+        <label style={fld}><span style={lab}><Ic.cal s={14} c="var(--ocean)" />{t.bkReturn}</span>
+          <input type="date" style={inp} value={booking.to} min={booking.from || todayISO(0)} onChange={(e) => set({ to: e.target.value })} /></label>
+      </div>
+      {days > 0 && (
+        <div className="pill" style={{ alignSelf: "flex-start", background: "color-mix(in oklch, var(--ocean) 16%, transparent)", color: "var(--ocean-deep)" }}>
+          <Ic.road s={15} c="var(--ocean-deep)" /> {days} {days === 1 ? t.day : t.days} {lang === "es" ? "de aventura" : "of adventure"}
+        </div>
+      )}
+      <div style={fld}>
+        <span style={lab}><Ic.pin s={14} c="var(--ocean)" />{t.bkPickLoc}</span>
+        <div style={{ ...inp, color: "var(--ink-soft)", display: "flex", alignItems: "center", gap: 8 }}>
+          <Ic.pin s={16} c="var(--ocean)" />
+          {BBM.LOCATIONS[0][lang]}
+        </div>
+      </div>
+      <div style={fld}>
+        <span style={lab}><Ic.speedo s={14} c="var(--ocean)" />{t.bkQty}</span>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 18, alignSelf: "flex-start", background: "var(--shell)", border: "1.5px solid var(--sand-3)", borderRadius: "var(--r-pill)", padding: "6px 8px" }}>
+          {["-", "+"].map((sym) => (
+            <button key={sym} onClick={() => set({ qty: Math.max(1, Math.min(6, (booking.qty || 1) + (sym === "+" ? 1 : -1))) })}
+              style={{ width: 38, height: 38, borderRadius: "50%", background: "var(--sand-2)", color: "var(--ink)", fontSize: 22, fontWeight: 700, display: "grid", placeItems: "center", order: sym === "+" ? 2 : 0 }}>
+              {sym}
+            </button>
+          ))}
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 24, minWidth: 28, textAlign: "center", order: 1 }}>{booking.qty || 1}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StepReview({ booking, t, lang, onEditDates }) {
+  const c = calc(booking);
+  const pick = BBM.LOCATIONS.find((l) => l.id === booking.pickLoc);
+  const ret  = BBM.LOCATIONS.find((l) => l.id === (booking.sameLoc ? booking.pickLoc : booking.retLoc));
+  const row = { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, padding: "13px 0", borderBottom: "1px solid var(--sand-3)" };
+  const k = { fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-faint)", paddingTop: 2 };
+  const v = { fontWeight: 700, fontSize: 15, textAlign: "right" };
+  return (
+    <div>
+      <div style={{ display: "flex", gap: 16, alignItems: "center", padding: 16, borderRadius: "var(--r-lg)", background: "var(--shell)", boxShadow: "var(--sh-sm)" }}>
+        <div style={{ width: 100, borderRadius: "var(--r)", overflow: "hidden", flexShrink: 0 }}><BikeArt bike={c.bike} h={72} showLabel={false} /></div>
+        <div style={{ minWidth: 0 }}>
+          <div className="mono" style={{ fontSize: 10.5, color: "var(--ink-faint)" }}>{c.bike.brand}</div>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20 }}>{c.bike.model}</div>
+          <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 2 }}>{c.qty} × · {idrK(c.bike.price)}{t.perDay}</div>
+        </div>
+      </div>
+      <div style={{ marginTop: 8 }}>
+        <div style={row}>
+          <span style={k}>{t.bkPickup}</span>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+            <span style={v}>{fmtDate(booking.from, lang)} → {fmtDate(booking.to, lang)}<br /><span style={{ fontWeight: 600, color: "var(--ink-faint)", fontSize: 13 }}>{c.days} {c.days === 1 ? t.day : t.days}</span></span>
+            {onEditDates && (
+              <button onClick={onEditDates} style={{ fontFamily: "var(--font-mono)", fontSize: 10.5, color: "var(--ocean)", background: "none", border: "none", cursor: "pointer", padding: "2px 0", textDecoration: "underline", textTransform: "uppercase", letterSpacing: "0.06em", flexShrink: 0, marginTop: 1 }}>
+                {lang === "es" ? "Editar" : "Edit"}
+              </button>
+            )}
+          </div>
+        </div>
+        <div style={row}><span style={k}>{t.bkPickLoc}</span><span style={v}>{pick?.[lang]}</span></div>
+        <div style={row}><span style={k}>{t.bkRetLoc}</span><span style={v}>{ret?.[lang]}</span></div>
+      </div>
+    </div>
+  );
+}
+
+function SummaryCard({ booking, t, lang, compact }) {
+  const c = calc(booking);
+  const line = { display: "flex", justifyContent: "space-between", fontSize: 14.5, color: "var(--ink-soft)" };
+  return (
+    <div style={{ padding: compact ? 18 : 24 }}>
+      <div className="mono" style={{ fontSize: 11, color: "var(--ink-faint)", letterSpacing: "0.1em" }}>{t.bkSummary}</div>
+      {c.bike ? (
+        <>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 21, marginTop: 8 }}>{c.bike.brand} {c.bike.model}</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 11, marginTop: 18, paddingTop: 18, borderTop: "1px solid var(--sand-3)" }}>
+            <div style={line}>
+              <span>
+                {idrK(c.bike.price)} × {c.days} {c.days === 1 ? t.day : t.days}
+                {c.qty > 1 && <span style={{ marginLeft: 4, fontWeight: 700, color: "var(--coral)" }}>× {c.qty} {lang === "es" ? "motos" : "bikes"}</span>}
+              </span>
+              <span style={{ fontWeight: 700, color: "var(--ink)" }}>{idrK(c.rental)}</span>
+            </div>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 18, paddingTop: 18, borderTop: "2px solid var(--ink)" }}>
+            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18 }}>{t.bkTotal}</span>
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 30, color: "var(--coral)", lineHeight: 1 }}>{idrK(c.total)}</div>
+              <div style={{ fontSize: 12, color: "var(--ink-faint)" }}>({c.days} {c.days === 1 ? t.day : t.days})</div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <p style={{ marginTop: 14, color: "var(--ink-faint)", fontSize: 14.5 }}>
+          {lang === "es" ? "Elige las fechas para ver el precio." : "Pick dates to see your price."}
+        </p>
+      )}
+    </div>
+  );
+}
+
+Object.assign(window, { calc, Stepper, StepDates, StepReview, SummaryCard });
+</script>
+
+<!-- ── BookingFlow ───────────────────────────────────────────────── -->
+<script type="text/babel">
+const CHECKOUT_URL = "checkout.php";
+
+function BookingFlow({ booking, setBooking, t, lang, setLang, onExit, initialStep = 0 }) {
+  const [step, setStep] = useState(initialStep);
+  const set = (patch) => setBooking((b) => ({ ...b, ...patch }));
+  const c = calc(booking);
+  useEffect(() => { window.scrollTo({ top: 0 }); }, [step]);
+
+  const valid = [
+    daysBetween(booking.from, booking.to) > 0,
+    true,
+  ];
+  const next = () => { if (step < 1) setStep(step + 1); };
+  const StepComp = [StepDates, StepReview][step];
+  const titles = [
+    [t.stepDates, lang === "es" ? "¿Cuándo y dónde empieza la aventura?" : "When and where does the adventure start?"],
+    [t.bkReviewTitle, lang === "es" ? "Revisa tu reserva y paga directamente con Stripe." : "Review your booking and pay directly with Stripe."],
+  ][step];
+
+  return (
+    <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", flexDirection: "column" }}>
+      <header style={{ position: "sticky", top: 0, zIndex: 30, background: "color-mix(in oklch, var(--sand) 92%, transparent)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--sand-3)" }}>
+        <div className="wrap" style={{ height: 70, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+          <div onClick={onExit} style={{ cursor: "pointer" }}><Logo /></div>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <LangSwitch lang={lang} setLang={setLang} />
+            <button onClick={onExit} style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--sand-2)", display: "grid", placeItems: "center", color: "var(--ink-soft)" }} aria-label="close">
+              <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+            </button>
+          </div>
+        </div>
+        <div className="wrap" style={{ paddingBottom: 16 }}>
+          <Stepper step={step} t={t} onJump={setStep} />
+        </div>
+      </header>
+
+      <div className="wrap booking-grid" style={{ flex: 1, padding: "40px 28px 120px", display: "grid", gridTemplateColumns: "minmax(0,1fr) 360px", gap: 40, alignItems: "start" }}>
+        <div className="rise" key={step}>
+          <span className="mono" style={{ color: "var(--coral)", fontWeight: 700 }}>{`0${step + 1} / 02`}</span>
+          <h1 style={{ fontSize: "clamp(28px, 4vw, 42px)", marginTop: 10, marginBottom: 6 }}>{titles[0]}</h1>
+          <p style={{ color: "var(--ink-soft)", fontSize: 16, marginBottom: 30 }}>{titles[1]}</p>
+          <StepComp booking={booking} set={set} t={t} lang={lang} onEditDates={step === 1 ? () => setStep(0) : undefined} />
+
+          <div className="bk-actions" style={{ display: "flex", gap: 12, marginTop: 36, alignItems: "center" }}>
+            {step > 0 && <button className="btn btn-ghost" onClick={() => setStep(step - 1)}><Ic.arrowL s={18} /> {t.bkBack}</button>}
+            {step < 1
+              ? <button className="btn btn-primary" disabled={!valid[step]} style={{ opacity: valid[step] ? 1 : 0.45, cursor: valid[step] ? "pointer" : "not-allowed", marginLeft: "auto" }} onClick={next}>{t.bkContinue} <Ic.arrow s={18} c="white" /></button>
+              : <button className="btn btn-primary btn-lg" style={{ marginLeft: "auto" }} onClick={() => {
+                // Google Ads — conversión en IDR al hacer clic en Pagar
+                if (typeof gtag !== "undefined") {
+                  gtag("event", "conversion", {
+                    send_to: "AW-18215532149/knGLCLPOr7kcEPXs6-1D",
+                    value: c.total,
+                    currency: "IDR",
+                    transaction_id: booking.from + "-" + booking.to + "-" + c.qty + "-" + Date.now(),
+                  });
+                }
+                const p = new URLSearchParams({ days: c.days, qty: c.qty, from: booking.from, to: booking.to });
+                try {
+                  const utm = JSON.parse(sessionStorage.getItem("sr_utm") || "{}");
+                  Object.entries(utm).forEach(([k, v]) => p.set(k, v));
+                } catch(e) {}
+                window.location.href = CHECKOUT_URL + "?" + p.toString();
+              }}><Ic.lock s={18} c="white" /> {t.bkPay} · {idrK(c.total)}</button>}
+          </div>
+          {step === 1 && <p style={{ marginTop: 14, fontSize: 12.5, color: "var(--ink-faint)", display: "flex", alignItems: "center", gap: 7, justifyContent: "flex-end" }}><Ic.shield s={14} c="var(--ocean)" /> {t.bkSecure}</p>}
+        </div>
+
+        <aside className="booking-summary" style={{ position: "sticky", top: 150 }}>
+          <div className="card" style={{ overflow: "hidden" }}>
+            <SummaryCard booking={booking} t={t} lang={lang} />
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 9, marginTop: 16, padding: "0 4px", color: "var(--ink-faint)", fontSize: 12.5 }}>
+            <Ic.shield s={15} c="var(--ocean)" /> {lang === "es" ? "Cancelación gratis hasta 24h antes" : "Free cancellation up to 24h before"}
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { BookingFlow });
+</script>
+
+<!-- ── WaFloat ────────────────────────────────────────────────────── -->
+<script type="text/babel">
+function WaFloat({ lang }) {
+  const [pill, setPill] = useState(true);
+  useEffect(() => {
+    const t = setTimeout(() => setPill(false), 4500);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <div className="wa-float">
+      <div className="wa-pill" style={{
+        opacity: pill ? 1 : 0,
+        transform: pill ? "translateY(0)" : "translateY(4px)",
+        transition: "opacity .4s, transform .4s",
+        pointerEvents: "none",
+      }}>
+        {lang === "es" ? "¿En qué puedo ayudarte?" : "Need help? Let's talk!"}
+      </div>
+      <a href="https://wa.me/62881037978255" target="_blank" rel="noopener noreferrer"
+        className="wa-float-btn" aria-label="WhatsApp">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.132.558 4.13 1.533 5.866L.057 23.886a.5.5 0 00.621.63l6.249-1.628A11.947 11.947 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.93 0-3.742-.523-5.295-1.432l-.38-.222-3.943 1.027 1.055-3.825-.247-.397A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        </svg>
+      </a>
+    </div>
+  );
+}
+Object.assign(window, { WaFloat });
+</script>
+
+<!-- ── ScrollTop ─────────────────────────────────────────────────── -->
+<script type="text/babel">
+function ScrollTop() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const fn = () => setShow(window.scrollY > 400);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+  return (
+    <button className="scroll-top-btn"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Back to top"
+      style={{
+        position: "fixed", bottom: 88, right: 24, zIndex: 90,
+        width: 44, height: 44, borderRadius: "50%",
+        background: "var(--night)", border: "none", cursor: "pointer",
+        display: "grid", placeItems: "center",
+        boxShadow: "0 4px 16px oklch(0.25 0.04 210 / 0.28)",
+        opacity: show ? 1 : 0, pointerEvents: show ? "all" : "none",
+        transform: show ? "translateY(0)" : "translateY(10px)",
+        transition: "opacity .3s, transform .3s",
+      }}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="var(--sand)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 19V5M5 12l7-7 7 7"/>
+      </svg>
+    </button>
+  );
+}
+Object.assign(window, { ScrollTop });
+</script>
+
+<!-- ── App ───────────────────────────────────────────────────────── -->
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const TONES = {
+  ocean: {},
+  sunset: {
+    "--coral": "oklch(0.68 0.18 32)", "--coral-deep": "oklch(0.60 0.17 30)",
+    "--ocean": "oklch(0.70 0.13 50)", "--ocean-deep": "oklch(0.60 0.14 45)", "--ocean-bright": "oklch(0.82 0.11 60)",
+    "--sun": "oklch(0.86 0.14 78)", "--sunset": "oklch(0.74 0.16 44)",
+    "--night": "oklch(0.27 0.05 35)", "--night-2": "oklch(0.23 0.05 32)", "--night-3": "oklch(0.32 0.055 36)",
+    "--sand": "oklch(0.965 0.018 65)", "--sand-2": "oklch(0.935 0.024 62)", "--sand-3": "oklch(0.895 0.03 60)",
+    "--ink": "oklch(0.26 0.04 40)",
+  },
+  jungle: {
+    "--coral": "oklch(0.70 0.155 40)", "--coral-deep": "oklch(0.62 0.15 38)",
+    "--ocean": "oklch(0.62 0.11 175)", "--ocean-deep": "oklch(0.50 0.10 172)", "--ocean-bright": "oklch(0.76 0.11 168)",
+    "--sun": "oklch(0.84 0.14 110)", "--sunset": "oklch(0.72 0.15 70)",
+    "--night": "oklch(0.26 0.045 165)", "--night-2": "oklch(0.22 0.045 162)", "--night-3": "oklch(0.31 0.05 166)",
+    "--sand": "oklch(0.958 0.018 110)", "--sand-2": "oklch(0.925 0.024 105)", "--sand-3": "oklch(0.885 0.03 100)",
+    "--ink": "oklch(0.255 0.04 170)",
+  },
+};
+const FONTS = {
+  "Bricolage Grotesque": "'Bricolage Grotesque', sans-serif",
+  "Archivo": "'Archivo', sans-serif",
+  "Space Grotesk": "'Space Grotesk', sans-serif",
+};
+const ACCENTS = {
+  coral:  "oklch(0.70 0.165 33)",
+  ocean:  "oklch(0.62 0.13 200)",
+  sunset: "oklch(0.74 0.16 56)",
+};
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "tone": "ocean",
+  "heroLayout": "split",
+  "displayFont": "Bricolage Grotesque",
+  "shape": "rounded",
+  "accent": "coral"
+}/*EDITMODE-END*/;
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [lang, setLang] = useState("en");
+  const [route, setRoute] = useState("home");
+  const [entryStep, setEntryStep] = useState(0);
+  const [booking, setBooking] = useState({
+    from: todayISO(2), to: todayISO(7),
+    pickLoc: BBM.LOCATIONS[0].id, retLoc: BBM.LOCATIONS[0].id, sameLoc: true,
+    bikeId: BBM.FLEET[0].id, qty: 1, extras: {},
+  });
+  const tr = BBM.I18N[lang];
+
+  // Capturar UTM params del anuncio y guardar en sessionStorage
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"];
+    const utm = {};
+    keys.forEach(k => { const v = p.get(k); if (v) utm[k] = v; });
+    if (Object.keys(utm).length > 0) {
+      try { sessionStorage.setItem("sr_utm", JSON.stringify(utm)); } catch(e) {}
+    }
+  }, []);
+
+  useEffect(() => {
+    const r = document.documentElement.style;
+    const tone = TONES[t.tone] || {};
+    Object.keys(TONES.sunset).forEach((k) => r.removeProperty(k));
+    Object.entries(tone).forEach(([k, v]) => r.setProperty(k, v));
+    r.setProperty("--font-display", FONTS[t.displayFont] || FONTS["Bricolage Grotesque"]);
+    r.setProperty("--shape-scale", t.shape === "sharp" ? "0" : "1");
+    const acc = ACCENTS[t.accent] || ACCENTS.coral;
+    r.setProperty("--coral", acc);
+    r.setProperty("--accent", acc);
+  }, [t.tone, t.displayFont, t.shape, t.accent]);
+
+  useEffect(() => { window.scrollTo({ top: 0 }); }, [route]);
+
+  const goBooking = (step) => { setEntryStep(step); setRoute("booking"); };
+  const onSearch  = ({ from, to, loc }) => { setBooking((b) => ({ ...b, from, to, pickLoc: loc, retLoc: loc })); goBooking(1); };
+  const onReserve = (bike) => { if (bike.comingSoon) return; setBooking((b) => ({ ...b, bikeId: bike.id })); goBooking(0); };
+  const onBook    = () => goBooking(0);
+  const reset     = () => setBooking({ from: todayISO(2), to: todayISO(7), pickLoc: BBM.LOCATIONS[0].id, retLoc: BBM.LOCATIONS[0].id, sameLoc: true, bikeId: BBM.FLEET[0].id, qty: 1, extras: {} });
+
+  return (
+    <>
+      {route === "home" && (
+        <>
+          <NavBar t={tr} lang={lang} setLang={setLang} onBook={onBook} dark onHome={() => window.scrollTo({ top: 0, behavior: "smooth" })} />
+          <Home t={tr} lang={lang} onSearch={onSearch} onReserve={onReserve} onBook={onBook} layout={t.heroLayout} />
+          <Footer t={tr} lang={lang} />
+        </>
+      )}
+      {route === "booking" && (
+        <BookingFlow key={entryStep + booking.bikeId} booking={booking} setBooking={setBooking} t={tr} lang={lang} setLang={setLang}
+          initialStep={entryStep} onExit={() => setRoute("home")} />
+      )}
+
+      <WaFloat lang={lang} />
+      <ScrollTop />
+
+      <TweaksPanel>
+        <TweakSection label={lang === "es" ? "Color y forma" : "Color & shape"} />
+        <TweakRadio label={lang === "es" ? "Tono" : "Tone"} value={t.tone}
+          options={["ocean", "sunset", "jungle"]} onChange={(v) => setTweak("tone", v)} />
+        <TweakColor label={lang === "es" ? "Acento" : "Accent"} value={t.accent === "coral" ? ACCENTS.coral : t.accent === "ocean" ? ACCENTS.ocean : ACCENTS.sunset}
+          options={[ACCENTS.coral, ACCENTS.ocean, ACCENTS.sunset]}
+          onChange={(v) => setTweak("accent", v === ACCENTS.ocean ? "ocean" : v === ACCENTS.sunset ? "sunset" : "coral")} />
+        <TweakRadio label={lang === "es" ? "Esquinas" : "Corners"} value={t.shape}
+          options={["rounded", "sharp"]} onChange={(v) => setTweak("shape", v)} />
+        <TweakSection label={lang === "es" ? "Tipografía y layout" : "Type & layout"} />
+        <TweakSelect label={lang === "es" ? "Fuente display" : "Display font"} value={t.displayFont}
+          options={["Bricolage Grotesque", "Archivo", "Space Grotesk"]} onChange={(v) => setTweak("displayFont", v)} />
+        <TweakRadio label="Hero" value={t.heroLayout}
+          options={["split", "center"]} onChange={(v) => setTweak("heroLayout", v)} />
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+(function () {
+  const settle = () => {
+    if (document.visibilityState !== "visible") {
+      document.getAnimations().forEach((a) => { try { a.finish(); } catch (_) {} });
+    }
+  };
+  document.addEventListener("visibilitychange", settle);
+  setInterval(settle, 400);
+})();
+</script>
+
+<style id="__om-edit-overrides"></style>
+</body>
+</html>

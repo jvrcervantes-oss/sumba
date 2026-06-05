@@ -1,0 +1,267 @@
+/* ============================================================
+   BALI BEST MOTORCYCLE — Expedition Tropical design system
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  /* ---- Palette: Turquoise ocean + sand + coral (default tone) ---- */
+  --sand:        oklch(0.965 0.013 78);   /* page bg, warm off-white  */
+  --sand-2:      oklch(0.935 0.018 76);   /* cards on sand            */
+  --sand-3:      oklch(0.895 0.024 74);   /* borders / dividers       */
+  --shell:       oklch(0.995 0.005 80);   /* raised cards             */
+
+  --ink:         oklch(0.255 0.035 215);  /* primary text (teal-ink)  */
+  --ink-soft:    oklch(0.45 0.03 210);    /* secondary text           */
+  --ink-faint:   oklch(0.60 0.022 205);   /* tertiary / captions      */
+
+  --night:       oklch(0.255 0.045 200);  /* dark jungle sections     */
+  --night-2:     oklch(0.215 0.045 202);  /* deeper                   */
+  --night-3:     oklch(0.305 0.05 198);   /* raised card on night     */
+
+  --ocean:       oklch(0.66 0.118 205);   /* turquoise                */
+  --ocean-deep:  oklch(0.55 0.11 208);
+  --ocean-bright:oklch(0.78 0.10 200);
+
+  --coral:       oklch(0.70 0.165 33);    /* primary accent           */
+  --coral-deep:  oklch(0.62 0.16 32);
+  --sunset:      oklch(0.755 0.155 56);   /* secondary warm accent    */
+  --sun:         oklch(0.855 0.135 92);   /* highlight / sun          */
+
+  /* ---- Semantic ---- */
+  --bg:          var(--sand);
+  --surface:     var(--shell);
+  --text:        var(--ink);
+  --text-soft:   var(--ink-soft);
+  --accent:      var(--coral);
+  --accent-2:    var(--ocean);
+
+  /* ---- Shape ---- */
+  --r-sm: 8px;
+  --r:    14px;
+  --r-lg: 22px;
+  --r-xl: 32px;
+  --r-pill: 999px;
+  --shape-scale: 1;            /* tweakable: 0 = sharp, 1 = round */
+
+  /* ---- Type ---- */
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+
+  /* ---- Shadows ---- */
+  --sh-sm: 0 1px 2px oklch(0.4 0.04 210 / 0.08), 0 2px 6px oklch(0.4 0.04 210 / 0.06);
+  --sh:    0 4px 14px oklch(0.4 0.05 210 / 0.10), 0 12px 30px oklch(0.4 0.05 210 / 0.08);
+  --sh-lg: 0 10px 30px oklch(0.35 0.05 210 / 0.14), 0 30px 60px oklch(0.35 0.05 210 / 0.12);
+  --sh-coral: 0 10px 28px oklch(0.62 0.16 33 / 0.34);
+
+  --maxw: 1240px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+p { margin: 0; text-wrap: pretty; }
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, select, textarea { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--coral); color: white; }
+
+/* ---- Grain / atmosphere ---- */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- Layout helpers ---- */
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--font-body); font-weight: 700; font-size: 16px;
+  padding: 15px 26px;
+  border-radius: calc(var(--r-pill) * var(--shape-scale) + 4px * (1 - var(--shape-scale)));
+  transition: transform .18s cubic-bezier(.2,.9,.3,1.2), box-shadow .25s ease, background .2s ease, color .2s;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn-primary {
+  background: var(--coral); color: white;
+  box-shadow: var(--sh-coral);
+}
+.btn-primary:hover { background: var(--coral-deep); transform: translateY(-2px); box-shadow: 0 16px 36px oklch(0.62 0.16 33 / 0.42); }
+.btn-ghost {
+  background: transparent; color: var(--text);
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--ink) 22%, transparent);
+}
+.btn-ghost:hover { box-shadow: inset 0 0 0 1.5px var(--ink); transform: translateY(-2px); }
+.btn-dark { background: var(--ink); color: var(--sand); }
+.btn-dark:hover { transform: translateY(-2px); box-shadow: var(--sh); }
+.btn-lg { padding: 18px 34px; font-size: 18px; }
+.btn-block { width: 100%; }
+
+/* ---- Cards ---- */
+.card {
+  background: var(--surface);
+  border-radius: calc(var(--r-lg) * var(--shape-scale) + 6px * (1 - var(--shape-scale)));
+  box-shadow: var(--sh);
+}
+
+/* ---- Pills / tags ---- */
+.pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-body); font-weight: 700; font-size: 12.5px;
+  letter-spacing: 0.02em;
+  padding: 6px 13px; border-radius: var(--r-pill);
+}
+
+/* ---- Striped image placeholder ---- */
+.ph {
+  position: relative; overflow: hidden;
+  background:
+    repeating-linear-gradient(135deg,
+      color-mix(in oklch, var(--ocean) 16%, transparent) 0 2px,
+      transparent 2px 11px),
+    linear-gradient(160deg, color-mix(in oklch, var(--ocean-bright) 28%, var(--sand)), color-mix(in oklch, var(--sun) 22%, var(--sand)));
+  display: flex; align-items: center; justify-content: center;
+}
+.ph-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-soft);
+  background: color-mix(in oklch, var(--sand) 80%, transparent);
+  padding: 5px 10px; border-radius: 6px; backdrop-filter: blur(3px);
+}
+
+/* ---- Animations ---- */
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes draw-wave { from { stroke-dashoffset: 1200; } to { stroke-dashoffset: 0; } }
+@keyframes shimmer { to { background-position: 200% 0; } }
+
+.rise { animation: rise .7s cubic-bezier(.2,.7,.3,1) both; }
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-thumb { background: color-mix(in oklch, var(--ocean) 40%, var(--sand-3)); border-radius: 99px; border: 3px solid var(--sand); }
+
+/* ---- Focus ---- */
+:focus-visible { outline: 3px solid color-mix(in oklch, var(--ocean) 70%, transparent); outline-offset: 2px; }
+
+.no-scroll { overflow: hidden; }
+
+/* ---- Responsive ---- */
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr !important; }
+  .hero-grid > div:last-child { max-width: 460px; }
+  .booking-grid { grid-template-columns: 1fr !important; }
+  .booking-summary { position: static !important; }
+}
+@media (max-width: 760px) {
+  .nav-links { display: none !important; }
+  .step-label { display: none !important; }
+  .two-col { grid-template-columns: 1fr !important; }
+  /* Checkout: summary sube al top para que el precio sea lo primero que ve el usuario */
+  .booking-summary { order: -1; }
+  /* Hero: centrar badges de reseñas cuando el hero es de una columna */
+  .hero-pills { justify-content: center !important; }
+}
+@media (max-width: 560px) {
+  .wrap { padding: 0 18px; }
+  /* Checkout: padding y gap ajustados para pantallas pequeñas */
+  .booking-grid { padding: 24px 18px 88px !important; gap: 20px !important; }
+  /* Checkout: botones de acción apilados en mobile */
+  .bk-actions { flex-wrap: wrap !important; }
+  .bk-actions .btn-primary { width: 100% !important; margin-left: 0 !important; }
+}
+
+/* ---- Mobile hamburger ---- */
+.mob-menu-btn { display: none !important; }
+.nav-lang     { display: inline-flex; }   /* shown by default */
+@media (max-width: 760px) {
+  .mob-menu-btn { display: grid !important; }
+  .nav-lang     { display: none !important; }  /* lang switch → drawer on mobile */
+}
+
+/* ---- QuickSearch mobile ---- */
+@media (max-width: 560px) {
+  .qs-div { display: none !important; }
+  .qs-btn { width: calc(100% - 8px) !important; flex-shrink: 0 !important; }
+}
+
+/* ---- Scroll-to-top (mobile only) ---- */
+.scroll-top-btn { display: none !important; }
+@media (max-width: 760px) {
+  .scroll-top-btn { display: grid !important; }
+}
+
+/* ---- Floating WhatsApp button ---- */
+.wa-float {
+  position: fixed; bottom: 24px; right: 24px; z-index: 90;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+}
+.wa-pill {
+  background: var(--night); color: var(--sand);
+  font-family: var(--font-body); font-size: 12.5px; font-weight: 600;
+  padding: 7px 14px; border-radius: 999px;
+  white-space: nowrap; letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px oklch(0.25 0.04 210 / 0.22);
+}
+.wa-float-btn {
+  width: 54px; height: 54px; background: #25D366; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.45), 0 2px 6px rgba(0,0,0,0.12);
+  transition: transform .2s cubic-bezier(.2,.8,.3,1), box-shadow .2s;
+}
+.wa-float-btn:hover  { transform: scale(1.06); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+.wa-float-btn:active { transform: scale(0.93); }
+.wa-float-btn svg    { display: block; }
+
+/* ---- Airport CTA — prevent overflow on narrow screens ---- */
+@media (max-width: 480px) {
+  .airport-cta { padding: 14px 20px !important; font-size: 15px !important; white-space: normal !important; }
+}
+

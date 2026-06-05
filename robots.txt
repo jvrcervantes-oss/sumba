@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /private/
+Disallow: /checkout.php
+Disallow: /Backups/
+Disallow: /media/
+
+Sitemap: https://sumba.balibestmotorcycle.com/sitemap.xml
