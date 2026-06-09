@@ -1932,7 +1932,7 @@ function App() {
   useEffect(() => { window.scrollTo({ top: 0 }); }, [route]);
 
   const goBooking = (step) => { setEntryStep(step); setRoute("booking"); };
-  const onSearch  = ({ from, to, loc }) => { setBooking((b) => ({ ...b, from, to, pickLoc: loc, retLoc: loc })); goBooking(1); };
+  const onSearch  = ({ from, to, loc }) => { setBooking((b) => ({ ...b, from, to, pickLoc: loc, retLoc: loc })); goBooking(0); };
   const onReserve = (bike) => { if (bike.comingSoon) return; setBooking((b) => ({ ...b, bikeId: bike.id })); goBooking(0); };
   const onBook    = () => goBooking(0);
   const reset     = () => setBooking({ from: todayISO(2), to: todayISO(7), pickLoc: BBM.LOCATIONS[0].id, retLoc: BBM.LOCATIONS[0].id, sameLoc: true, bikeId: BBM.FLEET[0].id, qty: 1, extras: {} });
