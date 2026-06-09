@@ -1,8 +1,9 @@
 # Credenciales — NUNCA subir
 private/sumba-config.php
 
-# Backups locales
+# Backups locales y fotos fuente
 Backups/
+media/
 
 # Archivos del sistema
 .DS_Store
