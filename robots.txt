@@ -1,4 +1,4 @@
-# deploy-check 20260612-sumba
+# deploy-check 20260612-sumba-2
 User-agent: *
 Disallow: /private/
 Disallow: /checkout.php
