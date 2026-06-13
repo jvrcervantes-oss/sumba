@@ -310,7 +310,7 @@ function NavBar({ t, lang, setLang, onBook, dark, onHome }) {
   }, [mobileOpen]);
   const links = [
     { k: "navFleet", href: "#fleet" }, { k: "navHow", href: "#how" },
-    { k: "navRoutes", href: "#routes" }, { k: "navHelp", href: "https://wa.me/62881037978255", target: "_blank", rel: "noopener" },
+    { k: "navRoutes", href: "#routes" }, { k: "navHelp", href: "https://wa.me/62881037978255?text=Hi!%20I%20would%20like%20to%20rent%20a%20motorbike%20in%20Sumba%20with%20airport%20delivery.%20Is%20it%20available%3F", target: "_blank", rel: "noopener" },
   ];
   const onDarkHero = dark && !scrolled && !mobileOpen;
   const close = () => setMobileOpen(false);
@@ -390,7 +390,7 @@ function NavBar({ t, lang, setLang, onBook, dark, onHome }) {
             </a>
           ))}
         </nav>
-        <a href="https://wa.me/62881037978255" target="_blank" rel="noopener"
+        <a href="https://wa.me/62881037978255?text=Hi!%20I%20would%20like%20to%20rent%20a%20motorbike%20in%20Sumba%20with%20airport%20delivery.%20Is%20it%20available%3F" target="_blank" rel="noopener"
           className="btn btn-ghost btn-block"
           style={{ fontSize: 15, textDecoration: "none", display: "flex", marginTop: 28 }}>
           <Ic.phone s={16} /> WhatsApp
@@ -428,7 +428,7 @@ function Footer({ t, lang }) {
               Jl Gn T Perahu 145, 80117<br />
               Denpasar, Bali, Indonesia
             </p>
-            <a href="https://wa.me/62881037978255" target="_blank" rel="noopener"
+            <a href="https://wa.me/62881037978255?text=Hi!%20I%20would%20like%20to%20rent%20a%20motorbike%20in%20Sumba%20with%20airport%20delivery.%20Is%20it%20available%3F" target="_blank" rel="noopener"
               style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 14, fontSize: 14.5, fontWeight: 700, color: "var(--ocean-bright)", textDecoration: "none" }}>
               <Ic.phone s={15} c="var(--ocean-bright)" /> +62 881-0379-78255
             </a>
@@ -457,8 +457,8 @@ function Footer({ t, lang }) {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               <span className="mono" style={{ color: "var(--ocean-bright)", fontSize: 11 }}>{lang === "es" ? "Contacto" : "Contact"}</span>
-              <a href="https://wa.me/62881037978255" target="_blank" rel="noopener" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>{t.navHelp}</a>
-              <a href="https://wa.me/62881037978255" target="_blank" rel="noopener" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>WhatsApp</a>
+              <a href="https://wa.me/62881037978255?text=Hi!%20I%20would%20like%20to%20rent%20a%20motorbike%20in%20Sumba%20with%20airport%20delivery.%20Is%20it%20available%3F" target="_blank" rel="noopener" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>{t.navHelp}</a>
+              <a href="https://wa.me/62881037978255?text=Hi!%20I%20would%20like%20to%20rent%20a%20motorbike%20in%20Sumba%20with%20airport%20delivery.%20Is%20it%20available%3F" target="_blank" rel="noopener" style={{ fontSize: 14.5, color: "color-mix(in oklch, var(--sand) 80%, transparent)" }}>WhatsApp</a>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               <span className="mono" style={{ color: "var(--ocean-bright)", fontSize: 11 }}>Legal</span>
@@ -1478,7 +1478,7 @@ function WaFloat({ lang }) {
       }}>
         {lang === "es" ? "¿En qué puedo ayudarte?" : "Need help? Let's talk!"}
       </div>
-      <a href="https://wa.me/62881037978255" target="_blank" rel="noopener noreferrer"
+      <a href="https://wa.me/62881037978255?text=Hi!%20I%20would%20like%20to%20rent%20a%20motorbike%20in%20Sumba%20with%20airport%20delivery.%20Is%20it%20available%3F" target="_blank" rel="noopener noreferrer"
         className="wa-float-btn" aria-label="WhatsApp">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
           <path d="M12 0C5.373 0 0 5.373 0 12c0 2.132.558 4.13 1.533 5.866L.057 23.886a.5.5 0 00.621.63l6.249-1.628A11.947 11.947 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.93 0-3.742-.523-5.295-1.432l-.38-.222-3.943 1.027 1.055-3.825-.247-.397A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
