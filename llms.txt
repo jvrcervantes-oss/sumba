@@ -1,0 +1,24 @@
+# Sumba Rental Motorbike
+
+> Motorbike rental on Sumba island, Indonesia, with the island's only airport-door delivery service. Sister brand of Bali Best Motorcycle. Bikes delivered straight to Lede Kalumbang Airport (TMC), West Sumba. Bilingual service (English / Spanish) for international travellers.
+
+## Key facts
+- Location: Sumba island, Indonesia (West Sumba)
+- Unique selling point: only rental service in Sumba that delivers the bike to the airport door
+- Delivery airport: Bandar Udara Lede Kalumbang (TMC), West Sumba
+- Sister brand: Bali Best Motorcycle
+- Contact: WhatsApp +62 881-0379-78255 (https://wa.me/62881037978255)
+- Website: https://sumba.balibestmotorcycle.com
+
+## Fleet
+- BH Custom BH-G3: custom aluminium trail scooter. 300,000 IDR per day. Airport delivery included.
+- Beach Buggy: coming soon — guided activity at Sandalwood Resort only.
+
+## Booking and payment
+- Book online; pay securely by card via Stripe Checkout.
+- Price: 300,000 IDR per day.
+
+## Guides and resources
+- [Sumba airport motorcycle delivery](https://sumba.balibestmotorcycle.com/bike-rental-sumba-airport-delivery.html)
+- [Sumba motorbike rental guide](https://sumba.balibestmotorcycle.com/sumba-motorbike-rental-guide.html)
+- [Best routes in Sumba by motorcycle](https://sumba.balibestmotorcycle.com/best-routes-sumba-motorcycle.html)

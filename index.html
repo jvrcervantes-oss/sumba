@@ -58,6 +58,31 @@
   }
 }
 </script>
+<!-- Product schema — la moto con precio concreto (rich results + motores de IA) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "BH Custom BH-G3 — Motorbike Rental in Sumba",
+  "description": "Custom aluminium trail scooter for rent in Sumba, Indonesia. Free delivery to Lede Kalumbang Airport (TMC), West Sumba — the only airport-door delivery service on the island.",
+  "brand": { "@type": "Brand", "name": "Bali Best Motorcycle" },
+  "category": "Motorbike rental",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "IDR",
+    "price": "300000",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "300000",
+      "priceCurrency": "IDR",
+      "unitText": "DAY"
+    },
+    "availability": "https://schema.org/InStock",
+    "url": "https://sumba.balibestmotorcycle.com/",
+    "areaServed": { "@type": "Place", "name": "Sumba, Indonesia" }
+  }
+}
+</script>
 </head>
 <body>
 <div id="root"></div>
