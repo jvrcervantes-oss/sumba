@@ -1527,12 +1527,47 @@ Object.assign(window, { ScrollTop });
 <script type="text/babel">
 const { useState, useEffect } = React;
 
-// Lee la "página" actual desde el hash de la URL (#book / #book/review)
+// Serializa la selección del carrito a query params (van DENTRO del hash para no pisar los UTM de location.search)
+function encodeBooking(b) {
+  const p = new URLSearchParams();
+  if (b.from)   p.set("f", b.from);
+  if (b.to)     p.set("t", b.to);
+  if (b.bikeId) p.set("b", b.bikeId);
+  if (b.qty && b.qty !== 1) p.set("q", b.qty);
+  if (b.pickLoc) p.set("pl", b.pickLoc);
+  if (!b.sameLoc && b.retLoc) p.set("rl", b.retLoc);
+  const x = Object.keys(b.extras || {}).filter((k) => b.extras[k]);
+  if (x.length) p.set("x", x.join(","));
+  return p.toString();
+}
+// Reconstruye la selección del carrito desde la URL sobre una base por defecto.
+// Valida los ids contra los datos reales para que un enlace manipulado no rompa el flujo.
+function decodeBooking(qs, base) {
+  const p = new URLSearchParams(qs || "");
+  const b = { ...base };
+  const isDate = (v) => /^\d{4}-\d{2}-\d{2}$/.test(v);
+  const hasBike = (id) => BBM.FLEET.some((f) => f.id === id && !f.comingSoon);
+  const hasLoc  = (id) => BBM.LOCATIONS.some((l) => l.id === id);
+  const isExtra = (id) => BBM.EXTRAS.some((e) => e.id === id);
+  if (isDate(p.get("f"))) b.from = p.get("f");
+  if (isDate(p.get("t"))) b.to = p.get("t");
+  if (hasBike(p.get("b"))) b.bikeId = p.get("b");
+  if (p.get("q")) b.qty = Math.min(12, Math.max(1, parseInt(p.get("q"), 10) || 1));
+  if (hasLoc(p.get("pl"))) b.pickLoc = p.get("pl");
+  if (hasLoc(p.get("rl"))) { b.retLoc = p.get("rl"); b.sameLoc = false; }
+  else                     { b.retLoc = b.pickLoc;   b.sameLoc = true; }
+  if (p.get("x")) { b.extras = {}; p.get("x").split(",").forEach((id) => { if (isExtra(id)) b.extras[id] = true; }); }
+  return b;
+}
+// Lee la "página" actual desde el hash de la URL (#book / #book/review[?params])
 function readRoute() {
-  const h = (window.location.hash || "").replace(/^#\/?/, "").toLowerCase();
-  if (h === "book") return { route: "booking", step: 0 };
-  if (h === "book/review") return { route: "booking", step: 1 };
-  return { route: "home", step: 0 };
+  const raw = (window.location.hash || "").replace(/^#\/?/, "");
+  const qi = raw.indexOf("?");
+  const path = (qi >= 0 ? raw.slice(0, qi) : raw).toLowerCase();
+  const qs = qi >= 0 ? raw.slice(qi + 1) : "";
+  if (path === "book")        return { route: "booking", step: 0, qs };
+  if (path === "book/review") return { route: "booking", step: 1, qs };
+  return { route: "home", step: 0, qs: "" };
 }
 
 function App() {
@@ -1540,10 +1575,13 @@ function App() {
   const _init = readRoute();
   const [route, setRoute] = useState(_init.route);
   const [step, setStep] = useState(_init.step);
-  const [booking, setBooking] = useState({
-    from: todayISO(2), to: todayISO(7),
-    pickLoc: BBM.LOCATIONS[0].id, retLoc: BBM.LOCATIONS[0].id, sameLoc: true,
-    bikeId: BBM.FLEET[0].id, qty: 1, extras: {},
+  const [booking, setBooking] = useState(() => {
+    const base = {
+      from: todayISO(2), to: todayISO(7),
+      pickLoc: BBM.LOCATIONS[0].id, retLoc: BBM.LOCATIONS[0].id, sameLoc: true,
+      bikeId: BBM.FLEET[0].id, qty: 1, extras: {},
+    };
+    return _init.route === "booking" && _init.qs ? decodeBooking(_init.qs, base) : base;
   });
   const tr = BBM.I18N[lang];
 
@@ -1559,19 +1597,34 @@ function App() {
   }, []);
 
   // Sincroniza con el historial del navegador: URL real distinta para el carrito + botón atrás funcional
+  // Construye la URL de una página (incluye los parámetros del carrito si aplica)
+  const buildUrl = (r, s, b) => {
+    const base = window.location.pathname + window.location.search;
+    if (r !== "booking") return base;
+    const qs = encodeBooking(b);
+    return base + (s === 1 ? "#book/review" : "#book") + (qs ? "?" + qs : "");
+  };
+
   useEffect(() => {
     if (!window.history.state) window.history.replaceState(readRoute(), "", window.location.href);
-    const onPop = (e) => { const s = e.state || readRoute(); setRoute(s.route); setStep(s.step || 0); };
+    const onPop = () => {
+      const r = readRoute();
+      setRoute(r.route); setStep(r.step || 0);
+      if (r.route === "booking" && r.qs) setBooking((b) => decodeBooking(r.qs, b));
+    };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
   const navTo = (r, s = 0) => {
-    const base = window.location.pathname + window.location.search;
-    const url = r === "booking" ? base + (s === 1 ? "#book/review" : "#book") : base;
-    window.history.pushState({ route: r, step: s }, "", url);
+    window.history.pushState({ route: r, step: s }, "", buildUrl(r, s, booking));
     setRoute(r); setStep(s);
   };
+
+  // Mantiene los parámetros del carrito sincronizados en la URL al editar fechas/moto/qty/extras (sin ensuciar el historial)
+  useEffect(() => {
+    if (route === "booking") window.history.replaceState({ route, step }, "", buildUrl("booking", step, booking));
+  }, [booking, route, step]);
 
   useEffect(() => { window.scrollTo({ top: 0 }); }, [route]);
 
