@@ -1378,8 +1378,7 @@ Object.assign(window, { calc, Stepper, StepDates, StepReview, SummaryCard });
 <script type="text/babel">
 const CHECKOUT_URL = "checkout.php";
 
-function BookingFlow({ booking, setBooking, t, lang, setLang, onExit, initialStep = 0 }) {
-  const [step, setStep] = useState(initialStep);
+function BookingFlow({ booking, setBooking, t, lang, setLang, onExit, step, setStep }) {
   const set = (patch) => setBooking((b) => ({ ...b, ...patch }));
   const c = calc(booking);
   useEffect(() => { window.scrollTo({ top: 0 }); }, [step]);
@@ -1528,10 +1527,19 @@ Object.assign(window, { ScrollTop });
 <script type="text/babel">
 const { useState, useEffect } = React;
 
+// Lee la "página" actual desde el hash de la URL (#book / #book/review)
+function readRoute() {
+  const h = (window.location.hash || "").replace(/^#\/?/, "").toLowerCase();
+  if (h === "book") return { route: "booking", step: 0 };
+  if (h === "book/review") return { route: "booking", step: 1 };
+  return { route: "home", step: 0 };
+}
+
 function App() {
   const [lang, setLang] = useState("en");
-  const [route, setRoute] = useState("home");
-  const [entryStep, setEntryStep] = useState(0);
+  const _init = readRoute();
+  const [route, setRoute] = useState(_init.route);
+  const [step, setStep] = useState(_init.step);
   const [booking, setBooking] = useState({
     from: todayISO(2), to: todayISO(7),
     pickLoc: BBM.LOCATIONS[0].id, retLoc: BBM.LOCATIONS[0].id, sameLoc: true,
@@ -1550,9 +1558,24 @@ function App() {
     }
   }, []);
 
+  // Sincroniza con el historial del navegador: URL real distinta para el carrito + botón atrás funcional
+  useEffect(() => {
+    if (!window.history.state) window.history.replaceState(readRoute(), "", window.location.href);
+    const onPop = (e) => { const s = e.state || readRoute(); setRoute(s.route); setStep(s.step || 0); };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  const navTo = (r, s = 0) => {
+    const base = window.location.pathname + window.location.search;
+    const url = r === "booking" ? base + (s === 1 ? "#book/review" : "#book") : base;
+    window.history.pushState({ route: r, step: s }, "", url);
+    setRoute(r); setStep(s);
+  };
+
   useEffect(() => { window.scrollTo({ top: 0 }); }, [route]);
 
-  const goBooking = (step) => { setEntryStep(step); setRoute("booking"); };
+  const goBooking = (s) => navTo("booking", s);
   const onSearch  = ({ from, to, loc }) => { setBooking((b) => ({ ...b, from, to, pickLoc: loc, retLoc: loc })); goBooking(0); };
   const onReserve = (bike) => { if (bike.comingSoon) return; setBooking((b) => ({ ...b, bikeId: bike.id })); goBooking(0); };
   const onBook    = () => goBooking(0);
@@ -1568,8 +1591,8 @@ function App() {
         </>
       )}
       {route === "booking" && (
-        <BookingFlow key={entryStep + booking.bikeId} booking={booking} setBooking={setBooking} t={tr} lang={lang} setLang={setLang}
-          initialStep={entryStep} onExit={() => setRoute("home")} />
+        <BookingFlow booking={booking} setBooking={setBooking} t={tr} lang={lang} setLang={setLang}
+          step={step} setStep={(s) => navTo("booking", s)} onExit={() => navTo("home")} />
       )}
 
       <WaFloat lang={lang} />
