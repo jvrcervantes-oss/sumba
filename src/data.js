@@ -13,8 +13,8 @@
       blurbEn: "Hand-built aluminium scooter. Tuned Yamaha Gear engine, spoke wheels, surf rack, kick starter, LED lights. Nothing like it on the island.",
       blurbEs: "Scooter de aluminio hecha a mano. Motor Yamaha Gear afinado, ruedas de radios, portatabla, arranque de patada, LEDs. No hay otra igual en la isla.",
       specs: { range: "250 km", weight: "80 kg", top: "95 km/h" },
-      photo:  "assets/images/bike1.png",
-      photo2: "assets/images/bike2.png",
+      photo:  "assets/images/bike4.webp",
+      photo2: "assets/images/bike3.webp",
     },
     {
       id: "buggy", brand: "Custom", model: "Beach Buggy", cat: "buggy",
