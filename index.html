@@ -8,6 +8,25 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'AW-18215532149');
+
+  // Google Ads — conversión en el PAGO COMPLETADO (vuelta de Stripe), no en el clic.
+  // checkout.php devuelve success_url con ?paid=1&value=<IDR>&cur=IDR&tx=<id>
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search);
+      if (p.get('paid') === '1') {
+        gtag('event', 'conversion', {
+          send_to: 'AW-18215532149/knGLCLPOr7kcEPXs6-1D',
+          value: parseFloat(p.get('value')) || 0,
+          currency: p.get('cur') || 'IDR',
+          transaction_id: p.get('tx') || ''   // Ads deduplica refrescos por este id
+        });
+        ['paid', 'value', 'cur', 'tx', 'session_id'].forEach(function (k) { p.delete(k); });
+        var qs = p.toString();
+        history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+      }
+    } catch (e) {}
+  })();
 </script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,12 +37,16 @@
 <meta property="og:url" content="https://sumba.balibestmotorcycle.com/" />
 <meta property="og:title" content="Sumba Rental Motorbike – Airport Delivery" />
 <meta property="og:description" content="Free airport & hotel delivery in Sumba on a custom trail scooter built for the island's roads. Book and pay online. Backed by Bali Best Motorcycle." />
-<meta property="og:image" content="https://sumba.balibestmotorcycle.com/assets/images/bike3.webp" />
+<meta property="og:image" content="https://sumba.balibestmotorcycle.com/assets/images/og-cover.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Rent a motorbike in Sumba — free airport delivery, from Rp 200k/day" />
 <meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="es_ES" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Sumba Rental Motorbike – Airport Delivery" />
 <meta name="twitter:description" content="Free airport & hotel delivery in Sumba on a custom trail scooter built for the island's roads. Book and pay online. Backed by Bali Best Motorcycle." />
-<meta name="twitter:image" content="https://sumba.balibestmotorcycle.com/assets/images/bike3.webp" />
+<meta name="twitter:image" content="https://sumba.balibestmotorcycle.com/assets/images/og-cover.jpg" />
 <link rel="icon" href="assets/images/logo.png" type="image/png" />
 <link rel="apple-touch-icon" href="assets/images/logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -41,7 +64,7 @@
   "image": "https://sumba.balibestmotorcycle.com/assets/images/bike3.webp",
   "telephone": "+62881037978255",
   "priceRange": "Rp 200k/day",
-  "dateModified": "2026-06-23",
+  "dateModified": "2026-06-29",
   "parentOrganization": {
     "@type": "Organization",
     "name": "Bali Best Motorcycle",
@@ -3757,15 +3780,8 @@ function BookingFlow({
       marginLeft: "auto"
     },
     onClick: () => {
-      // Google Ads — conversión en IDR al hacer clic en Pagar
-      if (typeof gtag !== "undefined") {
-        gtag("event", "conversion", {
-          send_to: "AW-18215532149/knGLCLPOr7kcEPXs6-1D",
-          value: c.total,
-          currency: "IDR",
-          transaction_id: booking.from + "-" + booking.to + "-" + c.qty + "-" + Date.now()
-        });
-      }
+      // La conversión de Google Ads YA NO se dispara aquí (clic = intención).
+      // Se dispara en la vuelta de Stripe (pago completado): ver script ?paid=1 en <head>.
       const p = new URLSearchParams({
         days: c.days,
         qty: c.qty,

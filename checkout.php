@@ -30,6 +30,17 @@ $fbclid       = substr(preg_replace('/[^a-zA-Z0-9_\-.]/',  '', $_GET['fbclid']  
 $units       = $days * $qty;
 $description = $qty . ' moto' . ($qty > 1 ? 's' : '') . ' × ' . $days . ' día' . ($days > 1 ? 's' : '');
 
+// ── Conversión Google Ads en el PAGO COMPLETADO ───────────────────
+// Devolvemos a la web con el total real (calculado en servidor, no manipulable)
+// + un id de transacción para que Ads deduplique refrescos. El front lee
+// ?paid=1 al cargar y dispara la conversión (ver script en <head> de index.html).
+$total_idr   = $units * PRICE_IDR / 100;               // total en IDR reales
+$txid        = $from . '-' . $to . '-' . $qty . '-' . time();
+$success_url = SUCCESS_URL
+             . (strpos(SUCCESS_URL, '?') === false ? '?' : '&')
+             . 'paid=1&value=' . $total_idr . '&cur=IDR&tx=' . rawurlencode($txid)
+             . '&session_id={CHECKOUT_SESSION_ID}';
+
 // ── Crear Checkout Session via Stripe API ──────────────────────────
 $data = [
   'line_items[0][price_data][currency]'                  => 'idr',
@@ -38,7 +49,7 @@ $data = [
   'line_items[0][price_data][product_data][description]' => $description,
   'line_items[0][quantity]'                              => $units,
   'mode'                                                 => 'payment',
-  'success_url'                                          => SUCCESS_URL,
+  'success_url'                                          => $success_url,
   'cancel_url'                                           => CANCEL_URL,
   'metadata[motos]'                                      => $qty,
   'metadata[dias]'                                       => $days,
