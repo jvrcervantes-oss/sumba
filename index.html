@@ -3149,8 +3149,8 @@ function calc(booking) {
     rental,
     extras,
     total,
-    deposit: Math.round(total * 0.2),
-    rest: total - Math.round(total * 0.2)
+    deposit: total,
+    rest: 0
   };
 }
 function Stepper({
