@@ -4,11 +4,11 @@
    ============================================================ */
 (function () {
   // ---- Fleet ----------------------------------------------------------
-  // price = IDR per day (thousands). 300 = 300.000 IDR/day.
+  // price = IDR per day (thousands). 200 = 200.000 IDR/day.
   const FLEET = [
     {
       id: "motorbike", brand: "BH Custom", model: "BH-G3", cat: "trail",
-      price: 300, cc: 125, seats: 1, trans: "Automatic", fuel: "Petrol",
+      price: 200, cc: 125, seats: 1, trans: "Automatic", fuel: "Petrol",
       tagEn: "Custom adventure scooter", tagEs: "Scooter de aventura custom",
       blurbEn: "Hand-built aluminium scooter. Tuned Yamaha Gear engine, spoke wheels, surf rack, kick starter, LED lights. Nothing like it on the island.",
       blurbEs: "Scooter de aluminio hecha a mano. Motor Yamaha Gear afinado, ruedas de radios, portatabla, arranque de patada, LEDs. No hay otra igual en la isla.",

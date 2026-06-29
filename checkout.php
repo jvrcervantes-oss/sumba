@@ -10,7 +10,7 @@ if (!file_exists($config_path)) {
 require_once $config_path;
 // private/sumba-config.php define: STRIPE_SECRET, SUCCESS_URL, CANCEL_URL
 
-define('PRICE_IDR', 30000000); // 300.000 IDR/día × 100 (IDR es 2-decimal en Stripe)
+define('PRICE_IDR', 20000000); // 200.000 IDR/día × 100 (IDR es 2-decimal en Stripe)
 define('MAX_QTY',   6);
 define('MAX_DAYS',  90);
 
