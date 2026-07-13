@@ -836,6 +836,16 @@ function NavBar({
       close();
       onHome();
     },
+    role: "link",
+    tabIndex: 0,
+    "aria-label": "Sumba Rental Motorbike — home",
+    onKeyDown: e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        close();
+        onHome();
+      }
+    },
     style: {
       cursor: "pointer"
     }
@@ -1238,7 +1248,13 @@ function Footer({
       fontSize: 14.5,
       color: "color-mix(in oklch, var(--sand) 80%, transparent)"
     }
-  }, "Insurance")))), /*#__PURE__*/React.createElement("div", {
+  }, "Insurance"), /*#__PURE__*/React.createElement("a", {
+    href: "accessibility.html",
+    style: {
+      fontSize: 14.5,
+      color: "color-mix(in oklch, var(--sand) 80%, transparent)"
+    }
+  }, lang === "es" ? "Accesibilidad" : "Accessibility")))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 40,
       paddingTop: 22,
@@ -1273,7 +1289,12 @@ function Footer({
     style: {
       color: "inherit"
     }
-  }, "Insurance")))));
+  }, "Insurance"), /*#__PURE__*/React.createElement("a", {
+    href: "accessibility.html",
+    style: {
+      color: "inherit"
+    }
+  }, "Accessibility")))));
 }
 Object.assign(window, {
   LangSwitch,
@@ -1342,6 +1363,7 @@ function QuickSearch({
     c: "var(--ocean)"
   }), t.searchFrom), /*#__PURE__*/React.createElement("input", {
     type: "date",
+    "aria-label": t.searchFrom,
     value: from,
     min: todayISO(0),
     onChange: e => {
@@ -1370,6 +1392,7 @@ function QuickSearch({
     c: "var(--ocean)"
   }), t.searchTo), /*#__PURE__*/React.createElement("input", {
     type: "date",
+    "aria-label": t.searchTo,
     value: to,
     min: from,
     onChange: e => setTo(e.target.value),
@@ -1392,6 +1415,7 @@ function QuickSearch({
     s: 13,
     c: "var(--ocean)"
   }), t.searchWhere), /*#__PURE__*/React.createElement("select", {
+    "aria-label": t.searchWhere,
     value: loc,
     onChange: e => setLoc(e.target.value),
     style: {
@@ -1607,7 +1631,16 @@ function Hero({
       animation: "floaty 6s ease-in-out infinite",
       cursor: "pointer"
     },
-    onClick: onBook
+    onClick: onBook,
+    role: "button",
+    tabIndex: 0,
+    "aria-label": t.book,
+    onKeyDown: e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onBook();
+      }
+    }
   }, /*#__PURE__*/React.createElement("div", {
     className: "card",
     style: {
@@ -3364,6 +3397,7 @@ function StepDates({
     }
   }, ["-", "+"].map(sym => /*#__PURE__*/React.createElement("button", {
     key: sym,
+    "aria-label": sym === "+" ? (lang === "es" ? "Añadir una moto" : "Add one bike") : (lang === "es" ? "Quitar una moto" : "Remove one bike"),
     onClick: () => set({
       qty: Math.max(1, Math.min(6, (booking.qty || 1) + (sym === "+" ? 1 : -1)))
     }),
