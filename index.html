@@ -1691,7 +1691,7 @@ function Hero({
       color: "var(--ink-faint)"
     },
     className: "mono"
-  }, t.perDay)))), /*#__PURE__*/React.createElement("div", {
+  }, t.perDay, " · ", usdApprox(bike.price))))), /*#__PURE__*/React.createElement("div", {
     className: "pill",
     style: {
       position: "absolute",
@@ -1909,7 +1909,7 @@ function FleetCard({
       fontSize: 12,
       color: "var(--ink-faint)"
     }
-  }, t.perDay))), /*#__PURE__*/React.createElement("button", {
+  }, t.perDay, " · ", usdApprox(bike.price)))), /*#__PURE__*/React.createElement("button", {
     className: "btn btn-primary",
     style: {
       padding: "11px 18px",
@@ -3497,7 +3497,7 @@ function StepReview({
       color: "var(--ink-soft)",
       marginTop: 2
     }
-  }, c.qty, " × · ", idrK(c.bike.price), t.perDay))), /*#__PURE__*/React.createElement("div", {
+  }, c.qty, " × · ", idrK(c.bike.price), t.perDay, " · ", usdApprox(c.bike.price)))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 8
     }
@@ -3831,7 +3831,7 @@ function BookingFlow({
   }, /*#__PURE__*/React.createElement(Ic.lock, {
     s: 18,
     c: "white"
-  }), " ", t.bkPay, " · ", idrK(c.total))), step === 1 && /*#__PURE__*/React.createElement("p", {
+  }), " ", t.bkPay, " · ", idrK(c.total), " (", usdApprox(c.total), ")")), step === 1 && /*#__PURE__*/React.createElement("p", {
     style: {
       marginTop: 14,
       fontSize: 12.5,
