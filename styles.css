@@ -192,6 +192,9 @@ a { color: inherit; text-decoration: none; }
 
 .no-scroll { overflow: hidden; }
 
+/* ---- Checkout: barra de pago anclada (solo mobile, ver media query 760px) ---- */
+.mobile-pay-bar { display: none; }
+
 /* ---- Responsive ---- */
 @media (max-width: 980px) {
   .hero-grid { grid-template-columns: 1fr !important; }
@@ -203,18 +206,32 @@ a { color: inherit; text-decoration: none; }
   .nav-links { display: none !important; }
   .step-label { display: none !important; }
   .two-col { grid-template-columns: 1fr !important; }
-  /* Checkout: summary sube al top para que el precio sea lo primero que ve el usuario */
-  .booking-summary { order: -1; }
   /* Hero: centrar badges de reseñas cuando el hero es de una columna */
   .hero-pills { justify-content: center !important; }
+  /* Checkout: la barra de acciones inline se sustituye por la anclada abajo (.mobile-pay-bar) */
+  .bk-actions { display: none !important; }
+  .mobile-pay-bar {
+    display: flex;
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in oklch, var(--sand) 96%, transparent);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--sand-3);
+  }
+  .mobile-pay-bar .btn-ghost { flex: 0 0 auto; padding: 0 16px; }
+  .mobile-pay-bar .btn-primary { flex: 1; }
+  .booking-grid { padding-bottom: 104px !important; }
+  /* WhatsApp flotante: se levanta para no tapar la barra de pago anclada */
+  .wa-float.wa-float--lifted { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
 }
 @media (max-width: 560px) {
   .wrap { padding: 0 18px; }
   /* Checkout: padding y gap ajustados para pantallas pequeñas */
-  .booking-grid { padding: 24px 18px 88px !important; gap: 20px !important; }
-  /* Checkout: botones de acción apilados en mobile */
-  .bk-actions { flex-wrap: wrap !important; }
-  .bk-actions .btn-primary { width: 100% !important; margin-left: 0 !important; }
+  .booking-grid { padding: 24px 18px 104px !important; gap: 20px !important; }
 }
 
 /* ---- Mobile hamburger ---- */

@@ -3377,11 +3377,10 @@ function ReturnLocationPicker({
   t,
   lang
 }) {
-  const pickName = BBM.LOCATIONS.find(l => l.id === booking.pickLoc)?.[lang];
   const rows = [{
     key: "same",
     active: booking.sameLoc,
-    title: (lang === "es" ? "Mismo lugar" : "Same as pick-up") + (pickName ? " · " + pickName : ""),
+    title: lang === "es" ? "Mismo lugar de recogida" : "Same as pick-up",
     desc: null,
     onSelect: () => set({
       sameLoc: true,
@@ -3391,7 +3390,7 @@ function ReturnLocationPicker({
     key: d.id,
     active: !booking.sameLoc && booking.retLoc === d.id,
     title: d[lang],
-    desc: "+ " + idrK(d.fee) + " · " + (lang === "es" ? "tarifa de traslado, un solo sentido" : "one-way drop-off fee"),
+    desc: "+ " + idrK(d.fee) + (lang === "es" ? " · un solo sentido" : " · one-way fee"),
     onSelect: () => set({
       sameLoc: false,
       retLoc: d.id
@@ -3422,8 +3421,8 @@ function ReturnLocationPicker({
     style: {
       display: "flex",
       alignItems: "flex-start",
-      gap: 12,
-      padding: "12px 14px",
+      gap: 10,
+      padding: "10px 12px",
       borderRadius: "var(--r)",
       border: "1.5px solid " + (r.active ? "var(--ocean)" : "var(--sand-3)"),
       background: r.active ? "color-mix(in oklch, var(--ocean) 8%, var(--shell))" : "var(--shell)",
@@ -3436,10 +3435,10 @@ function ReturnLocationPicker({
     checked: r.active,
     onChange: r.onSelect,
     style: {
-      marginTop: 3,
+      marginTop: 2,
       accentColor: "var(--ocean)",
-      width: 16,
-      height: 16,
+      width: 15,
+      height: 15,
       flexShrink: 0
     }
   }), /*#__PURE__*/React.createElement("div", {
@@ -3449,11 +3448,11 @@ function ReturnLocationPicker({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 700,
-      fontSize: 14.5
+      fontSize: 13.5
     }
   }, r.title), r.desc && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 12.5,
+      fontSize: 11.5,
       color: "var(--ink-soft)",
       marginTop: 2
     }
@@ -3492,25 +3491,7 @@ function StepDates({
     fontFamily: "var(--font-body)",
     width: "100%"
   };
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 26
-    }
-  }, /*#__PURE__*/React.createElement(BikePicker, {
-    booking: booking,
-    set: set,
-    t: t,
-    lang: lang
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: 16
-    },
-    className: "two-col"
-  }, /*#__PURE__*/React.createElement("label", {
+  const pickupDateField = /*#__PURE__*/React.createElement("label", {
     style: fld
   }, /*#__PURE__*/React.createElement("span", {
     style: lab
@@ -3526,7 +3507,8 @@ function StepDates({
       from: e.target.value,
       to: e.target.value >= booking.to ? "" : booking.to
     })
-  })), /*#__PURE__*/React.createElement("label", {
+  }));
+  const returnDateField = /*#__PURE__*/React.createElement("label", {
     style: fld
   }, /*#__PURE__*/React.createElement("span", {
     style: lab
@@ -3541,7 +3523,8 @@ function StepDates({
     onChange: e => set({
       to: e.target.value
     })
-  }))), days > 0 && /*#__PURE__*/React.createElement("div", {
+  }));
+  const daysPill = days > 0 && /*#__PURE__*/React.createElement("div", {
     className: "pill",
     style: {
       alignSelf: "flex-start",
@@ -3551,7 +3534,8 @@ function StepDates({
   }, /*#__PURE__*/React.createElement(Ic.road, {
     s: 15,
     c: "var(--ocean-deep)"
-  }), " ", days, " ", days === 1 ? t.day : t.days, " ", lang === "es" ? "de aventura" : "of adventure"), /*#__PURE__*/React.createElement("div", {
+  }), " ", days, " ", days === 1 ? t.day : t.days, " ", lang === "es" ? "de aventura" : "of adventure");
+  const pickupLocationField = /*#__PURE__*/React.createElement("div", {
     style: fld
   }, /*#__PURE__*/React.createElement("span", {
     style: lab
@@ -3569,7 +3553,8 @@ function StepDates({
   }, /*#__PURE__*/React.createElement(Ic.pin, {
     s: 16,
     c: "var(--ocean)"
-  }), BBM.LOCATIONS[0][lang])), /*#__PURE__*/React.createElement("div", {
+  }), BBM.LOCATIONS[0][lang]));
+  const qtyField = /*#__PURE__*/React.createElement("div", {
     style: fld
   }, /*#__PURE__*/React.createElement("span", {
     style: lab
@@ -3614,12 +3599,35 @@ function StepDates({
       textAlign: "center",
       order: 1
     }
-  }, booking.qty || 1))), /*#__PURE__*/React.createElement(ReturnLocationPicker, {
+  }, booking.qty || 1)));
+  const twoColStyle = {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 16
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 26
+    }
+  }, /*#__PURE__*/React.createElement(BikePicker, {
     booking: booking,
     set: set,
     t: t,
     lang: lang
-  }));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: twoColStyle,
+    className: "two-col"
+  }, pickupDateField, returnDateField), daysPill, /*#__PURE__*/React.createElement("div", {
+    style: twoColStyle,
+    className: "two-col"
+  }, pickupLocationField, /*#__PURE__*/React.createElement(ReturnLocationPicker, {
+    booking: booking,
+    set: set,
+    t: t,
+    lang: lang
+  })), qtyField);
 }
 function ProtectionPicker({
   booking,
@@ -3994,6 +4002,24 @@ function BookingFlow({
   const next = () => {
     if (step < 1) setStep(step + 1);
   };
+  const goToCheckout = () => {
+    // La conversión de Google Ads YA NO se dispara aquí (clic = intención).
+    // Se dispara en la vuelta de Stripe (pago completado): ver script ?paid=1 en <head>.
+    const p = new URLSearchParams({
+      days: c.days,
+      qty: c.qty,
+      from: booking.from,
+      to: booking.to,
+      bike: booking.bikeId,
+      protection: booking.protection,
+      retLoc: booking.sameLoc ? "" : booking.retLoc
+    });
+    try {
+      const utm = JSON.parse(sessionStorage.getItem("sr_utm") || "{}");
+      Object.entries(utm).forEach(([k, v]) => p.set(k, v));
+    } catch (e) {}
+    window.location.href = CHECKOUT_URL + "?" + p.toString();
+  };
   const StepComp = [StepDates, StepReview][step];
   const titles = [[t.stepDates, lang === "es" ? "¿Cuándo y dónde empieza la aventura?" : "When and where does the adventure start?"], [t.bkReviewTitle, lang === "es" ? "Revisa tu reserva y paga directamente con Stripe." : "Review your booking and pay directly with Stripe."]][step];
   return /*#__PURE__*/React.createElement("div", {
@@ -4132,24 +4158,7 @@ function BookingFlow({
     style: {
       marginLeft: "auto"
     },
-    onClick: () => {
-      // La conversión de Google Ads YA NO se dispara aquí (clic = intención).
-      // Se dispara en la vuelta de Stripe (pago completado): ver script ?paid=1 en <head>.
-      const p = new URLSearchParams({
-        days: c.days,
-        qty: c.qty,
-        from: booking.from,
-        to: booking.to,
-        bike: booking.bikeId,
-        protection: booking.protection,
-        retLoc: booking.sameLoc ? "" : booking.retLoc
-      });
-      try {
-        const utm = JSON.parse(sessionStorage.getItem("sr_utm") || "{}");
-        Object.entries(utm).forEach(([k, v]) => p.set(k, v));
-      } catch (e) {}
-      window.location.href = CHECKOUT_URL + "?" + p.toString();
-    }
+    onClick: goToCheckout
   }, /*#__PURE__*/React.createElement(Ic.lock, {
     s: 18,
     c: "white"
@@ -4194,14 +4203,40 @@ function BookingFlow({
   }, /*#__PURE__*/React.createElement(Ic.shield, {
     s: 15,
     c: "var(--ocean)"
-  }), " ", lang === "es" ? "Cancelación gratis hasta 24h antes" : "Free cancellation up to 24h before"))));
+  }), " ", lang === "es" ? "Cancelación gratis hasta 24h antes" : "Free cancellation up to 24h before"))), /*#__PURE__*/React.createElement("div", {
+    className: "mobile-pay-bar"
+  }, step > 0 && /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-ghost",
+    "aria-label": t.bkBack,
+    onClick: () => setStep(step - 1)
+  }, /*#__PURE__*/React.createElement(Ic.arrowL, {
+    s: 18
+  })), step < 1 ? /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary",
+    disabled: !valid[step],
+    style: {
+      opacity: valid[step] ? 1 : 0.45,
+      cursor: valid[step] ? "pointer" : "not-allowed"
+    },
+    onClick: next
+  }, t.bkContinue, " ", /*#__PURE__*/React.createElement(Ic.arrow, {
+    s: 18,
+    c: "white"
+  })) : /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary btn-lg",
+    onClick: goToCheckout
+  }, /*#__PURE__*/React.createElement(Ic.lock, {
+    s: 18,
+    c: "white"
+  }), " ", t.bkPay, " · ", idrK(c.total))));
 }
 Object.assign(window, {
   BookingFlow
 });
 
 function WaFloat({
-  lang
+  lang,
+  lifted
 }) {
   const [pill, setPill] = useState(true);
   useEffect(() => {
@@ -4209,7 +4244,7 @@ function WaFloat({
     return () => clearTimeout(t);
   }, []);
   return /*#__PURE__*/React.createElement("div", {
-    className: "wa-float"
+    className: "wa-float" + (lifted ? " wa-float--lifted" : "")
   }, /*#__PURE__*/React.createElement("div", {
     className: "wa-pill",
     style: {
@@ -4505,7 +4540,8 @@ function App() {
     setStep: s => navTo("booking", s),
     onExit: () => navTo("home")
   }), /*#__PURE__*/React.createElement(WaFloat, {
-    lang: lang
+    lang: lang,
+    lifted: route === "booking"
   }), /*#__PURE__*/React.createElement(ScrollTop, null));
 }
 ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));
