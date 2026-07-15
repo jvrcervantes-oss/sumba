@@ -3199,7 +3199,9 @@ function calc(booking) {
   const extras = BBM.EXTRAS.filter(e => booking.extras[e.id]).reduce((s, e) => s + e.price, 0);
   const prot = BBM.PROTECTION[booking.protection] || BBM.PROTECTION.insurance;
   const protection = prot.priceFlat != null ? prot.priceFlat * qty : prot.priceDay * days * qty;
-  const total = rental + extras + protection;
+  const dropoff = !booking.sameLoc ? BBM.DROPOFF_OPTIONS.find(d => d.id === booking.retLoc) : null;
+  const dropoffFee = dropoff ? dropoff.fee : 0;
+  const total = rental + extras + protection + dropoffFee;
   return {
     bike,
     days,
@@ -3207,6 +3209,8 @@ function calc(booking) {
     rental,
     extras,
     protection,
+    dropoff,
+    dropoffFee,
     total,
     deposit: total,
     rest: 0
@@ -3275,6 +3279,186 @@ function Stepper({
     }));
   }));
 }
+function BikePicker({
+  booking,
+  set,
+  t,
+  lang
+}) {
+  const bikes = BBM.FLEET.filter(b => !b.comingSoon);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "var(--font-mono)",
+      fontSize: 11,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      color: "var(--ink-faint)",
+      display: "flex",
+      alignItems: "center",
+      gap: 7
+    }
+  }, /*#__PURE__*/React.createElement(Ic.gear, {
+    s: 14,
+    c: "var(--ocean)"
+  }), t.stepBike), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
+      gap: 10
+    }
+  }, bikes.map(b => {
+    const active = booking.bikeId === b.id;
+    return /*#__PURE__*/React.createElement("label", {
+      key: b.id,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        padding: "10px 14px",
+        borderRadius: "var(--r)",
+        border: "1.5px solid " + (active ? "var(--ocean)" : "var(--sand-3)"),
+        background: active ? "color-mix(in oklch, var(--ocean) 8%, var(--shell))" : "var(--shell)",
+        cursor: "pointer",
+        transition: "all .2s"
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "radio",
+      name: "bike",
+      value: b.id,
+      checked: active,
+      onChange: () => set({
+        bikeId: b.id
+      }),
+      style: {
+        accentColor: "var(--ocean)",
+        width: 16,
+        height: 16,
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 46,
+        height: 40,
+        borderRadius: 8,
+        overflow: "hidden",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement(BikeArt, {
+      bike: b,
+      h: 40,
+      showLabel: false
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minWidth: 0,
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        fontSize: 14
+      }
+    }, b.brand, " ", b.model), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: "var(--ink-soft)"
+      }
+    }, idrK(b.price), t.perDay)));
+  })));
+}
+function ReturnLocationPicker({
+  booking,
+  set,
+  t,
+  lang
+}) {
+  const pickName = BBM.LOCATIONS.find(l => l.id === booking.pickLoc)?.[lang];
+  const rows = [{
+    key: "same",
+    active: booking.sameLoc,
+    title: (lang === "es" ? "Mismo lugar" : "Same as pick-up") + (pickName ? " · " + pickName : ""),
+    desc: null,
+    onSelect: () => set({
+      sameLoc: true,
+      retLoc: booking.pickLoc
+    })
+  }, ...BBM.DROPOFF_OPTIONS.map(d => ({
+    key: d.id,
+    active: !booking.sameLoc && booking.retLoc === d.id,
+    title: d[lang],
+    desc: "+ " + idrK(d.fee) + " · " + (lang === "es" ? "tarifa de traslado, un solo sentido" : "one-way drop-off fee"),
+    onSelect: () => set({
+      sameLoc: false,
+      retLoc: d.id
+    })
+  }))];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "var(--font-mono)",
+      fontSize: 11,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      color: "var(--ink-faint)",
+      display: "flex",
+      alignItems: "center",
+      gap: 7
+    }
+  }, /*#__PURE__*/React.createElement(Ic.pin, {
+    s: 14,
+    c: "var(--ocean)"
+  }), t.bkRetLoc), rows.map(r => /*#__PURE__*/React.createElement("label", {
+    key: r.key,
+    style: {
+      display: "flex",
+      alignItems: "flex-start",
+      gap: 12,
+      padding: "12px 14px",
+      borderRadius: "var(--r)",
+      border: "1.5px solid " + (r.active ? "var(--ocean)" : "var(--sand-3)"),
+      background: r.active ? "color-mix(in oklch, var(--ocean) 8%, var(--shell))" : "var(--shell)",
+      cursor: "pointer",
+      transition: "all .2s"
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "radio",
+    name: "retLoc",
+    checked: r.active,
+    onChange: r.onSelect,
+    style: {
+      marginTop: 3,
+      accentColor: "var(--ocean)",
+      width: 16,
+      height: 16,
+      flexShrink: 0
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 700,
+      fontSize: 14.5
+    }
+  }, r.title), r.desc && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12.5,
+      color: "var(--ink-soft)",
+      marginTop: 2
+    }
+  }, r.desc)))));
+}
 function StepDates({
   booking,
   set,
@@ -3314,7 +3498,12 @@ function StepDates({
       flexDirection: "column",
       gap: 26
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(BikePicker, {
+    booking: booking,
+    set: set,
+    t: t,
+    lang: lang
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
@@ -3425,7 +3614,12 @@ function StepDates({
       textAlign: "center",
       order: 1
     }
-  }, booking.qty || 1))));
+  }, booking.qty || 1))), /*#__PURE__*/React.createElement(ReturnLocationPicker, {
+    booking: booking,
+    set: set,
+    t: t,
+    lang: lang
+  }));
 }
 function ProtectionPicker({
   booking,
@@ -3529,7 +3723,7 @@ function StepReview({
 }) {
   const c = calc(booking);
   const pick = BBM.LOCATIONS.find(l => l.id === booking.pickLoc);
-  const ret = BBM.LOCATIONS.find(l => l.id === (booking.sameLoc ? booking.pickLoc : booking.retLoc));
+  const ret = booking.sameLoc ? pick : BBM.DROPOFF_OPTIONS.find(d => d.id === booking.retLoc);
   const row = {
     display: "flex",
     justifyContent: "space-between",
@@ -3717,7 +3911,14 @@ function SummaryCard({
       fontWeight: 700,
       color: "var(--ink)"
     }
-  }, idrK(c.protection)))), /*#__PURE__*/React.createElement("div", {
+  }, idrK(c.protection))), c.dropoffFee > 0 && /*#__PURE__*/React.createElement("div", {
+    style: line
+  }, /*#__PURE__*/React.createElement("span", null, c.dropoff?.[lang]), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 700,
+      color: "var(--ink)"
+    }
+  }, idrK(c.dropoffFee)))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       justifyContent: "space-between",
@@ -3761,6 +3962,8 @@ Object.assign(window, {
   calc,
   Stepper,
   StepDates,
+  BikePicker,
+  ReturnLocationPicker,
   StepReview,
   ProtectionPicker,
   SummaryCard
@@ -3938,7 +4141,8 @@ function BookingFlow({
         from: booking.from,
         to: booking.to,
         bike: booking.bikeId,
-        protection: booking.protection
+        protection: booking.protection,
+        retLoc: booking.sameLoc ? "" : booking.retLoc
       });
       try {
         const utm = JSON.parse(sessionStorage.getItem("sr_utm") || "{}");
@@ -4113,6 +4317,7 @@ function decodeBooking(qs, base) {
   const isDate = v => /^\d{4}-\d{2}-\d{2}$/.test(v);
   const hasBike = id => BBM.FLEET.some(f => f.id === id && !f.comingSoon);
   const hasLoc = id => BBM.LOCATIONS.some(l => l.id === id);
+  const hasDropoff = id => BBM.DROPOFF_OPTIONS.some(d => d.id === id);
   const isExtra = id => BBM.EXTRAS.some(e => e.id === id);
   const isProtection = id => Object.prototype.hasOwnProperty.call(BBM.PROTECTION, id);
   if (isDate(p.get("f"))) b.from = p.get("f");
@@ -4120,7 +4325,7 @@ function decodeBooking(qs, base) {
   if (hasBike(p.get("b"))) b.bikeId = p.get("b");
   if (p.get("q")) b.qty = Math.min(12, Math.max(1, parseInt(p.get("q"), 10) || 1));
   if (hasLoc(p.get("pl"))) b.pickLoc = p.get("pl");
-  if (hasLoc(p.get("rl"))) {
+  if (hasDropoff(p.get("rl"))) {
     b.retLoc = p.get("rl");
     b.sameLoc = false;
   } else {

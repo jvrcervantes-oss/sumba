@@ -23,7 +23,7 @@
       blurbEn: "Honda's adventure-tourer, built for long days on Sumba's mixed roads. Upright riding position, long-travel suspension and a big tank for the island's distances.",
       blurbEs: "La adventure-tourer de Honda, pensada para días largos en las carreteras mixtas de Sumba. Posición de conducción erguida, suspensión de largo recorrido y depósito grande para las distancias de la isla.",
       specs: { range: "300 km", weight: "128 kg", top: "110 km/h" },
-      photo: null,
+      photo: "assets/images/cb150x.webp",
       photo2: null,
     },
     {
@@ -47,6 +47,11 @@
 
   const LOCATIONS = [
     { id: "airport", en: "Bandar Udara Lede Kalumbang", es: "Bandar Udara Lede Kalumbang" },
+  ];
+
+  // ---- One-way drop-off (extra fee, return only — pick-up is always airport) ----
+  const DROPOFF_OPTIONS = [
+    { id: "waingapu", en: "Waingapu", es: "Waingapu", fee: 1000 }, // +Rp 1,000,000 flat, one-way
   ];
 
   const EXTRAS = [];  // paid on-site
@@ -237,5 +242,5 @@
     },
   ];
 
-  window.BBM = { FLEET, CATS, LOCATIONS, EXTRAS, PROTECTION, REVIEWS, FEATURES, I18N };
+  window.BBM = { FLEET, CATS, LOCATIONS, DROPOFF_OPTIONS, EXTRAS, PROTECTION, REVIEWS, FEATURES, I18N };
 })();

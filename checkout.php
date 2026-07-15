@@ -22,6 +22,9 @@ define('BIKE_NAMES', [
 ]);
 define('INSURANCE_PRICE_DAY', 10000000);  // 100.000 IDR/día por moto, no reembolsable
 define('DEPOSIT_PRICE_FLAT',  300000000); // Rp 3.000.000 fijo por moto, reembolsable
+define('DROPOFF_PRICES', [
+    'waingapu' => 100000000, // Rp 1.000.000 fijo, un solo sentido
+]);
 define('MAX_QTY',   6);
 define('MAX_DAYS',  90);
 
@@ -35,6 +38,10 @@ $bikeId = $_GET['bike'] ?? 'motorbike';
 if (!array_key_exists($bikeId, BIKE_PRICES)) $bikeId = 'motorbike';
 
 $protection = ($_GET['protection'] ?? 'insurance') === 'deposit' ? 'deposit' : 'insurance';
+
+$retLoc      = $_GET['retLoc'] ?? '';
+$hasDropoff  = array_key_exists($retLoc, DROPOFF_PRICES);
+$dropoffFee  = $hasDropoff ? DROPOFF_PRICES[$retLoc] : 0;
 
 // UTM tracking — limpiar y limitar longitud
 $utm_source   = substr(preg_replace('/[^a-zA-Z0-9_\-.]/',  '', $_GET['utm_source']   ?? ''), 0, 100);
@@ -59,7 +66,7 @@ $description = $qty . ' moto' . ($qty > 1 ? 's' : '') . ' × ' . $days . ' día'
 // Devolvemos a la web con el total real (calculado en servidor, no manipulable)
 // + un id de transacción para que Ads deduplique refrescos. El front lee
 // ?paid=1 al cargar y dispara la conversión (ver script en <head> de index.html).
-$total_idr   = ($bikeUnits * $bikePrice + $protUnits * $protUnitPrice) / 100; // total en IDR reales
+$total_idr   = ($bikeUnits * $bikePrice + $protUnits * $protUnitPrice + $dropoffFee) / 100; // total en IDR reales
 $txid        = $from . '-' . $to . '-' . $qty . '-' . time();
 $success_url = SUCCESS_URL
              . (strpos(SUCCESS_URL, '?') === false ? '?' : '&')
@@ -88,8 +95,18 @@ $data = [
   'metadata[fecha_fin]'                                  => $to,
   'metadata[proteccion]'                                 => $protection,
   'metadata[ubicacion]'                                  => 'Bandar Udara Lede Kalumbang',
+  'metadata[dropoff]'                                    => $hasDropoff ? $retLoc : '',
   'metadata[total_idr]'                                  => $total_idr,
 ];
+
+// Devolución en Waingapu: tarifa fija de traslado, un solo sentido
+if ($hasDropoff) {
+    $data['line_items[2][price_data][currency]']                  = 'idr';
+    $data['line_items[2][price_data][unit_amount]']               = $dropoffFee;
+    $data['line_items[2][price_data][product_data][name]']        = 'One-way Drop-off Fee — Waingapu';
+    $data['line_items[2][price_data][product_data][description]'] = 'Devolución en Waingapu (tarifa fija, un solo sentido)';
+    $data['line_items[2][quantity]']                               = 1;
+}
 
 // Añadir UTM si están presentes
 if ($utm_source)   $data['metadata[utm_source]']   = $utm_source;
