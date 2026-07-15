@@ -3,7 +3,14 @@ private/sumba-config.php
 
 # Backups locales y fotos fuente
 Backups/
+Backup_*
+Backups20*
 media/
+
+# Documentación interna del estudio — NO desplegar.
+# Motivo: auditoria_20260609.md estaba servido en público (HTTP 200) hasta
+# el 15-jul-2026. El .htaccess ya bloquea *.md; esto evita subir más.
+*.md
 
 # Archivos del sistema
 .DS_Store

@@ -1,0 +1,60 @@
+# ═══════════════════════════════════════════════════════════════════
+# Seguridad — Depto. de Seguridad AxisWorks · 15-jul-2026
+# Estándar: contexto/seguridad_2026.md §1 (vía estática + JSON)
+# Cubre OWASP A02:2025 (Security Misconfiguration) y A03 (Supply Chain).
+# ═══════════════════════════════════════════════════════════════════
+
+# ── 1. Cabeceras de seguridad ──────────────────────────────────────
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # CSP en modo REPORT-ONLY: no bloquea nada, solo reporta en la consola
+  # del navegador. Inventario de orígenes verificado por grep (15-jul-2026):
+  #   script  → React 18.3.1 (unpkg) · Google Ads gtag (googletagmanager)
+  #   style   → Google Fonts · font → fonts.gstatic
+  #   img/connect/frame → beacons de conversión de Google Ads
+  # El checkout va por location.href (navegación, no form) → form-action 'self' basta.
+  # PARA PASAR A ENFORCE: navegar el sitio entero (home, flota, booking,
+  # checkout, páginas guía), revisar violaciones en consola, corregir, y
+  # solo entonces renombrar la cabecera a Content-Security-Policy.
+  Header always set Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com; connect-src 'self' https://www.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.google.com https://*.doubleclick.net; frame-src https://td.doubleclick.net https://www.googletagmanager.com; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'"
+</IfModule>
+
+# ── 2. Sin listado de directorios ──────────────────────────────────
+Options -Indexes
+
+# ── 3. Ficheros que nunca deben servirse en público ────────────────
+# A02:2025 — "ficheros olvidados" es el hallazgo top de los escáneres.
+# Motivo real (verificado 15-jul-2026): /auditoria_20260609.md respondía
+# HTTP 200 en público — documento interno del estudio servido a cualquiera.
+# .jsx NO se carga en runtime (va precompilado en index.html) → bloquearlo
+# solo evita exponer el código fuente; no rompe nada.
+# Los .txt NO se bloquean — robots.txt, llms.txt y la clave IndexNow.
+<FilesMatch "\.(md|jsx|sql|zip|bak|log|sh|ini|yml|yaml)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# ── 4. Backups y control de versiones (defensa en profundidad) ─────
+# Cubre tanto Backups/ como los ficheros sueltos tipo Backup_2026...html
+# que deja un backup mal escrito en la raíz.
+<FilesMatch "(?i)^(backup|backups)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</FilesMatch>
+RedirectMatch 404 (?i)/\.git
+RedirectMatch 404 (?i)/(Backups?|media)/
