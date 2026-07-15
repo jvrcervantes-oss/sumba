@@ -3326,8 +3326,8 @@ function BikePicker({
         gap: 12,
         padding: "10px 14px",
         borderRadius: "var(--r)",
-        border: "1.5px solid " + (active ? "var(--ocean)" : "var(--sand-3)"),
-        background: active ? "color-mix(in oklch, var(--ocean) 8%, var(--shell))" : "var(--shell)",
+        border: (active ? "2px solid var(--ocean-deep)" : "1.5px solid var(--sand-3)"),
+        background: active ? "color-mix(in oklch, var(--ocean) 18%, var(--shell))" : "var(--shell)",
         cursor: "pointer",
         transition: "all .2s"
       }
@@ -3372,7 +3372,7 @@ function BikePicker({
         fontSize: 12,
         color: "var(--ink-soft)"
       }
-    }, idrK(b.price), t.perDay)));
+    }, idrK(b.price), t.perDay, " · ", usdApprox(b.price))));
   })));
 }
 function ReturnLocationPicker({
@@ -3428,8 +3428,8 @@ function ReturnLocationPicker({
       gap: 10,
       padding: "10px 12px",
       borderRadius: "var(--r)",
-      border: "1.5px solid " + (r.active ? "var(--ocean)" : "var(--sand-3)"),
-      background: r.active ? "color-mix(in oklch, var(--ocean) 8%, var(--shell))" : "var(--shell)",
+      border: (r.active ? "2px solid var(--ocean-deep)" : "1.5px solid var(--sand-3)"),
+      background: r.active ? "color-mix(in oklch, var(--ocean) 18%, var(--shell))" : "var(--shell)",
       cursor: "pointer",
       transition: "all .2s"
     }
@@ -3451,8 +3451,9 @@ function ReturnLocationPicker({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
+      fontFamily: "var(--font-body)",
       fontWeight: 700,
-      fontSize: 13.5
+      fontSize: 16
     }
   }, r.title), r.desc && /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3662,10 +3663,13 @@ function StepDates({
     set: set,
     t: t,
     lang: lang
-  }), qtyField, /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     style: twoColStyle,
     className: "dates-row"
-  }, pickupDateField, returnDateField), tripLengthField, /*#__PURE__*/React.createElement("div", {
+  }, pickupDateField, returnDateField), /*#__PURE__*/React.createElement("div", {
+    style: twoColStyle,
+    className: "dates-row"
+  }, qtyField, tripLengthField), /*#__PURE__*/React.createElement("div", {
     style: twoColStyle,
     className: "two-col"
   }, pickupLocationField, /*#__PURE__*/React.createElement(ReturnLocationPicker, {
@@ -3727,8 +3731,8 @@ function ProtectionPicker({
         gap: 12,
         padding: "14px 16px",
         borderRadius: "var(--r)",
-        border: "1.5px solid " + (active ? "var(--ocean)" : "var(--sand-3)"),
-        background: active ? "color-mix(in oklch, var(--ocean) 8%, var(--shell))" : "var(--shell)",
+        border: (active ? "2px solid var(--ocean-deep)" : "1.5px solid var(--sand-3)"),
+        background: active ? "color-mix(in oklch, var(--ocean) 18%, var(--shell))" : "var(--shell)",
         cursor: "pointer",
         transition: "all .2s"
       }
@@ -3967,7 +3971,7 @@ function SummaryCard({
     }
   }, idrK(c.protection))), c.dropoffFee > 0 && /*#__PURE__*/React.createElement("div", {
     style: line
-  }, /*#__PURE__*/React.createElement("span", null, c.dropoff?.[lang]), /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", null, (lang === "es" ? "Devolución: " : "Drop-off: ") + c.dropoff?.[lang]), /*#__PURE__*/React.createElement("span", {
     style: {
       fontWeight: 700,
       color: "var(--ink)"
