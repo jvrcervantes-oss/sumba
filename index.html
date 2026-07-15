@@ -4257,7 +4257,9 @@ function BookingFlow({
     onClick: () => setStep(step - 1)
   }, /*#__PURE__*/React.createElement(Ic.arrowL, {
     s: 18
-  })), step < 1 ? /*#__PURE__*/React.createElement("button", {
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "mobile-pay-bar-total"
+  }, /*#__PURE__*/React.createElement("span", null, t.bkTotal), /*#__PURE__*/React.createElement("strong", null, idrK(c.total))), step < 1 ? /*#__PURE__*/React.createElement("button", {
     className: "btn btn-primary",
     disabled: !valid[step],
     style: {
@@ -4274,7 +4276,7 @@ function BookingFlow({
   }, /*#__PURE__*/React.createElement(Ic.lock, {
     s: 18,
     c: "white"
-  }), " ", t.bkPay, " · ", idrK(c.total))));
+  }), " ", t.bkPay)));
 }
 Object.assign(window, {
   BookingFlow
