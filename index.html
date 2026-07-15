@@ -265,6 +265,10 @@ function todayISO(offset = 0) {
   d.setDate(d.getDate() + offset);
   return d.toISOString().slice(0, 10);
 }
+function addDaysISO(dateISO, n) {
+  const [y, m, d] = dateISO.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
+}
 const Ic = {
   base: (p, path) => /*#__PURE__*/React.createElement("svg", {
     width: p.s || 22,
@@ -3524,17 +3528,59 @@ function StepDates({
       to: e.target.value
     })
   }));
-  const daysPill = days > 0 && /*#__PURE__*/React.createElement("div", {
-    className: "pill",
-    style: {
-      alignSelf: "flex-start",
-      background: "color-mix(in oklch, var(--ocean) 16%, transparent)",
-      color: "var(--ocean-deep)"
-    }
+  const tripLengthField = /*#__PURE__*/React.createElement("div", {
+    style: fld
+  }, /*#__PURE__*/React.createElement("span", {
+    style: lab
   }, /*#__PURE__*/React.createElement(Ic.road, {
-    s: 15,
-    c: "var(--ocean-deep)"
-  }), " ", days, " ", days === 1 ? t.day : t.days, " ", lang === "es" ? "de aventura" : "of adventure");
+    s: 14,
+    c: "var(--ocean)"
+  }), lang === "es" ? "Duración" : "Trip length"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 18,
+      alignSelf: "flex-start",
+      background: "var(--shell)",
+      border: "1.5px solid var(--sand-3)",
+      borderRadius: "var(--r-pill)",
+      padding: "6px 8px"
+    }
+  }, ["-", "+"].map(sym => /*#__PURE__*/React.createElement("button", {
+    key: sym,
+    "aria-label": sym === "+" ? (lang === "es" ? "Añadir un día" : "Add one day") : (lang === "es" ? "Quitar un día" : "Remove one day"),
+    onClick: () => set({
+      to: addDaysISO(booking.from, Math.max(1, Math.min(90, (days || 1) + (sym === "+" ? 1 : -1))))
+    }),
+    style: {
+      width: 38,
+      height: 38,
+      borderRadius: "50%",
+      background: "var(--sand-2)",
+      color: "var(--ink)",
+      fontSize: 22,
+      fontWeight: 700,
+      display: "grid",
+      placeItems: "center",
+      order: sym === "+" ? 2 : 0
+    }
+  }, sym)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "var(--font-display)",
+      fontWeight: 800,
+      fontSize: 24,
+      minWidth: 22,
+      textAlign: "center",
+      order: 1
+    }
+  }, days || 1), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      color: "var(--ink-faint)",
+      order: 3,
+      paddingRight: 4
+    }
+  }, days === 1 ? t.day : t.days)));
   const pickupLocationField = /*#__PURE__*/React.createElement("div", {
     style: fld
   }, /*#__PURE__*/React.createElement("span", {
@@ -3616,10 +3662,10 @@ function StepDates({
     set: set,
     t: t,
     lang: lang
-  }), /*#__PURE__*/React.createElement("div", {
+  }), qtyField, /*#__PURE__*/React.createElement("div", {
     style: twoColStyle,
-    className: "two-col"
-  }, pickupDateField, returnDateField), daysPill, /*#__PURE__*/React.createElement("div", {
+    className: "dates-row"
+  }, pickupDateField, returnDateField), tripLengthField, /*#__PURE__*/React.createElement("div", {
     style: twoColStyle,
     className: "two-col"
   }, pickupLocationField, /*#__PURE__*/React.createElement(ReturnLocationPicker, {
@@ -3627,7 +3673,7 @@ function StepDates({
     set: set,
     t: t,
     lang: lang
-  })), qtyField);
+  })));
 }
 function ProtectionPicker({
   booking,
@@ -4275,7 +4321,9 @@ Object.assign(window, {
   WaFloat
 });
 
-function ScrollTop() {
+function ScrollTop({
+  lifted
+}) {
   const [show, setShow] = useState(false);
   useEffect(() => {
     const fn = () => setShow(window.scrollY > 400);
@@ -4285,7 +4333,7 @@ function ScrollTop() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
   return /*#__PURE__*/React.createElement("button", {
-    className: "scroll-top-btn",
+    className: "scroll-top-btn" + (lifted ? " scroll-top-btn--lifted" : ""),
     onClick: () => window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -4542,7 +4590,9 @@ function App() {
   }), /*#__PURE__*/React.createElement(WaFloat, {
     lang: lang,
     lifted: route === "booking"
-  }), /*#__PURE__*/React.createElement(ScrollTop, null));
+  }), /*#__PURE__*/React.createElement(ScrollTop, {
+    lifted: route === "booking"
+  }));
 }
 ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));
 (function () {

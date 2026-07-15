@@ -94,7 +94,7 @@ $data = [
   'metadata[fecha_ini]'                                  => $from,
   'metadata[fecha_fin]'                                  => $to,
   'metadata[proteccion]'                                 => $protection,
-  'metadata[ubicacion]'                                  => 'Bandar Udara Lede Kalumbang',
+  'metadata[ubicacion]'                                  => 'Tambolaka Airport',
   'metadata[dropoff]'                                    => $hasDropoff ? $retLoc : '',
   'metadata[total_idr]'                                  => $total_idr,
 ];

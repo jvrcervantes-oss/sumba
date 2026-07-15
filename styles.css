@@ -227,11 +227,18 @@ a { color: inherit; text-decoration: none; }
   .booking-grid { padding-bottom: 104px !important; }
   /* WhatsApp flotante: se levanta para no tapar la barra de pago anclada */
   .wa-float.wa-float--lifted { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  /* Scroll-to-top: se levanta junto con WhatsApp para no solaparse con él */
+  .scroll-top-btn.scroll-top-btn--lifted { bottom: calc(150px + env(safe-area-inset-bottom, 0px)) !important; }
 }
 @media (max-width: 560px) {
   .wrap { padding: 0 18px; }
   /* Checkout: padding y gap ajustados para pantallas pequeñas */
   .booking-grid { padding: 24px 18px 104px !important; gap: 20px !important; }
+}
+@media (max-width: 420px) {
+  /* Checkout: pickup/return date siguen en la misma fila incluso en pantallas muy estrechas */
+  .dates-row { gap: 8px !important; }
+  .dates-row input[type="date"] { padding: 12px 8px !important; font-size: 13.5px !important; }
 }
 
 /* ---- Mobile hamburger ---- */

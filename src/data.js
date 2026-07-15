@@ -46,7 +46,7 @@
   ];
 
   const LOCATIONS = [
-    { id: "airport", en: "Bandar Udara Lede Kalumbang", es: "Bandar Udara Lede Kalumbang" },
+    { id: "airport", en: "Tambolaka Airport", es: "Tambolaka Airport" },
   ];
 
   // ---- One-way drop-off (extra fee, return only — pick-up is always airport) ----
@@ -118,7 +118,7 @@
       whyTitle: "Why ride with us", 
       step1t: "Pick your dates", step1d: "Choose pick-up and return — we hold the bike instantly.",
       step2t: "Book your bike", step2d: "One trail bike, one adventure. The perfect machine for Sumba's tracks and beaches.",
-      step3t: "Airport pick-up", step3d: "Pick up at Lede Kalumbang Airport — ready when you land.",
+      step3t: "Airport pick-up", step3d: "Pick up at Tambolaka Airport — ready when you land.",
       step4t: "Ride & explore", step4d: "24/7 roadside support across the whole island.",
       reserve: "Reserve", details: "Details",
       // booking
@@ -154,7 +154,7 @@
       whyTitle: "Por qué con nosotros",
       step1t: "Elige fechas", step1d: "Recogida y devolución — reservamos la moto al instante.",
       step2t: "Reserva tu moto", step2d: "Una moto trail, una aventura. La máquina perfecta para los caminos y playas de Sumba.",
-      step3t: "Recogida en aeropuerto", step3d: "Recógela en el aeropuerto Lede Kalumbang — lista cuando aterrizas.",
+      step3t: "Recogida en aeropuerto", step3d: "Recógela en el aeropuerto de Tambolaka — lista cuando aterrizas.",
       step4t: "Conduce y explora", step4d: "Asistencia en carretera 24/7 por toda la isla.",
       reserve: "Reservar", details: "Detalles",
       stepDates: "Fechas y lugar", stepBike: "Tu moto", stepExtras: "Extras", stepReview: "Revisar y pagar",
