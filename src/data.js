@@ -17,6 +17,16 @@
       photo2: "assets/images/bike3.webp",
     },
     {
+      id: "cb150x", brand: "Honda", model: "CB150X", cat: "trail",
+      price: 300, cc: 150, seats: 2, trans: "Manual", fuel: "Petrol",
+      tagEn: "Adventure crossover", tagEs: "Crossover de aventura",
+      blurbEn: "Honda's adventure-tourer, built for long days on Sumba's mixed roads. Upright riding position, long-travel suspension and a big tank for the island's distances.",
+      blurbEs: "La adventure-tourer de Honda, pensada para días largos en las carreteras mixtas de Sumba. Posición de conducción erguida, suspensión de largo recorrido y depósito grande para las distancias de la isla.",
+      specs: { range: "300 km", weight: "128 kg", top: "110 km/h" },
+      photo: null,
+      photo2: null,
+    },
+    {
       id: "buggy", brand: "Custom", model: "Beach Buggy", cat: "buggy",
       price: 0, cc: 200, seats: 2, trans: "Manual", fuel: "Petrol",
       tagEn: "Beach activity · Sandalwood Resort exclusive", tagEs: "Actividad de playa · exclusivo Sandalwood Resort",
@@ -40,6 +50,13 @@
   ];
 
   const EXTRAS = [];  // paid on-site
+
+  // ---- Protection (mandatory choice at checkout) ----------------------
+  // priceDay/priceFlat in IDR thousands, same convention as FLEET.price
+  const PROTECTION = {
+    insurance: { id: "insurance", priceDay: 100 },   // 100k IDR/day per bike, non-refundable
+    deposit:   { id: "deposit",   priceFlat: 3000 }, // Rp 3,000,000 fixed per bike, refundable after return
+  };
 
   // ---- Reviews (real — Bali Best Motorcycle, sister brand) -----------
   const REVIEWS = [
@@ -115,6 +132,9 @@
       reviewsTitle: "What our riders say",
       reviewsSource: "★ Reviews from our sister brand · Bali Best Motorcycle",
       reviewsAll: "See all reviews on Google",
+      protTitle: "Protection", protSub: "Choose how your bike is covered — required for every booking.",
+      protInsuranceT: "Insurance Fee", protInsuranceD: "100,000 IDR per bike, per day · Non-refundable",
+      protDepositT: "Refundable Deposit", protDepositD: "Rp 3,000,000 per bike, fixed · Refunded after the rental ends",
     },
     es: {
       navFleet: "Nuestros vehículos", navRoutes: "Rutas", navHow: "Cómo funciona", navHelp: "Ayuda",
@@ -147,6 +167,9 @@
       reviewsTitle: "Lo que dicen nuestros clientes",
       reviewsSource: "★ Reseñas de nuestra empresa hermana · Bali Best Motorcycle",
       reviewsAll: "Ver todas las reseñas en Google",
+      protTitle: "Protección", protSub: "Elige cómo se cubre tu moto — obligatorio en cada reserva.",
+      protInsuranceT: "Tarifa de seguro", protInsuranceD: "100.000 IDR por moto, por día · No reembolsable",
+      protDepositT: "Depósito reembolsable", protDepositD: "Rp 3.000.000 por moto, fijo · Se devuelve al terminar el alquiler",
     },
   };
 
@@ -214,5 +237,5 @@
     },
   ];
 
-  window.BBM = { FLEET, CATS, LOCATIONS, EXTRAS, REVIEWS, FEATURES, I18N };
+  window.BBM = { FLEET, CATS, LOCATIONS, EXTRAS, PROTECTION, REVIEWS, FEATURES, I18N };
 })();

@@ -1935,7 +1935,7 @@ function FleetSection({
       color: "var(--coral)",
       fontWeight: 700
     }
-  }, "◇ ", lang === "es" ? "La moto" : "The bike"), /*#__PURE__*/React.createElement("h2", {
+  }, "◇ ", lang === "es" ? "La flota" : "The fleet"), /*#__PURE__*/React.createElement("h2", {
     style: {
       fontSize: "clamp(34px, 4.5vw, 52px)",
       marginTop: 10
@@ -3197,13 +3197,16 @@ function calc(booking) {
   const qty = booking.qty || 1;
   const rental = bike ? bike.price * days * qty : 0;
   const extras = BBM.EXTRAS.filter(e => booking.extras[e.id]).reduce((s, e) => s + e.price, 0);
-  const total = rental + extras;
+  const prot = BBM.PROTECTION[booking.protection] || BBM.PROTECTION.insurance;
+  const protection = prot.priceFlat != null ? prot.priceFlat * qty : prot.priceDay * days * qty;
+  const total = rental + extras + protection;
   return {
     bike,
     days,
     qty,
     rental,
     extras,
+    protection,
     total,
     deposit: total,
     rest: 0
@@ -3424,8 +3427,102 @@ function StepDates({
     }
   }, booking.qty || 1))));
 }
+function ProtectionPicker({
+  booking,
+  set,
+  t,
+  lang
+}) {
+  const options = [{
+    id: "insurance",
+    icon: Ic.shield,
+    title: t.protInsuranceT,
+    desc: t.protInsuranceD
+  }, {
+    id: "deposit",
+    icon: Ic.lock,
+    title: t.protDepositT,
+    desc: t.protDepositD
+  }];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 26
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      fontSize: 11,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      color: "var(--ink-faint)"
+    }
+  }, t.protTitle), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: "var(--ink-soft)",
+      marginTop: 4,
+      marginBottom: 12
+    }
+  }, t.protSub), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, options.map(o => {
+    const active = booking.protection === o.id;
+    return /*#__PURE__*/React.createElement("label", {
+      key: o.id,
+      style: {
+        display: "flex",
+        alignItems: "flex-start",
+        gap: 12,
+        padding: "14px 16px",
+        borderRadius: "var(--r)",
+        border: "1.5px solid " + (active ? "var(--ocean)" : "var(--sand-3)"),
+        background: active ? "color-mix(in oklch, var(--ocean) 8%, var(--shell))" : "var(--shell)",
+        cursor: "pointer",
+        transition: "all .2s"
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "radio",
+      name: "protection",
+      value: o.id,
+      checked: active,
+      onChange: () => set({
+        protection: o.id
+      }),
+      style: {
+        marginTop: 3,
+        accentColor: "var(--ocean)",
+        width: 16,
+        height: 16,
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement(o.icon, {
+      s: 18,
+      c: active ? "var(--ocean)" : "var(--ink-faint)"
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        fontSize: 14.5
+      }
+    }, o.title), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12.5,
+        color: "var(--ink-soft)",
+        marginTop: 2
+      }
+    }, o.desc)));
+  })));
+}
 function StepReview({
   booking,
+  set,
   t,
   lang,
   onEditDates
@@ -3547,7 +3644,12 @@ function StepReview({
     style: k
   }, t.bkRetLoc), /*#__PURE__*/React.createElement("span", {
     style: v
-  }, ret?.[lang]))));
+  }, ret?.[lang]))), /*#__PURE__*/React.createElement(ProtectionPicker, {
+    booking: booking,
+    set: set,
+    t: t,
+    lang: lang
+  }));
 }
 function SummaryCard({
   booking,
@@ -3602,7 +3704,20 @@ function SummaryCard({
       fontWeight: 700,
       color: "var(--ink)"
     }
-  }, idrK(c.rental)))), /*#__PURE__*/React.createElement("div", {
+  }, idrK(c.rental))), /*#__PURE__*/React.createElement("div", {
+    style: line
+  }, /*#__PURE__*/React.createElement("span", null, booking.protection === "deposit" ? t.protDepositT : t.protInsuranceT, c.qty > 1 && /*#__PURE__*/React.createElement("span", {
+    style: {
+      marginLeft: 4,
+      fontWeight: 700,
+      color: "var(--coral)"
+    }
+  }, "× ", c.qty)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 700,
+      color: "var(--ink)"
+    }
+  }, idrK(c.protection)))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       justifyContent: "space-between",
@@ -3647,6 +3762,7 @@ Object.assign(window, {
   Stepper,
   StepDates,
   StepReview,
+  ProtectionPicker,
   SummaryCard
 });
 
@@ -3820,7 +3936,9 @@ function BookingFlow({
         days: c.days,
         qty: c.qty,
         from: booking.from,
-        to: booking.to
+        to: booking.to,
+        bike: booking.bikeId,
+        protection: booking.protection
       });
       try {
         const utm = JSON.parse(sessionStorage.getItem("sr_utm") || "{}");
@@ -3980,6 +4098,7 @@ function encodeBooking(b) {
   if (b.qty && b.qty !== 1) p.set("q", b.qty);
   if (b.pickLoc) p.set("pl", b.pickLoc);
   if (!b.sameLoc && b.retLoc) p.set("rl", b.retLoc);
+  if (b.protection && b.protection !== "insurance") p.set("pr", b.protection);
   const x = Object.keys(b.extras || {}).filter(k => b.extras[k]);
   if (x.length) p.set("x", x.join(","));
   return p.toString();
@@ -3995,6 +4114,7 @@ function decodeBooking(qs, base) {
   const hasBike = id => BBM.FLEET.some(f => f.id === id && !f.comingSoon);
   const hasLoc = id => BBM.LOCATIONS.some(l => l.id === id);
   const isExtra = id => BBM.EXTRAS.some(e => e.id === id);
+  const isProtection = id => Object.prototype.hasOwnProperty.call(BBM.PROTECTION, id);
   if (isDate(p.get("f"))) b.from = p.get("f");
   if (isDate(p.get("t"))) b.to = p.get("t");
   if (hasBike(p.get("b"))) b.bikeId = p.get("b");
@@ -4007,6 +4127,7 @@ function decodeBooking(qs, base) {
     b.retLoc = b.pickLoc;
     b.sameLoc = true;
   }
+  if (isProtection(p.get("pr"))) b.protection = p.get("pr");
   if (p.get("x")) {
     b.extras = {};
     p.get("x").split(",").forEach(id => {
@@ -4051,6 +4172,7 @@ function App() {
       sameLoc: true,
       bikeId: BBM.FLEET[0].id,
       qty: 1,
+      protection: "insurance",
       extras: {}
     };
     return _init.route === "booking" && _init.qs ? decodeBooking(_init.qs, base) : base;
@@ -4145,6 +4267,7 @@ function App() {
     sameLoc: true,
     bikeId: BBM.FLEET[0].id,
     qty: 1,
+    protection: "insurance",
     extras: {}
   });
   return /*#__PURE__*/React.createElement(React.Fragment, null, route === "home" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(NavBar, {
