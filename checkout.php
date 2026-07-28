@@ -29,10 +29,29 @@ define('MAX_QTY',   6);
 define('MAX_DAYS',  90);
 
 // ── Validar parámetros entrantes ───────────────────────────────────
-$days  = max(1, min((int)($_GET['days'] ?? 1), MAX_DAYS));
 $qty   = max(1, min((int)($_GET['qty']  ?? 1), MAX_QTY));
 $from  = preg_replace('/[^0-9\-]/', '', $_GET['from'] ?? '');
 $to    = preg_replace('/[^0-9\-]/', '', $_GET['to']   ?? '');
+
+// Los días NUNCA se aceptan del cliente: se derivan de from/to en servidor.
+// Antes venían por `?days=`, que es lo que multiplica el precio ($bikeUnits),
+// mientras from/to solo viajaban como metadata. Manipulando la URL se pagaba
+// 1 día por una reserva de 30 y el operador recibía la reserva completa.
+// Misma fórmula que el front (daysBetween en src/components.jsx): (to - from), sin +1.
+// Fecha inválida o rango fuera de límites => se rechaza, no se ajusta en silencio:
+// un importe silenciosamente "arreglado" es la misma clase de bug que el original
+// (lo que se cobra deja de coincidir con lo que se reserva).
+$d0 = DateTime::createFromFormat('!Y-m-d', $from);
+$d1 = DateTime::createFromFormat('!Y-m-d', $to);
+if (!$d0 || !$d1 || $d0->format('Y-m-d') !== $from || $d1->format('Y-m-d') !== $to || $d1 <= $d0) {
+    header('Location: ' . CANCEL_URL . '?error=fechas', true, 303);
+    exit;
+}
+$days = (int) $d0->diff($d1)->days;
+if ($days > MAX_DAYS) {
+    header('Location: ' . CANCEL_URL . '?error=fechas', true, 303);
+    exit;
+}
 
 $bikeId = $_GET['bike'] ?? 'motorbike';
 if (!array_key_exists($bikeId, BIKE_PRICES)) $bikeId = 'motorbike';
