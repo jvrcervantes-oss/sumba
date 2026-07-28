@@ -10,6 +10,16 @@ if (!file_exists($config_path)) {
 require_once $config_path;
 // private/sumba-config.php define: STRIPE_SECRET, SUCCESS_URL, CANCEL_URL
 
+// CANCEL_URL ya trae su propia query (?booking=cancel), asi que el separador no puede
+// ser siempre '?': la URL salia como /?booking=cancel?error=fechas y el segundo '?' se
+// queda dentro del valor => la web nunca veia el motivo del rechazo y el usuario volvia
+// a la home sin explicacion. Un solo sitio para construirla, que son 4 los que la usan.
+function cancel_to($code) {
+    $sep = strpos(CANCEL_URL, '?') === false ? '?' : '&';
+    header('Location: ' . CANCEL_URL . $sep . 'error=' . rawurlencode($code), true, 303);
+    exit;
+}
+
 // Precio por moto y protección, en IDR × 100 (IDR es 2-decimal en Stripe).
 // ponytail: duplica src/data.js FLEET/PROTECTION — si cambia un precio ahí, sincronizar aquí a mano.
 define('BIKE_PRICES', [
@@ -44,13 +54,11 @@ $to    = preg_replace('/[^0-9\-]/', '', $_GET['to']   ?? '');
 $d0 = DateTime::createFromFormat('!Y-m-d', $from);
 $d1 = DateTime::createFromFormat('!Y-m-d', $to);
 if (!$d0 || !$d1 || $d0->format('Y-m-d') !== $from || $d1->format('Y-m-d') !== $to || $d1 <= $d0) {
-    header('Location: ' . CANCEL_URL . '?error=fechas', true, 303);
-    exit;
+    cancel_to('fechas');
 }
 $days = (int) $d0->diff($d1)->days;
 if ($days > MAX_DAYS) {
-    header('Location: ' . CANCEL_URL . '?error=fechas', true, 303);
-    exit;
+    cancel_to('fechas');
 }
 
 $bikeId = $_GET['bike'] ?? 'motorbike';
@@ -153,8 +161,7 @@ $err  = curl_error($ch);
 curl_close($ch);
 
 if ($err) {
-    header('Location: ' . CANCEL_URL . '?error=conexion', true, 303);
-    exit;
+    cancel_to('conexion');
 }
 
 $session = json_decode($body, true);
@@ -165,5 +172,4 @@ if (!empty($session['url'])) {
 }
 
 $code = $session['error']['code'] ?? 'unknown';
-header('Location: ' . CANCEL_URL . '?error=' . rawurlencode($code), true, 303);
-exit;
+cancel_to($code);
