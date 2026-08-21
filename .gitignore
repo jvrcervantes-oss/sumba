@@ -1,5 +1,9 @@
-# Credenciales — NUNCA subir
-private/sumba-config.php
+# Credenciales y datos de cliente — NUNCA subir.
+# Se ignora private/ entera salvo el .htaccess que la cierra al público:
+# ahí viven las claves (Stripe, SMTP) y ahora también el registro de reservas
+# con emails y teléfonos de clientes reales.
+private/*
+!private/.htaccess
 
 # Backups locales y fotos fuente
 Backups/

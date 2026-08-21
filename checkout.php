@@ -66,6 +66,10 @@ if (!array_key_exists($bikeId, BIKE_PRICES)) $bikeId = 'motorbike';
 
 $protection = ($_GET['protection'] ?? 'insurance') === 'deposit' ? 'deposit' : 'insurance';
 
+// Idioma en el que el cliente ha reservado: viaja a metadata para que el email
+// de confirmacion (api/stripe-webhook.php) salga en su idioma, no en el nuestro.
+$lang = ($_GET['lang'] ?? 'en') === 'es' ? 'es' : 'en';
+
 $retLoc      = $_GET['retLoc'] ?? '';
 $hasDropoff  = array_key_exists($retLoc, DROPOFF_PRICES);
 $dropoffFee  = $hasDropoff ? DROPOFF_PRICES[$retLoc] : 0;
@@ -76,6 +80,11 @@ $utm_medium   = substr(preg_replace('/[^a-zA-Z0-9_\-.]/',  '', $_GET['utm_medium
 $utm_campaign = substr(preg_replace('/[^a-zA-Z0-9_\-. ]/', '', $_GET['utm_campaign'] ?? ''), 0, 200);
 $utm_content  = substr(preg_replace('/[^a-zA-Z0-9_\-.]/',  '', $_GET['utm_content']  ?? ''), 0, 100);
 $fbclid       = substr(preg_replace('/[^a-zA-Z0-9_\-.]/',  '', $_GET['fbclid']       ?? ''), 0, 250);
+// gclid: el identificador de clic de Google Ads. Va a metadata para poder cruzar
+// una reserva pagada con su anuncio aunque el navegador no vuelva de Stripe
+// (la conversion de Ads se dispara en el front, en la vuelta: si el cliente cierra
+// la pestana, la venta es real pero Ads no la ve).
+$gclid        = substr(preg_replace('/[^a-zA-Z0-9_\-.]/',  '', $_GET['gclid']        ?? ''), 0, 250);
 
 $bikePrice = BIKE_PRICES[$bikeId];
 $bikeUnits = $days * $qty;
@@ -124,6 +133,12 @@ $data = [
   'metadata[ubicacion]'                                  => 'Tambolaka Airport',
   'metadata[dropoff]'                                    => $hasDropoff ? $retLoc : '',
   'metadata[total_idr]'                                  => $total_idr,
+  'metadata[txid]'                                       => $txid,
+  'metadata[lang]'                                       => $lang,
+
+  // El telefono lo pide Stripe en su propia pantalla de pago. Sin el, entregar una
+  // moto en la puerta del aeropuerto depende de que el cliente conteste un email.
+  'phone_number_collection[enabled]'                     => 'true',
 ];
 
 // Devolución en Waingapu: tarifa fija de traslado, un solo sentido
@@ -141,6 +156,7 @@ if ($utm_medium)   $data['metadata[utm_medium]']   = $utm_medium;
 if ($utm_campaign) $data['metadata[utm_campaign]'] = $utm_campaign;
 if ($utm_content)  $data['metadata[utm_content]']  = $utm_content;
 if ($fbclid)       $data['metadata[fbclid]']       = $fbclid;
+if ($gclid)        $data['metadata[gclid]']        = $gclid;
 
 $payload = http_build_query($data);
 

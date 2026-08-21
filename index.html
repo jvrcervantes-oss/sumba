@@ -15,6 +15,14 @@
     try {
       var p = new URLSearchParams(location.search);
       if (p.get('paid') === '1') {
+        // Se guardan ANTES de limpiar la URL: la app los lee para pintar la
+        // pantalla de "reserva confirmada" (antes la vuelta de Stripe aterrizaba
+        // en la portada y el cliente no veia nada que dijera que habia pagado).
+        window.__srPaid = {
+          value: parseFloat(p.get('value')) || 0,
+          cur: p.get('cur') || 'IDR',
+          tx: p.get('tx') || ''
+        };
         gtag('event', 'conversion', {
           send_to: 'AW-18215532149/knGLCLPOr7kcEPXs6-1D',
           value: parseFloat(p.get('value')) || 0,
@@ -4062,7 +4070,8 @@ function BookingFlow({
       to: booking.to,
       bike: booking.bikeId,
       protection: booking.protection,
-      retLoc: booking.sameLoc ? "" : booking.retLoc
+      retLoc: booking.sameLoc ? "" : booking.retLoc,
+      lang: lang
     });
     try {
       const utm = JSON.parse(sessionStorage.getItem("sr_utm") || "{}");
@@ -4452,8 +4461,202 @@ function readRoute() {
     qs: ""
   };
 }
+// ── Pantalla de reserva confirmada (vuelta de Stripe) ─────────────
+// Hasta el 21-ago-2026 el pago devolvia a la portada tal cual: el cliente pagaba
+// y no veia una sola linea que dijera que la reserva existia. El aviso serio va
+// por email (api/stripe-webhook.php); esto es lo que ve al instante.
+// Los datos salen del `tx` que construye checkout.php: <desde>-<hasta>-<motos>-<epoch>.
+// Es de solo lectura y no decide nada de dinero — el importe real lo fija Stripe.
+function decodeTx(tx) {
+  const p = String(tx || "").split("-");
+  if (p.length < 8) return null;
+  const from = p.slice(0, 3).join("-");
+  const to = p.slice(3, 6).join("-");
+  const isDate = v => /^\d{4}-\d{2}-\d{2}$/.test(v);
+  if (!isDate(from) || !isDate(to)) return null;
+  return {
+    from,
+    to,
+    qty: Math.max(1, parseInt(p[6], 10) || 1)
+  };
+}
+function Confirmed({
+  paid,
+  lang,
+  onHome
+}) {
+  const es = lang === "es";
+  const d = decodeTx(paid.tx);
+  const days = d ? daysBetween(d.from, d.to) : 0;
+  const total = paid.value > 0 ? "Rp " + Math.round(paid.value).toLocaleString("de-DE") : "";
+  const wa = "https://wa.me/62881037978255?text=" + encodeURIComponent(es ? "¡Hola! Acabo de reservar en la web. Estos son los datos de mi vuelo:" : "Hi! I just booked online. Here are my flight details:");
+  const row = (k, v, last) => /*#__PURE__*/React.createElement("div", {
+    key: k,
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      gap: 16,
+      padding: "11px 0",
+      borderBottom: last ? "none" : "1px solid var(--sand-3)"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13.5,
+      color: "var(--ink-soft)"
+    }
+  }, k), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14.5,
+      fontWeight: 700,
+      color: "var(--ink)",
+      textAlign: "right"
+    }
+  }, v));
+  // Las filas se arman en una lista, no sueltas en el JSX: asi se sabe cual es la
+  // ultima REALMENTE pintada y no queda una linea de separacion colgando al fondo.
+  const rows = [];
+  if (d) {
+    rows.push([es ? "Recogida" : "Pick-up", fmtDate(d.from, lang) + " · Tambolaka Airport"]);
+    rows.push([es ? "Devolución" : "Return", fmtDate(d.to, lang)]);
+    if (days > 0) rows.push([es ? "Duración" : "Duration", days + (es ? days === 1 ? " día" : " días" : days === 1 ? " day" : " days")]);
+    rows.push([es ? "Motos" : "Bikes", String(d.qty)]);
+  }
+  if (total) rows.push([es ? "Total pagado" : "Total paid", total]);
+  return /*#__PURE__*/React.createElement("main", {
+    style: {
+      minHeight: "100vh",
+      background: "var(--sand)",
+      padding: "32px 20px 64px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 560,
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "assets/images/logo.png",
+    alt: "Sumba Rental Motorbike",
+    style: {
+      height: 44,
+      display: "block",
+      margin: "0 auto 28px"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 62,
+      height: 62,
+      borderRadius: "50%",
+      background: "var(--ocean)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      margin: "0 auto 18px"
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "30",
+    height: "30",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "#fff",
+    strokeWidth: "3",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M20 6 9 17l-5-5"
+  }))), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontFamily: "var(--font-display)",
+      fontSize: "clamp(26px, 6vw, 34px)",
+      lineHeight: 1.15,
+      textAlign: "center",
+      color: "var(--ink)",
+      margin: "0 0 10px"
+    }
+  }, es ? "Reserva confirmada" : "Booking confirmed"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      textAlign: "center",
+      fontSize: 15.5,
+      lineHeight: 1.6,
+      color: "var(--ink-soft)",
+      margin: "0 0 28px"
+    }
+  }, es ? "Hemos recibido tu pago. Te llega la confirmación por email en un momento — revisa también la carpeta de spam." : "We have received your payment. Your confirmation email is on its way — check your spam folder too, just in case."), rows.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--shell)",
+      border: "1px solid var(--sand-3)",
+      borderRadius: "var(--r-lg)",
+      padding: "6px 20px 14px",
+      margin: "0 0 24px"
+    }
+  }, rows.map((r, i) => row(r[0], r[1], i === rows.length - 1))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--sand-2)",
+      borderLeft: "3px solid var(--coral)",
+      borderRadius: "var(--r-sm)",
+      padding: "15px 18px",
+      margin: "0 0 22px"
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: 0,
+      fontSize: 14.5,
+      lineHeight: 1.6,
+      color: "var(--ink-soft)"
+    }
+  }, /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: "var(--ink)"
+    }
+  }, es ? "Nos falta una cosa:" : "One thing we still need:"), " ", es ? "mándanos el número de vuelo y la hora de llegada para estar esperandote con la moto en el momento justo." : "send us your flight number and arrival time so we are waiting for you with the bike at the right moment.")), /*#__PURE__*/React.createElement("a", {
+    href: wa,
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      display: "block",
+      textAlign: "center",
+      background: "var(--coral)",
+      color: "#fff",
+      textDecoration: "none",
+      padding: "15px 24px",
+      borderRadius: "var(--r-pill)",
+      fontWeight: 800,
+      fontSize: 15.5,
+      boxShadow: "var(--sh-coral)"
+    }
+  }, es ? "Enviar los datos de mi vuelo" : "Send my flight details"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: onHome,
+    style: {
+      display: "block",
+      width: "100%",
+      marginTop: 14,
+      background: "none",
+      border: 0,
+      cursor: "pointer",
+      color: "var(--ink-soft)",
+      fontSize: 14.5,
+      fontFamily: "var(--font-body)",
+      padding: 12
+    }
+  }, es ? "Volver al inicio" : "Back to home")));
+}
 function App() {
-  const [lang, setLang] = useState("en");
+  // El idioma se recuerda: al volver de Stripe la pagina se carga de cero y,
+  // sin esto, un cliente que reservo en espanol aterrizaba en ingles.
+  const [lang, setLang] = useState(() => {
+    try {
+      const v = localStorage.getItem("sr_lang");
+      return v === "es" || v === "en" ? v : "en";
+    } catch (e) {
+      return "en";
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem("sr_lang", lang);
+    } catch (e) {}
+  }, [lang]);
   const _init = readRoute();
   const [route, setRoute] = useState(_init.route);
   const [step, setStep] = useState(_init.step);
@@ -4476,7 +4679,7 @@ function App() {
   // Capturar UTM params del anuncio y guardar en sessionStorage
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
-    const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"];
+    const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid", "gclid"];
     const utm = {};
     keys.forEach(k => {
       const v = p.get(k);
@@ -4553,6 +4756,8 @@ function App() {
     goBooking(0);
   };
   const onBook = () => goBooking(0);
+  // La vuelta de Stripe (?paid=1) la guarda el script del <head> antes de limpiar la URL.
+  const [paid, setPaid] = useState(() => window.__srPaid || null);
   const reset = () => setBooking({
     from: todayISO(2),
     to: todayISO(7),
@@ -4564,6 +4769,15 @@ function App() {
     protection: "insurance",
     extras: {}
   });
+  // Se pone delante de todo: quien acaba de pagar no aterriza en la portada.
+  if (paid) return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Confirmed, {
+    paid: paid,
+    lang: lang,
+    onHome: () => setPaid(null)
+  }), /*#__PURE__*/React.createElement(WaFloat, {
+    lang: lang,
+    lifted: false
+  }));
   return /*#__PURE__*/React.createElement(React.Fragment, null, route === "home" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(NavBar, {
     t: tr,
     lang: lang,
