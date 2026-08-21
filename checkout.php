@@ -154,6 +154,15 @@ $data = [
   'metadata[txid]'                                       => $txid,
   'metadata[lang]'                                       => $lang,
 
+  // Marca de propiedad. La cuenta de Stripe es compartida con los bots de
+  // WhatsApp (BBM y B2K), que escuchan checkout.session.completed de TODA la
+  // cuenta. Sin esta marca, una reserva de Sumba les llega "sin dueño": el de
+  // B2K la descarta por moneda, pero el de BBM tambien cobra en IDR y solo se
+  // libra porque nuestras sesiones no traen un `phone` en la metadata. El dia
+  // que alguien lo anada, BBM daria por pagado un lead SUYO con el telefono de
+  // un cliente de Sumba. Con `bot` puesto, los dos la marcan como ajena y salen.
+  'metadata[bot]'                                        => 'sumba-rental',
+
   // El telefono lo pide Stripe en su propia pantalla de pago. Sin el, entregar una
   // moto en la puerta del aeropuerto depende de que el cliente conteste un email.
   'phone_number_collection[enabled]'                     => 'true',
