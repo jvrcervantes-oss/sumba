@@ -4,6 +4,15 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18215532149"></script>
 <script>
+  // El <html lang> se fija ANTES de pintar: de el dependen el aviso de error del
+  // pie (elige idioma por ahi) y los lectores de pantalla. Hasta el 21-ago-2026
+  // se quedaba clavado en "en" aunque el visitante navegara en espanol, asi que
+  // un cliente en espanol veia el motivo del rechazo en ingles.
+  try {
+    var _l = localStorage.getItem('sr_lang');
+    if (_l === 'es' || _l === 'en') document.documentElement.lang = _l;
+  } catch (e) {}
+
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -267,6 +276,15 @@ function fmtDate(s, lang) {
     day: "numeric",
     month: "short"
   });
+}
+// Antelacion minima de la recogida: NO se alquila para el mismo dia — cada moto
+// se prepara a mano y hace falta un dia por delante (regla del negocio, 21-ago-2026:
+// entro una reserva para el dia siguiente y no dio margen).
+// Esto solo evita que el cliente elija una fecha invalida; quien manda es el
+// servidor (MIN_LEAD_DAYS en checkout.php), porque las fechas viajan en la URL.
+const MIN_LEAD_DAYS = 1;
+function minPickupISO() {
+  return todayISO(MIN_LEAD_DAYS);
 }
 function todayISO(offset = 0) {
   const d = new Date();
@@ -1321,7 +1339,7 @@ function QuickSearch({
   onSearch,
   floating
 }) {
-  const [from, setFrom] = useState(todayISO(1));
+  const [from, setFrom] = useState(minPickupISO());
   const [to, setTo] = useState(todayISO(5));
   const [loc, setLoc] = useState(locations[0]?.id || "canggu");
   const d = daysBetween(from, to);
@@ -1377,7 +1395,7 @@ function QuickSearch({
     type: "date",
     "aria-label": t.searchFrom,
     value: from,
-    min: todayISO(0),
+    min: minPickupISO(),
     onChange: e => {
       const nf = e.target.value;
       setFrom(nf);
@@ -3515,7 +3533,7 @@ function StepDates({
     type: "date",
     style: inp,
     value: booking.from,
-    min: todayISO(0),
+    min: minPickupISO(),
     onChange: e => set({
       from: e.target.value,
       to: e.target.value >= booking.to ? "" : booking.to
@@ -3532,7 +3550,7 @@ function StepDates({
     type: "date",
     style: inp,
     value: booking.to,
-    min: booking.from || todayISO(0),
+    min: booking.from || minPickupISO(),
     onChange: e => set({
       to: e.target.value
     })
@@ -4418,7 +4436,10 @@ function decodeBooking(qs, base) {
   const hasDropoff = id => BBM.DROPOFF_OPTIONS.some(d => d.id === id);
   const isExtra = id => BBM.EXTRAS.some(e => e.id === id);
   const isProtection = id => Object.prototype.hasOwnProperty.call(BBM.PROTECTION, id);
-  if (isDate(p.get("f"))) b.from = p.get("f");
+  // Se valida contra la antelacion minima, no solo el formato: un enlace viejo
+  // (o retocado) traeria una recogida para hoy y el cliente llegaria hasta el
+  // final del flujo para que el servidor se la tumbe.
+  if (isDate(p.get("f")) && p.get("f") >= minPickupISO()) b.from = p.get("f");
   if (isDate(p.get("t"))) b.to = p.get("t");
   if (hasBike(p.get("b"))) b.bikeId = p.get("b");
   if (p.get("q")) b.qty = Math.min(12, Math.max(1, parseInt(p.get("q"), 10) || 1));
@@ -4656,6 +4677,7 @@ function App() {
     try {
       localStorage.setItem("sr_lang", lang);
     } catch (e) {}
+    document.documentElement.lang = lang;
   }, [lang]);
   const _init = readRoute();
   const [route, setRoute] = useState(_init.route);
@@ -4852,6 +4874,20 @@ ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.c
 <!-- ── App ───────────────────────────────────────────────────────── -->
 
 
+<!-- Codigo de error propio de Sumba, inyectado en el aviso compartido.
+     La regla (un dia de antelacion) es de este negocio, asi que su texto vive
+     aqui y no en catalogo/snippets/, que lo comparten cuatro webs. -->
+<script>
+  window.AXW_ERRORES_EXTRA = {
+    antelacion: [
+      'Necesitamos un día de margen',
+      'Preparamos cada moto a mano y necesitamos un día antes de la entrega. Elige una recogida a partir de mañana. No se ha realizado ningún cargo.',
+      'We need one day’s notice',
+      'We prepare every bike by hand and need one day before delivery. Please pick a collection date from tomorrow onwards. You have not been charged.'
+    ]
+  };
+</script>
+
 <!-- axw:aviso_error_checkout -->
 <!-- Fuente canonica: catalogo/snippets/aviso_error_checkout.html (repo agencia).
      No editar aqui: se regenera. -->
@@ -4918,6 +4954,22 @@ ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.c
       'Something failed before reaching the gateway. You have not been charged — please try again, and contact us if it keeps happening.'
     ]
   };
+  // Punto de extension: cada web puede anadir codigos PROPIOS (reglas suyas de
+  // negocio, no fallos de la pasarela) definiendo window.AXW_ERRORES_EXTRA antes
+  // de este bloque, con la misma forma [titulo_es, cuerpo_es, titulo_en, cuerpo_en].
+  // Asi una regla de un solo cliente no ensucia este fichero, que es compartido.
+  // Se valida la forma: una entrada mal escrita se ignora en vez de romper el aviso.
+  try {
+    var extra = (typeof window !== 'undefined' && window.AXW_ERRORES_EXTRA) || null;
+    for (var k in extra) {
+      if (!Object.prototype.hasOwnProperty.call(extra, k)) continue;
+      var v = extra[k];
+      if (Object.prototype.toString.call(v) === '[object Array]' && v.length === 4) {
+        MSG[String(k).toLowerCase()] = v;
+      }
+    }
+  } catch (e) { /* una extension rota no puede dejar al visitante sin aviso */ }
+
   var t = MSG[code] || MSG._;
   var titulo = es ? t[0] : t[2];
   var cuerpo = es ? t[1] : t[3];

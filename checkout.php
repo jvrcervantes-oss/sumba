@@ -10,6 +10,11 @@ if (!file_exists($config_path)) {
 require_once $config_path;
 // private/sumba-config.php define: STRIPE_SECRET, SUCCESS_URL, CANCEL_URL
 
+// "Hoy" tiene que ser el de Sumba, no el del servidor. Con el servidor en UTC,
+// entre las 00:00 y las 08:00 de Sumba la fecha aun es la de ayer: la antelacion
+// minima se calcularia sobre el dia equivocado y dejaria colar el mismo dia.
+date_default_timezone_set('Asia/Makassar');
+
 // CANCEL_URL ya trae su propia query (?booking=cancel), asi que el separador no puede
 // ser siempre '?': la URL salia como /?booking=cancel?error=fechas y el segundo '?' se
 // queda dentro del valor => la web nunca veia el motivo del rechazo y el usuario volvia
@@ -37,6 +42,10 @@ define('DROPOFF_PRICES', [
 ]);
 define('MAX_QTY',   6);
 define('MAX_DAYS',  90);
+// Dias de antelacion minima para la recogida: las motos se preparan a mano y
+// hace falta un dia por delante. Subirlo a 2 es cambiar este 1 (y el
+// MIN_LEAD_DAYS de index.html, que pinta el calendario).
+define('MIN_LEAD_DAYS', 1);
 
 // ── Validar parámetros entrantes ───────────────────────────────────
 $qty   = max(1, min((int)($_GET['qty']  ?? 1), MAX_QTY));
@@ -59,6 +68,15 @@ if (!$d0 || !$d1 || $d0->format('Y-m-d') !== $from || $d1->format('Y-m-d') !== $
 $days = (int) $d0->diff($d1)->days;
 if ($days > MAX_DAYS) {
     cancel_to('fechas');
+}
+
+// Antelacion minima. Aqui es donde manda la regla: el `min` del calendario del
+// front es una comodidad, pero las fechas viajan en la URL y ahi las toca quien
+// quiere. Se rechaza con su propio codigo para poder explicarle al cliente POR
+// QUE — un 'fechas' generico le diria que sus fechas estan mal, y no lo estan.
+$minPickup = (new DateTime('today'))->modify('+' . MIN_LEAD_DAYS . ' day');
+if ($d0 < $minPickup) {
+    cancel_to('antelacion');
 }
 
 $bikeId = $_GET['bike'] ?? 'motorbike';

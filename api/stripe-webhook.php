@@ -35,6 +35,37 @@ function sr_log($msg) {
     @file_put_contents($logFile, date('c') . ' | ' . $msg . "\n", FILE_APPEND | LOCK_EX);
 }
 
+/**
+ * Aviso instantaneo por Telegram. Best-effort a proposito: si falla no se
+ * reintenta ni cambia la respuesta a Stripe — el registro serio son el CSV y
+ * el email. Esto es para ENTERARSE rapido, no para dejar constancia.
+ *
+ * La guarda function_exists es para poder sustituirlo por un doble al probar.
+ */
+if (!function_exists('sr_telegram')):
+function sr_telegram($cfg, $text) {
+    if (empty($cfg['telegram_token']) || empty($cfg['telegram_chat_id'])) {
+        return [false, 'sin configurar'];
+    }
+    $ch = curl_init('https://api.telegram.org/bot' . $cfg['telegram_token'] . '/sendMessage');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => http_build_query([
+            'chat_id'                  => $cfg['telegram_chat_id'],
+            'text'                     => $text,
+            'parse_mode'               => 'HTML',
+            'disable_web_page_preview' => true,
+        ]),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 8,
+    ]);
+    $resp = curl_exec($ch);
+    $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return [$code === 200, 'http=' . $code . ' ' . substr((string)$resp, 0, 160)];
+}
+endif;
+
 // ── 1. Verificar la firma ANTES de creer nada ──────────────────────
 // Sin esto, cualquiera que sepa la URL puede inventarse una reserva pagada.
 // Formato de la cabecera:  t=1712345678,v1=<hmac>,v1=<hmac de la clave rotada>
@@ -290,6 +321,23 @@ $ownerHtml = '<!DOCTYPE html><html><body style="margin:0;background:#f8f3ea;font
 $subjClient = $es ? 'Tu moto en Sumba está reservada — ' . $ref : 'Your Sumba bike is booked — ' . $ref;
 $subjOwner  = 'Nueva reserva Sumba: ' . $bikeName . ' ×' . $qty . ', ' . $fmtDate($from, true) . ' (' . $fmtRp($totalIdr) . ')';
 
+// Telegram va primero: el email tarda lo que tarde el SMTP y esto llega al
+// movil en un segundo. Si Stripe reentrega porque fallo el correo, se repetira
+// el ping — un aviso duplicado es mucho mejor que uno perdido.
+$tg = "\u{1F3CD} <b>Nueva reserva — " . $e($ref) . "</b>\n"
+    . $e($fmtRp($totalIdr)) . ' · ' . $e($bikeName) . ' ×' . $qty . ' · ' . $days . ' días' . "\n"
+    . "\n"
+    . "\u{1F4C5} " . $e($fmtDate($from, true)) . ' → ' . $e($fmtDate($to, true)) . "\n"
+    . "\u{1F4CD} " . $e($pickup) . ' → ' . $e($dropoffLabelEs) . "\n"
+    . "\u{1F6E1} " . $e($protLabelEs) . "\n"
+    . "\n"
+    . "\u{1F464} " . $e($name ?: '—') . "\n"
+    . "\u{2709} " . $e($email) . "\n"
+    . "\u{1F4DE} " . $e($phone ?: 'NO LO HA DEJADO') . "\n"
+    . "\n"
+    . "\u{26A0} Falta el número de vuelo";
+list($sentTg, $respTg) = sr_telegram($cfg, $tg);
+
 $sentClient = false; $respClient = 'sin email de cliente';
 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
     // Reply-To al mismo buzon: si el cliente responde, la respuesta se lee.
@@ -303,7 +351,8 @@ if (!empty($cfg['owner_notify'])) {
 }
 
 sr_log("$sid | $ref | cliente=" . ($sentClient ? 'ok' : 'FALLO: ' . $respClient)
-     . ' | operador=' . ($sentOwner ? 'ok' : 'FALLO: ' . $respOwner));
+     . ' | operador=' . ($sentOwner ? 'ok' : 'FALLO: ' . $respOwner)
+     . ' | telegram=' . ($sentTg ? 'ok' : 'FALLO: ' . $respTg));
 
 // Si no salio ninguno de los dos, devolvemos 500 a proposito: Stripe reentrega
 // (hasta 3 dias) y en la reentrega solo se reintentan los emails, no el CSV.

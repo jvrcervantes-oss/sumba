@@ -37,6 +37,14 @@ return [
     // --- A quien avisamos de cada reserva pagada ---
     'owner_notify' => 'ride@balimotoadventures.com',
 
+    // --- Aviso instantaneo al movil por Telegram (vacio = desactivado) ---
+    // 1. En Telegram, escribe a @BotFather -> /newbot -> te da el token.
+    // 2. Escribe cualquier cosa a tu bot nuevo (si no, no puede contestarte).
+    // 3. Abre https://api.telegram.org/bot<TOKEN>/getUpdates y copia el
+    //    "chat":{"id":123456789} que aparece: ese es el chat_id.
+    'telegram_token'   => '',
+    'telegram_chat_id' => '',
+
     // --- Contacto que se le da al cliente en el email ---
     'whatsapp'     => '62881037978255',
     'site_url'     => 'https://sumba.balibestmotorcycle.com',
