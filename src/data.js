@@ -33,7 +33,7 @@
       blurbEn: "Open-air buggy built for Sumba's coastal tracks and beach sand. Available as a guided beach activity at Sandalwood Resort only. Launching 2026.",
       blurbEs: "Buggy descapotable construido para las pistas costeras y la arena de Sumba. Actividad guiada exclusiva en Sandalwood Resort. Disponible en 2026.",
       specs: { range: "—", weight: "—", top: "—" },
-      photo: "assets/images/buggy-removebg.png", photo2: null,
+      photo: "assets/images/buggy-removebg.webp", photo2: null,
       comingSoon: true,
       locationOnly: "Sandalwood Resort",
     },
