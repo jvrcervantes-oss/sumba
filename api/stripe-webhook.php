@@ -123,6 +123,34 @@ if (($s['payment_status'] ?? '') !== 'paid') {
     exit('ignored');
 }
 
+// ── 2b. ¿Es NUESTRA esta venta? ────────────────────────────────────
+// La cuenta de Stripe esta COMPARTIDA con BBM y B2K (Bali Moto Adventures),
+// asi que aqui aterrizan los checkout.session.completed de los TRES negocios.
+// checkout.php marca los nuestros con metadata[bot] desde el 21-ago-2026; lo que
+// nunca se hizo es mirar esa marca al ENTRAR, solo al salir.
+//
+// El 1-sep-2026 entro asi un deposito de 2.100 EUR de un tour de B2K: se apunto
+// como reserva de Sumba y — esto es lo grave, no el CSV — al cliente de B2K le
+// llego un email nuestro diciendole que su moto le esperaba en Tambolaka.
+// Sin fechas ni moto en la metadata, el aviso salio con TODOS los valores por
+// defecto: "Motorbike x1, 0 dias".
+if (($s['metadata']['bot'] ?? '') !== 'sumba-rental') {
+    sr_log("$sid | ignorado: no es nuestro (bot=" . (($s['metadata']['bot'] ?? '') ?: 'sin marca') . ')');
+    http_response_code(200);
+    exit('not ours');
+}
+
+// Segunda guarda, independiente de la anterior a proposito: la marca `bot` hay que
+// acordarse de ponerla, y un flujo de cobro nuevo puede nacer sin ella. Todo el
+// formateo de importes de este archivo es "Rp" a pelo sobre amount_total/100, asi
+// que una sesion en otra divisa no se muestra mal: se muestra CREIBLE. Los 2.100
+// EUR de arriba se leyeron como "Rp 2.100" y parecian un cobro de rupias roto.
+if (($s['currency'] ?? '') !== 'idr') {
+    sr_log("$sid | ignorado: divisa " . strtoupper((string)($s['currency'] ?? '?')) . ', esperabamos IDR');
+    http_response_code(200);
+    exit('not ours');
+}
+
 // ── 3. Idempotencia ────────────────────────────────────────────────
 // Stripe reintenta si no contestamos 2xx, y puede entregar el mismo evento
 // dos veces. Dos marcas separadas a proposito: si el CSV ya esta escrito no
