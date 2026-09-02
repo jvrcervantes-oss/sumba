@@ -51,7 +51,7 @@
 
   // ---- One-way drop-off (extra fee, return only — pick-up is always airport) ----
   const DROPOFF_OPTIONS = [
-    { id: "waingapu", en: "Waingapu", es: "Waingapu", fee: 1000 }, // +Rp 1,000,000 flat, one-way
+    { id: "waingapu", en: "Waingapu", es: "Waingapu", fee: 1000 }, // +Rp 1,000,000 per bike, one-way
   ];
 
   const EXTRAS = [];  // paid on-site

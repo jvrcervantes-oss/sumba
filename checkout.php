@@ -120,7 +120,7 @@ $description = $qty . ' moto' . ($qty > 1 ? 's' : '') . ' × ' . $days . ' día'
 // Devolvemos a la web con el total real (calculado en servidor, no manipulable)
 // + un id de transacción para que Ads deduplique refrescos. El front lee
 // ?paid=1 al cargar y dispara la conversión (ver script en <head> de index.html).
-$total_idr   = ($bikeUnits * $bikePrice + $protUnits * $protUnitPrice + $dropoffFee) / 100; // total en IDR reales
+$total_idr   = ($bikeUnits * $bikePrice + $protUnits * $protUnitPrice + $dropoffFee * $qty) / 100; // total en IDR reales
 $txid        = $from . '-' . $to . '-' . $qty . '-' . time();
 $success_url = SUCCESS_URL
              . (strpos(SUCCESS_URL, '?') === false ? '?' : '&')
@@ -168,13 +168,14 @@ $data = [
   'phone_number_collection[enabled]'                     => 'true',
 ];
 
-// Devolución en Waingapu: tarifa fija de traslado, un solo sentido
+// Devolución en Waingapu: tarifa fija de traslado por moto, un solo sentido.
+// Se cobra por moto (quantity = $qty), no una vez por reserva.
 if ($hasDropoff) {
     $data['line_items[2][price_data][currency]']                  = 'idr';
     $data['line_items[2][price_data][unit_amount]']               = $dropoffFee;
     $data['line_items[2][price_data][product_data][name]']        = 'One-way Drop-off Fee — Waingapu';
-    $data['line_items[2][price_data][product_data][description]'] = 'Devolución en Waingapu (tarifa fija, un solo sentido)';
-    $data['line_items[2][quantity]']                               = 1;
+    $data['line_items[2][price_data][product_data][description]'] = 'Devolución en Waingapu (tarifa fija por moto, un solo sentido)';
+    $data['line_items[2][quantity]']                               = $qty;
 }
 
 // Añadir UTM si están presentes
