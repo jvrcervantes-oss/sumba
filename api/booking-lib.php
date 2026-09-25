@@ -18,12 +18,12 @@
 
 date_default_timezone_set('Asia/Makassar');   // hora de Sumba (WITA): "hoy" es el de Sumba
 
-// Precios en IDR x 100 (IDR es 2-decimal en Stripe: 125.000 IDR = 12500000).
+// Precios en IDR x 100 (IDR es 2-decimal en Stripe: 200.000 IDR = 20000000).
 // ponytail: duplica src/data.js FLEET (price, insuranceDay) — si cambia un precio ahi,
-// sincronizar aqui a mano. 25-sep-2026: BH-G3 200k -> 125k/dia y su seguro 100k -> 50k
-// (el seguro pasa a ir por moto; la CB150X sigue en 300k + 100k).
+// sincronizar aqui a mano. El seguro va por moto desde el 25-sep-2026 (hoy 100k/dia
+// en las dos; el mismo dia se probo BH-G3 a 125k + 50k y el owner volvio a 200k + 100k).
 const SR_BIKES = [
-    'motorbike' => ['name' => 'BH Custom BH-G3', 'day' => 12500000, 'insurance_day' => 5000000],
+    'motorbike' => ['name' => 'BH Custom BH-G3', 'day' => 20000000, 'insurance_day' => 10000000],
     'cb150x'    => ['name' => 'Honda CB150X',    'day' => 30000000, 'insurance_day' => 10000000],
 ];
 const SR_DEPOSIT_FLAT  = 300000000; // Rp 3.000.000 fijo por moto, reembolsable
