@@ -21,6 +21,7 @@
 date_default_timezone_set('Asia/Makassar');   // hora de Sumba (WITA), no UTC
 
 require_once __DIR__ . '/mailer.php';
+require_once __DIR__ . '/booking-lib.php';   // CSV a prueba de formulas + sr_telegram
 
 $cfgFile = dirname(__DIR__) . '/private/sumba-mail-config.php';
 if (!file_exists($cfgFile)) {
@@ -221,13 +222,13 @@ $dropoffLabelEs = $dropoff === 'waingapu' ? 'Waingapu (un solo sentido)' : 'El m
 // ── 5. Apuntar la reserva (lo duradero primero) ────────────────────
 $csv = $cfg['bookings_csv'] ?? (dirname(__DIR__) . '/private/bookings.csv');
 if (!$seen($markLogged, $sid)) {
-    if (!file_exists($csv)) {
-        @file_put_contents($csv, "fecha,ref,session,email,nombre,telefono,moto,qty,dias,desde,hasta,proteccion,dropoff,total_idr,utm_source,utm_campaign,gclid,fbclid\n", LOCK_EX);
-    }
+    // pago/estado_cobro/deposito_idr/fecha_cobro (25-sep-2026): con el efectivo en el
+    // mismo CSV hace falta separar lo cobrado de lo solo reservado, y la fianza (que se
+    // devuelve) del ingreso. Por Stripe llega ya cobrado.
     $row = [date('c'), $ref, $sid, $email, $name, $phone, $bikeName, $qty, $days, $from, $to, $prot,
-            $dropoff, $totalIdr, $m['utm_source'] ?? '', $m['utm_campaign'] ?? '', $m['gclid'] ?? '', $m['fbclid'] ?? ''];
-    $line = '"' . implode('","', array_map(fn($v) => str_replace('"', '""', (string)$v), $row)) . "\"\n";
-    @file_put_contents($csv, $line, FILE_APPEND | LOCK_EX);
+            $dropoff, $totalIdr, $m['utm_source'] ?? '', $m['utm_campaign'] ?? '', $m['gclid'] ?? '', $m['fbclid'] ?? '',
+            'stripe', 'cobrado', $prot === 'deposit' ? 3000000 * $qty : 0, date('Y-m-d')];
+    sr_append_booking($csv, $row);
     $mark($markLogged, $sid);
     sr_log("$sid | $ref | apuntado en CSV | $email | " . $fmtRp($totalIdr));
 }

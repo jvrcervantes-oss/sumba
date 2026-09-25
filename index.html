@@ -57,7 +57,7 @@
 <meta property="og:image" content="https://sumba.balibestmotorcycle.com/assets/images/og-cover.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Rent a motorbike in Sumba — free airport delivery, from Rp 200k/day" />
+<meta property="og:image:alt" content="Rent a motorbike in Sumba — free airport delivery, from Rp 125k/day" />
 <meta property="og:locale" content="en_US" />
 <meta property="og:locale:alternate" content="es_ES" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -80,7 +80,7 @@
   "url": "https://sumba.balibestmotorcycle.com/",
   "image": "https://sumba.balibestmotorcycle.com/assets/images/bike3.webp",
   "telephone": "+62881037978255",
-  "priceRange": "Rp 200k/day",
+  "priceRange": "Rp 125k/day",
   "dateModified": "2026-06-29",
   "parentOrganization": {
     "@type": "Organization",
@@ -157,9 +157,9 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    { "@type": "Question", "name": "How much does it cost to rent a motorbike in Sumba?", "acceptedAnswer": { "@type": "Answer", "text": "Our custom BH-G3 trail scooter is 200,000 IDR per day (about $12 USD), including free airport or hotel delivery and two helmets. It is a flat daily rate with no hidden fees." } },
+    { "@type": "Question", "name": "How much does it cost to rent a motorbike in Sumba?", "acceptedAnswer": { "@type": "Answer", "text": "Our custom BH-G3 trail scooter is 125,000 IDR per day (about $8 USD), including free airport or hotel delivery and two helmets. It is a flat daily rate with no hidden fees." } },
     { "@type": "Question", "name": "Do you deliver the motorbike to Sumba airport?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. We deliver free to Lede Kalumbang Airport (TMC) and to your hotel anywhere in West Sumba. Your bike is waiting when you land." } },
-    { "@type": "Question", "name": "Can I book and pay for a Sumba motorbike rental online?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can book and pay securely by card online through Stripe Checkout in a few minutes, before you even arrive in Sumba." } },
+    { "@type": "Question", "name": "Can I book and pay for a Sumba motorbike rental online?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can book online in a few minutes and pay securely by card through Stripe Checkout, or reserve online and pay in cash when you pick up the bike at the airport." } },
     { "@type": "Question", "name": "What motorbike do you rent in Sumba?", "acceptedAnswer": { "@type": "Answer", "text": "A hand-built BH-G3 aluminium trail scooter, 125cc and just 80 kg, with spoke wheels, a built-in surf rack, front and back racks, kick-start backup and long-range LED lights — purpose-built for Sumba's tarmac, dirt tracks and beach sand." } },
     { "@type": "Question", "name": "Is it safe to ride a motorbike in Sumba?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, with the right bike and support. Every rental includes two helmets and 24/7 roadside assistance across the whole island. Our scooters are serviced before every rental and built to handle Sumba's varied roads." } }
   ]
@@ -180,7 +180,7 @@
 <main>
   <h1>Rent a Motorbike in Sumba — Free Airport Delivery</h1>
   <p>Sumba Rental Motorbike rents a hand-built BH-G3 trail scooter in Sumba, Indonesia, with <strong>free delivery to Lede Kalumbang Airport (TMC)</strong> and to your hotel across West Sumba. Ride savannah roads, hidden beaches and traditional villages from the moment you land. Book and pay online in minutes. Bilingual service (English / Spanish), backed by Bali Best Motorcycle.</p>
-  <p><strong>Price: 200,000 IDR per day (about $12 USD / €11 EUR).</strong> Flat daily rate, two helmets included, no hidden fees.</p>
+  <p><strong>Price: 125,000 IDR per day (about $8 USD / €7 EUR).</strong> Flat daily rate, two helmets included, no hidden fees.</p>
 
   <h2>The bike — BH Custom BH-G3 trail scooter</h2>
   <p>A custom aluminium trail scooter built specifically for Sumba's roads: 125cc, just 80 kg, with a tuned Yamaha Gear engine, spoke wheels, surf rack, kick starter and LED lights. Range about 250 km, top speed 95 km/h. There is nothing else like it on the island.</p>
@@ -218,11 +218,11 @@
 
   <h2>Frequently asked questions</h2>
   <h3>How much does it cost to rent a motorbike in Sumba?</h3>
-  <p>Our custom BH-G3 trail scooter is 200,000 IDR per day (about $12 USD), including free airport or hotel delivery and two helmets. Flat daily rate, no hidden fees.</p>
+  <p>Our custom BH-G3 trail scooter is 125,000 IDR per day (about $8 USD), including free airport or hotel delivery and two helmets. Flat daily rate, no hidden fees.</p>
   <h3>Do you deliver the motorbike to Sumba airport?</h3>
   <p>Yes — free delivery to Lede Kalumbang Airport (TMC) and to your hotel anywhere in West Sumba. Your bike is waiting when you land.</p>
   <h3>Can I book and pay online?</h3>
-  <p>Yes, book and pay securely by card via Stripe Checkout in a few minutes, before you arrive.</p>
+  <p>Yes, book online in a few minutes and pay by card via Stripe Checkout, or pay in cash when you pick up the bike at the airport.</p>
   <h3>What motorbike do you rent in Sumba?</h3>
   <p>A hand-built BH-G3 aluminium trail scooter, 125cc and 80 kg, with spoke wheels, surf rack, front and back racks, kick-start backup and long-range LED lights — built for Sumba's tarmac, dirt and beach sand.</p>
   <h3>Is it safe to ride a motorbike in Sumba?</h3>
@@ -3228,7 +3228,9 @@ function calc(booking) {
   const rental = bike ? bike.price * days * qty : 0;
   const extras = BBM.EXTRAS.filter(e => booking.extras[e.id]).reduce((s, e) => s + e.price, 0);
   const prot = BBM.PROTECTION[booking.protection] || BBM.PROTECTION.insurance;
-  const protection = prot.priceFlat != null ? prot.priceFlat * qty : prot.priceDay * days * qty;
+  // El seguro va por moto (FLEET[].insuranceDay) desde el 25-sep-2026; PROTECTION.insurance es el respaldo.
+  const insDay = bike && bike.insuranceDay != null ? bike.insuranceDay : prot.priceDay;
+  const protection = prot.priceFlat != null ? prot.priceFlat * qty : insDay * days * qty;
   const dropoff = !booking.sameLoc ? BBM.DROPOFF_OPTIONS.find(d => d.id === booking.retLoc) : null;
   const dropoffFee = dropoff ? dropoff.fee * qty : 0;
   const total = rental + extras + protection + dropoffFee;
@@ -3711,11 +3713,14 @@ function ProtectionPicker({
   t,
   lang
 }) {
+  // El importe del seguro depende de la moto elegida: se pinta desde FLEET, no desde el texto.
+  const bike = BBM.FLEET.find(b => b.id === booking.bikeId);
+  const insDay = bike && bike.insuranceDay != null ? bike.insuranceDay : BBM.PROTECTION.insurance.priceDay;
   const options = [{
     id: "insurance",
     icon: Ic.shield,
     title: t.protInsuranceT,
-    desc: t.protInsuranceD
+    desc: (insDay * 1000).toLocaleString(lang === "es" ? "de-DE" : "en-US") + " IDR " + t.protInsuranceD
   }, {
     id: "deposit",
     icon: Ic.lock,
@@ -3927,7 +3932,206 @@ function StepReview({
     set: set,
     t: t,
     lang: lang
+  }), /*#__PURE__*/React.createElement(PaymentPicker, {
+    booking: booking,
+    set: set,
+    lang: lang,
+    total: c.total
   }));
+}
+// ── Forma de pago: tarjeta (Stripe) o efectivo a la recogida (25-sep-2026) ──
+// Con efectivo no hay Stripe que pida nombre/email/telefono: los pedimos aqui y van
+// a api/reserve-cash.php, que recalcula el importe en servidor (no se fia de este).
+function PaymentPicker({
+  booking,
+  set,
+  lang,
+  total
+}) {
+  const es = lang === "es";
+  const pay = booking.pay === "cash" ? "cash" : "card";
+  const options = [{
+    id: "card",
+    icon: Ic.lock,
+    title: es ? "Tarjeta, ahora" : "Card, now",
+    desc: es ? "Pago seguro con Stripe. Todo resuelto antes de aterrizar." : "Secure payment with Stripe. Everything sorted before you land."
+  }, {
+    id: "cash",
+    icon: Ic.shield,
+    title: es ? "Efectivo, al recoger" : "Cash, at pick-up",
+    desc: (es ? "Pagas " : "Pay ") + idrK(total) + (es ? " en rupias al recoger la moto en el aeropuerto. Te confirmamos por WhatsApp." : " in rupiah when you collect the bike at the airport. We confirm by WhatsApp.")
+  }];
+  const c = booking.contact || {};
+  const setC = patch => set({
+    contact: {
+      ...c,
+      ...patch
+    }
+  });
+  const inp = {
+    width: "100%",
+    padding: "12px 14px",
+    borderRadius: "var(--r)",
+    border: "1.5px solid var(--sand-3)",
+    background: "var(--shell)",
+    fontSize: 16,
+    fontFamily: "var(--font-body)",
+    color: "var(--ink)",
+    boxSizing: "border-box"
+  };
+  const lab = {
+    display: "block",
+    fontSize: 13,
+    fontWeight: 700,
+    marginBottom: 6
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 26
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      fontSize: 11,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      color: "var(--ink-faint)",
+      marginBottom: 12
+    }
+  }, es ? "Forma de pago" : "Payment"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, options.map(o => {
+    const active = pay === o.id;
+    return /*#__PURE__*/React.createElement("label", {
+      key: o.id,
+      style: {
+        display: "flex",
+        alignItems: "flex-start",
+        gap: 12,
+        padding: "14px 16px",
+        borderRadius: "var(--r)",
+        border: active ? "2px solid var(--ocean-deep)" : "1.5px solid var(--sand-3)",
+        background: active ? "color-mix(in oklch, var(--ocean) 18%, var(--shell))" : "var(--shell)",
+        cursor: "pointer",
+        transition: "all .2s"
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "radio",
+      name: "pay",
+      value: o.id,
+      checked: active,
+      onChange: () => set({
+        pay: o.id
+      }),
+      style: {
+        marginTop: 3,
+        accentColor: "var(--ocean)",
+        width: 16,
+        height: 16,
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement(o.icon, {
+      s: 18,
+      c: active ? "var(--ocean)" : "var(--ink-faint)"
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        fontSize: 14.5
+      }
+    }, o.title), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12.5,
+        color: "var(--ink-soft)",
+        marginTop: 2
+      }
+    }, o.desc)));
+  })), pay === "cash" && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gap: 14,
+      marginTop: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "cc-name",
+    style: lab
+  }, es ? "Nombre y apellido" : "Full name"), /*#__PURE__*/React.createElement("input", {
+    id: "cc-name",
+    style: inp,
+    autoComplete: "name",
+    maxLength: 80,
+    value: c.name || "",
+    onChange: e => setC({
+      name: e.target.value
+    })
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "cc-phone",
+    style: lab
+  }, es ? "WhatsApp (con prefijo del país)" : "WhatsApp (with country code)"), /*#__PURE__*/React.createElement("input", {
+    id: "cc-phone",
+    style: inp,
+    type: "tel",
+    autoComplete: "tel",
+    placeholder: "+34 600 000 000",
+    maxLength: 24,
+    value: c.phone || "",
+    onChange: e => setC({
+      phone: e.target.value
+    })
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "cc-email",
+    style: lab
+  }, "Email"), /*#__PURE__*/React.createElement("input", {
+    id: "cc-email",
+    style: inp,
+    type: "email",
+    autoComplete: "email",
+    maxLength: 120,
+    value: c.email || "",
+    onChange: e => setC({
+      email: e.target.value
+    })
+  })), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    name: "website",
+    tabIndex: -1,
+    autoComplete: "off",
+    "aria-hidden": "true",
+    value: c.website || "",
+    onChange: e => setC({
+      website: e.target.value
+    }),
+    style: {
+      position: "absolute",
+      left: "-9999px",
+      width: 1,
+      height: 1,
+      opacity: 0
+    }
+  }), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 12.5,
+      color: "var(--ink-soft)",
+      margin: 0
+    }
+  }, es ? "Solo para confirmar tu reserva y coordinar la entrega en el aeropuerto." : "Only used to confirm your booking and arrange the airport hand-over.")));
+}
+// Valida el contacto en el navegador (el servidor lo vuelve a validar). Devuelve el
+// texto del primer problema o "" si esta bien.
+function cashContactError(c, es) {
+  c = c || {};
+  if (!c.name || c.name.trim().length < 2) return es ? "Escribe tu nombre." : "Please enter your name.";
+  const digits = (c.phone || "").replace(/\D/g, "");
+  if (!/^\+?[0-9 ()\-]{7,24}$/.test((c.phone || "").trim()) || digits.length < 7 || digits.length > 16) return es ? "Revisa tu número de WhatsApp, con el prefijo del país." : "Please check your WhatsApp number, including the country code.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((c.email || "").trim())) return es ? "Revisa tu email." : "Please check your email.";
+  return "";
 }
 function SummaryCard({
   booking,
@@ -4056,6 +4260,7 @@ Object.assign(window, {
   ReturnLocationPicker,
   StepReview,
   ProtectionPicker,
+  PaymentPicker,
   SummaryCard
 });
 
@@ -4068,8 +4273,13 @@ function BookingFlow({
   setLang,
   onExit,
   step,
-  setStep
+  setStep,
+  onCashBooked
 }) {
+  const [sending, setSending] = useState(false);
+  const [payErr, setPayErr] = useState("");
+  const errRef = useRef(null);
+  const isCash = booking.pay === "cash";
   const set = patch => setBooking(b => ({
     ...b,
     ...patch
@@ -4103,8 +4313,84 @@ function BookingFlow({
     } catch (e) {}
     window.location.href = CHECKOUT_URL + "?" + p.toString();
   };
+  // Efectivo: no pasa por Stripe. POST a api/reserve-cash.php, que valida y calcula
+  // el importe en servidor. No se dispara la conversion de compra de Ads: no hay cobro.
+  const showErr = m => {
+    setPayErr(m);
+    setTimeout(() => errRef.current && errRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    }), 30);
+  };
+  const reserveCash = async () => {
+    const es = lang === "es";
+    const bad = cashContactError(booking.contact, es);
+    if (bad) return showErr(bad);
+    setPayErr("");
+    setSending(true);
+    let utm = {};
+    try {
+      utm = JSON.parse(sessionStorage.getItem("sr_utm") || "{}");
+    } catch (e) {}
+    const ct = booking.contact || {};
+    const waMsg = es ? "Por favor escríbenos por WhatsApp y te lo reservamos a mano." : "Please message us on WhatsApp and we will book it for you by hand.";
+    try {
+      const r = await fetch("/api/reserve-cash.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          from: booking.from,
+          to: booking.to,
+          qty: c.qty,
+          bike: booking.bikeId,
+          protection: booking.protection,
+          retLoc: booking.sameLoc ? "" : booking.retLoc,
+          lang,
+          name: (ct.name || "").trim(),
+          phone: (ct.phone || "").trim(),
+          email: (ct.email || "").trim(),
+          website: ct.website || "",
+          utm
+        })
+      });
+      let d = {};
+      try {
+        d = await r.json();
+      } catch (e) {}
+      if (d.ok) {
+        onCashBooked && onCashBooked({
+          cash: true,
+          ref: d.ref || "",
+          value: d.total || 0,
+          tx: booking.from + "-" + booking.to + "-" + c.qty + "-0"
+        });
+        return;
+      }
+      const msg = {
+        nombre: es ? "Escribe tu nombre." : "Please enter your name.",
+        email: es ? "Revisa tu email." : "Please check your email.",
+        telefono: es ? "Revisa tu número de WhatsApp, con el prefijo del país." : "Please check your WhatsApp number, including the country code.",
+        antelacion: es ? "Necesitamos al menos un día para preparar la moto: elige una recogida a partir de mañana." : "We need at least one day to get the bike ready: please pick up from tomorrow onwards.",
+        fechas: es ? "Revisa las fechas de recogida y devolución." : "Please check your pick-up and return dates.",
+        limite: (es ? "Hemos recibido varias reservas desde aquí en poco tiempo. " : "We have received several bookings from here in a short time. ") + waMsg,
+        aviso: (es ? "Tu reserva " + (d.ref || "") + " está guardada, pero no hemos podido avisar al equipo. " : "Your booking " + (d.ref || "") + " is saved, but we could not alert the team. ") + (es ? "Escríbenos por WhatsApp con esa referencia." : "Please message us on WhatsApp with that reference.")
+      }[d.error];
+      showErr(msg || (es ? "No hemos podido guardar la reserva. " : "We could not save your booking. ") + waMsg);
+    } catch (e) {
+      showErr((es ? "Sin conexión con el servidor. " : "Could not reach the server. ") + waMsg);
+    } finally {
+      setSending(false);
+    }
+  };
+  const onPay = () => {
+    if (sending) return;
+    if (isCash) reserveCash();else goToCheckout();
+  };
+  const payLabel = isCash ? lang === "es" ? "Reservar · pago al recoger" : "Reserve · pay at pick-up" : t.bkPay;
   const StepComp = [StepDates, StepReview][step];
-  const titles = [[t.stepDates, lang === "es" ? "¿Cuándo y dónde empieza la aventura?" : "When and where does the adventure start?"], [t.bkReviewTitle, lang === "es" ? "Revisa tu reserva y paga directamente con Stripe." : "Review your booking and pay directly with Stripe."]][step];
+  const titles = [[t.stepDates, lang === "es" ? "¿Cuándo y dónde empieza la aventura?" : "When and where does the adventure start?"], [t.bkReviewTitle, lang === "es" ? "Revisa tu reserva y elige cómo pagar: tarjeta ahora o efectivo al recoger." : "Review your booking and choose how to pay: card now or cash at pick-up."]][step];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       minHeight: "100vh",
@@ -4239,13 +4525,27 @@ function BookingFlow({
   })) : /*#__PURE__*/React.createElement("button", {
     className: "btn btn-primary btn-lg",
     style: {
-      marginLeft: "auto"
+      marginLeft: "auto",
+      opacity: sending ? 0.6 : 1
     },
-    onClick: goToCheckout
-  }, /*#__PURE__*/React.createElement(Ic.lock, {
+    disabled: sending,
+    onClick: onPay
+  }, !isCash && /*#__PURE__*/React.createElement(Ic.lock, {
     s: 18,
     c: "white"
-  }), " ", t.bkPay, " · ", idrK(c.total), " (", usdApprox(c.total), ")")), step === 1 && /*#__PURE__*/React.createElement("p", {
+  }), " ", sending ? lang === "es" ? "Enviando…" : "Sending…" : payLabel, " · ", idrK(c.total), " (", usdApprox(c.total), ")")), step === 1 && payErr && /*#__PURE__*/React.createElement("p", {
+    ref: errRef,
+    role: "alert",
+    style: {
+      marginTop: 14,
+      padding: "12px 14px",
+      borderRadius: "var(--r)",
+      background: "color-mix(in oklch, var(--coral) 14%, var(--shell))",
+      borderLeft: "3px solid var(--coral)",
+      fontSize: 14,
+      color: "var(--ink)"
+    }
+  }, payErr), step === 1 && /*#__PURE__*/React.createElement("p", {
     style: {
       marginTop: 14,
       fontSize: 12.5,
@@ -4258,7 +4558,7 @@ function BookingFlow({
   }, /*#__PURE__*/React.createElement(Ic.shield, {
     s: 14,
     c: "var(--ocean)"
-  }), " ", t.bkSecure)), /*#__PURE__*/React.createElement("aside", {
+  }), " ", isCash ? lang === "es" ? "Sin pago online · pagas en efectivo al recoger la moto" : "No online payment · you pay cash when you collect the bike" : t.bkSecure)), /*#__PURE__*/React.createElement("aside", {
     className: "booking-summary",
     style: {
       position: "sticky",
@@ -4309,11 +4609,15 @@ function BookingFlow({
     c: "white"
   })) : /*#__PURE__*/React.createElement("button", {
     className: "btn btn-primary btn-lg",
-    onClick: goToCheckout
-  }, /*#__PURE__*/React.createElement(Ic.lock, {
+    disabled: sending,
+    style: {
+      opacity: sending ? 0.6 : 1
+    },
+    onClick: onPay
+  }, !isCash && /*#__PURE__*/React.createElement(Ic.lock, {
     s: 18,
     c: "white"
-  }), " ", t.bkPay)));
+  }), " ", sending ? lang === "es" ? "Enviando…" : "Sending…" : isCash ? lang === "es" ? "Reservar" : "Reserve" : t.bkPay)));
 }
 Object.assign(window, {
   BookingFlow
@@ -4513,10 +4817,13 @@ function Confirmed({
   onHome
 }) {
   const es = lang === "es";
+  // paid.cash: reserva en efectivo (api/reserve-cash.php) — recibida, NO pagada.
+  const cash = !!paid.cash;
   const d = decodeTx(paid.tx);
   const days = d ? daysBetween(d.from, d.to) : 0;
   const total = paid.value > 0 ? "Rp " + Math.round(paid.value).toLocaleString("de-DE") : "";
-  const wa = "https://wa.me/62881037978255?text=" + encodeURIComponent(es ? "¡Hola! Acabo de reservar en la web. Estos son los datos de mi vuelo:" : "Hi! I just booked online. Here are my flight details:");
+  const refTxt = cash && paid.ref ? " (" + paid.ref + ")" : "";
+  const wa = "https://wa.me/62881037978255?text=" + encodeURIComponent(es ? "¡Hola! Acabo de reservar en la web" + refTxt + ". Estos son los datos de mi vuelo:" : "Hi! I just booked online" + refTxt + ". Here are my flight details:");
   const row = (k, v, last) => /*#__PURE__*/React.createElement("div", {
     key: k,
     style: {
@@ -4542,13 +4849,14 @@ function Confirmed({
   // Las filas se arman en una lista, no sueltas en el JSX: asi se sabe cual es la
   // ultima REALMENTE pintada y no queda una linea de separacion colgando al fondo.
   const rows = [];
+  if (cash && paid.ref) rows.push([es ? "Referencia" : "Reference", paid.ref]);
   if (d) {
     rows.push([es ? "Recogida" : "Pick-up", fmtDate(d.from, lang) + " · Tambolaka Airport"]);
     rows.push([es ? "Devolución" : "Return", fmtDate(d.to, lang)]);
     if (days > 0) rows.push([es ? "Duración" : "Duration", days + (es ? days === 1 ? " día" : " días" : days === 1 ? " day" : " days")]);
     rows.push([es ? "Motos" : "Bikes", String(d.qty)]);
   }
-  if (total) rows.push([es ? "Total pagado" : "Total paid", total]);
+  if (total) rows.push(cash ? [es ? "A pagar en efectivo al recoger" : "To pay in cash at pick-up", total] : [es ? "Total pagado" : "Total paid", total]);
   return /*#__PURE__*/React.createElement("main", {
     style: {
       minHeight: "100vh",
@@ -4600,7 +4908,7 @@ function Confirmed({
       color: "var(--ink)",
       margin: "0 0 10px"
     }
-  }, es ? "Reserva confirmada" : "Booking confirmed"), /*#__PURE__*/React.createElement("p", {
+  }, cash ? es ? "Reserva recibida" : "Booking received" : es ? "Reserva confirmada" : "Booking confirmed"), /*#__PURE__*/React.createElement("p", {
     style: {
       textAlign: "center",
       fontSize: 15.5,
@@ -4608,7 +4916,7 @@ function Confirmed({
       color: "var(--ink-soft)",
       margin: "0 0 28px"
     }
-  }, es ? "Hemos recibido tu pago. Te llega la confirmación por email en un momento — revisa también la carpeta de spam." : "We have received your payment. Your confirmation email is on its way — check your spam folder too, just in case."), rows.length > 0 && /*#__PURE__*/React.createElement("div", {
+  }, cash ? es ? "Pagas en efectivo (rupias) al recoger la moto. Te escribimos por WhatsApp para confirmar la reserva, y te llega un email con los datos — revisa también el spam." : "You pay in cash (rupiah) when you collect the bike. We will message you on WhatsApp to confirm the booking, and an email with the details is on its way — check your spam folder too." : es ? "Hemos recibido tu pago. Te llega la confirmación por email en un momento — revisa también la carpeta de spam." : "We have received your payment. Your confirmation email is on its way — check your spam folder too, just in case."), rows.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--shell)",
       border: "1px solid var(--sand-3)",
@@ -4801,7 +5109,10 @@ function App() {
   if (paid) return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Confirmed, {
     paid: paid,
     lang: lang,
-    onHome: () => setPaid(null)
+    onHome: () => {
+      setPaid(null);
+      navTo("home");
+    }
   }), /*#__PURE__*/React.createElement(WaFloat, {
     lang: lang,
     lifted: false
@@ -4834,7 +5145,13 @@ function App() {
     setLang: setLang,
     step: step,
     setStep: s => navTo("booking", s),
-    onExit: () => navTo("home")
+    onExit: () => navTo("home"),
+    onCashBooked: info => {
+      window.scrollTo({
+        top: 0
+      });
+      setPaid(info);
+    }
   }), /*#__PURE__*/React.createElement(WaFloat, {
     lang: lang,
     lifted: route === "booking"

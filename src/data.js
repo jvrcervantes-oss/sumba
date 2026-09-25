@@ -4,11 +4,13 @@
    ============================================================ */
 (function () {
   // ---- Fleet ----------------------------------------------------------
-  // price = IDR per day (thousands). 200 = 200.000 IDR/day.
+  // price = IDR per day (thousands). 125 = 125.000 IDR/day.
+  // insuranceDay = Insurance Fee de ESA moto, IDR miles/dia (desde 25-sep-2026 va por moto:
+  // la BH-G3 baja a 50k y la CB150X sigue en 100k). Duplicado en checkout.php (BIKE_INSURANCE).
   const FLEET = [
     {
       id: "motorbike", brand: "BH Custom", model: "BH-G3", cat: "trail",
-      price: 200, cc: 125, seats: 1, trans: "Automatic", fuel: "Petrol",
+      price: 125, insuranceDay: 50, cc: 125, seats: 1, trans: "Automatic", fuel: "Petrol",
       tagEn: "Custom adventure scooter", tagEs: "Scooter de aventura custom",
       blurbEn: "Hand-built aluminium scooter. Tuned Yamaha Gear engine, spoke wheels, surf rack, kick starter, LED lights. Nothing like it on the island.",
       blurbEs: "Scooter de aluminio hecha a mano. Motor Yamaha Gear afinado, ruedas de radios, portatabla, arranque de patada, LEDs. No hay otra igual en la isla.",
@@ -18,7 +20,7 @@
     },
     {
       id: "cb150x", brand: "Honda", model: "CB150X", cat: "trail",
-      price: 300, cc: 150, seats: 2, trans: "Manual", fuel: "Petrol",
+      price: 300, insuranceDay: 100, cc: 150, seats: 2, trans: "Manual", fuel: "Petrol",
       tagEn: "Adventure crossover", tagEs: "Crossover de aventura",
       blurbEn: "Honda's adventure-tourer, built for long days on Sumba's mixed roads. Upright riding position, long-travel suspension and a big tank for the island's distances.",
       blurbEs: "La adventure-tourer de Honda, pensada para días largos en las carreteras mixtas de Sumba. Posición de conducción erguida, suspensión de largo recorrido y depósito grande para las distancias de la isla.",
@@ -59,7 +61,7 @@
   // ---- Protection (mandatory choice at checkout) ----------------------
   // priceDay/priceFlat in IDR thousands, same convention as FLEET.price
   const PROTECTION = {
-    insurance: { id: "insurance", priceDay: 100 },   // 100k IDR/day per bike, non-refundable
+    insurance: { id: "insurance", priceDay: 100 },   // fallback: manda FLEET[].insuranceDay de cada moto
     deposit:   { id: "deposit",   priceFlat: 3000 }, // Rp 3,000,000 fixed per bike, refundable after return
   };
 
@@ -138,7 +140,7 @@
       reviewsSource: "★ Reviews from our sister brand · Bali Best Motorcycle",
       reviewsAll: "See all reviews on Google",
       protTitle: "Protection", protSub: "Choose how your bike is covered — required for every booking.",
-      protInsuranceT: "Insurance Fee", protInsuranceD: "100,000 IDR per bike, per day · Non-refundable",
+      protInsuranceT: "Insurance Fee", protInsuranceD: "per bike, per day · Non-refundable",
       protDepositT: "Refundable Deposit", protDepositD: "Rp 3,000,000 per bike, fixed · Refunded after the rental ends",
     },
     es: {
@@ -173,7 +175,7 @@
       reviewsSource: "★ Reseñas de nuestra empresa hermana · Bali Best Motorcycle",
       reviewsAll: "Ver todas las reseñas en Google",
       protTitle: "Protección", protSub: "Elige cómo se cubre tu moto — obligatorio en cada reserva.",
-      protInsuranceT: "Tarifa de seguro", protInsuranceD: "100.000 IDR por moto, por día · No reembolsable",
+      protInsuranceT: "Tarifa de seguro", protInsuranceD: "por moto, por día · No reembolsable",
       protDepositT: "Depósito reembolsable", protDepositD: "Rp 3.000.000 por moto, fijo · Se devuelve al terminar el alquiler",
     },
   };

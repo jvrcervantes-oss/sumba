@@ -1,8 +1,9 @@
 # Bloquea el acceso web directo a lo que no es un endpoint (Apache 2.4 y 2.2).
 # mailer.php es una libreria (solo define funciones) y el .sample lleva los
 # nombres de las claves: ninguno de los dos tiene por que responder en publico.
-# stripe-webhook.php SI debe seguir accesible — lo llama Stripe.
-<FilesMatch "^(mailer\.php|.*\.sample\.php|.*-config\.php)$">
+# booking-lib.php (25-sep-2026) tambien es libreria. stripe-webhook.php y
+# reserve-cash.php SI deben seguir accesibles: los llaman Stripe y la web.
+<FilesMatch "^(mailer\.php|booking-lib\.php|.*\.sample\.php|.*-config\.php)$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
