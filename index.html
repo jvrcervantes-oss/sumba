@@ -11,7 +11,7 @@
   try {
     var _l = localStorage.getItem('sr_lang');
     if (_l === 'es' || _l === 'en') document.documentElement.lang = _l;
-  } catch (e) {}
+  } catch (e) { /* MUDO A PROPOSITO: localStorage puede estar bloqueado (modo privado); sin idioma guardado se queda el del HTML */ }
 
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
